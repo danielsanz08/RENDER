@@ -1,0 +1,139 @@
+/* Estilo general del cuerpo de la página */
+main {
+    font-family: Arial, sans-serif;
+    padding: 0px;
+    max-height: max-content;
+    
+}
+
+body.dark main {
+    background-color: black;
+}
+
+/* Estilo para el contenedor del formulario */
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 91.6vh; /* Ocupa toda la altura de la ventana */
+    background-color: #ffffff;
+    padding: 20px; /* Ajusta el padding si es necesario, pero no negativo */
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+    padding-bottom: 7%;
+    
+}
+body.dark section{
+    background-color: #000000;
+}
+#transaction-form {
+    background: linear-gradient(to right, #5DAA76, #66C69E);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px; /* Ajusta el ancho máximo del formulario */
+    width: 100%;
+    margin: 10px auto 0; /* Añade un margen superior para empujar el formulario hacia arriba */
+    
+}
+
+h3 {
+    color: #000000; /* Color del texto */
+    font-size: 1.5rem; /* Tamaño de la fuente */
+    margin-bottom: 15px; /* Espacio debajo del elemento */
+    font-family: 'Times New Roman', Times, serif; /* Familia de la fuente */
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button.btn {
+    background-color: #167a1d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+    background-color: #145a1a;
+}
+
+/* Estilos para el diseño en modo oscuro */
+body.dark #transaction-form {
+    background-color: #323232;
+    color: #fff;
+}
+
+body.dark h3 {
+    color: #e0e0e0;
+}
+
+body.dark .form-group select,
+body.dark .form-group input {
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+body.dark button.btn {
+    background-color: #1d261d;
+}
+
+body.dark button.btn:hover {
+    background-color: #374a37;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+    padding: 20px;
+    box-sizing: border-box;
+}
+#op_create {
+    background-color: rgb(228, 228, 228);
+    height: 50px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   
+    border: none; /* Sin bordes */
+    outline: none; /* Sin contorno al enfoque */
+    padding: 5px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+
+#op_create option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#op_create option:checked {
+    background-color: #167a1d; /* Color de fondo para la opción seleccionada */
+    color: white; /* Color del texto para la opción seleccionada */
+}

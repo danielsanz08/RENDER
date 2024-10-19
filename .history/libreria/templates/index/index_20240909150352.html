@@ -1,0 +1,170 @@
+{% extends "navbar.html" %} {% load static %} {% block titulo %}{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/index.css' %}?v.1.8" rel="stylesheet" />
+
+<main>
+  <section class="image-container">
+    <div class="r">
+      <!-- Este contenedor tiene la clase flex -->
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_01.jpg' %}" alt="Image 1" />
+      </div>
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_02.jpg' %}" alt="Image 2" />
+      </div>
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_03.jpg' %}" alt="Image 3" />
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    const header = document.getElementById("main-header");
+    const logo = document.getElementById("logo");
+    const userName = document.getElementById("user-name");
+    const logoutBtn = document.getElementById("logout-btn");
+    const accIcon = document.getElementById("acc-icon");
+    const accMenu = document.getElementById("accesibilidad");
+    const increaseFont = document.getElementById("increase-font");
+    const decreaseFont = document.getElementById("decrease-font");
+    const toggleDark = document.getElementById("moon");
+    const profilePic = document.getElementById("profile-pic");
+    const profileMenu = document.getElementById("profile-menu");
+    const profileContainer = document.querySelector(".profile-container");
+    const navbar = document.querySelector(".navbar");
+
+    // Header hover animation
+    header.addEventListener("mouseenter", () => {
+      header.style.transform = "translateY(-5px)";
+      header.style.boxShadow = "0 5px 50px rgba(0, 0, 0, 0.2)";
+    });
+
+    header.addEventListener("mouseleave", () => {
+      header.style.transform = "translateY(0)";
+      header.style.boxShadow = "0 0 40px rgba(0, 0, 0, 0.1)";
+    });
+
+    // Logo rotation animation
+    logo.addEventListener("mouseenter", () => {
+      logo.style.transform = "rotate(10deg)";
+    });
+
+    logo.addEventListener("mouseleave", () => {
+      logo.style.transform = "rotate(0deg)";
+    });
+
+    // Username color change animation
+    userName.addEventListener("mouseenter", () => {
+      userName.style.color = "#406ff3";
+    });
+
+    userName.addEventListener("mouseleave", () => {
+      userName.style.color = "white";
+    });
+
+    // Logout button scale animation
+    logoutBtn.addEventListener("mouseenter", () => {
+      logoutBtn.style.transform = "scale(1.1)";
+      logoutBtn.style.color = "#ff4757";
+    });
+
+    logoutBtn.addEventListener("mouseleave", () => {
+      logoutBtn.style.transform = "scale(1)";
+      logoutBtn.style.color = "white";
+    });
+
+    // Add a subtle entrance animation for the header
+    header.style.opacity = "0";
+    header.style.transform = "translateY(-20px)";
+
+    setTimeout(() => {
+      header.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      header.style.opacity = "1";
+      header.style.transform = "translateY(0)";
+    }, 100);
+
+    // Accessibility menu toggle
+    accIcon.addEventListener("click", () => {
+      accMenu.style.display =
+        accMenu.style.display === "none" ? "block" : "none";
+    });
+
+    // Font size adjustment
+    let fontSize = 16;
+    increaseFont.addEventListener("click", () => {
+      fontSize += 2;
+      document.body.style.fontSize = `${fontSize}px`;
+    });
+
+    decreaseFont.addEventListener("click", () => {
+      fontSize = Math.max(12, fontSize - 2);
+      document.body.style.fontSize = `${fontSize}px`;
+    });
+
+    // Dark mode toggle
+    toggleDark.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+
+    // Profile menu toggle
+    profilePic.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent click from propagating to the document
+      profileMenu.classList.toggle("show");
+    });
+
+    // Close profile menu if clicking outside
+    document.addEventListener("click", (e) => {
+      if (!profileMenu.contains(e.target) && e.target !== profilePic) {
+        profileMenu.classList.remove("show");
+      }
+    });
+
+    // Profile picture hover animation
+    profilePic.addEventListener("mouseenter", () => {
+      profilePic.style.transform = "scale(1.1)";
+    });
+
+    profilePic.addEventListener("mouseleave", () => {
+      profilePic.style.transform = "scale(1)";
+    });
+
+    // Animations for navbar and profile container
+    navbar.style.opacity = "0";
+    navbar.style.transform = "translateX(-100%)";
+
+    profileContainer.style.opacity = "0";
+    profileContainer.style.transform = "translateX(100%)";
+
+    setTimeout(() => {
+      navbar.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      navbar.style.opacity = "1";
+      navbar.style.transform = "translateX(0)";
+    }, 100);
+
+    setTimeout(() => {
+      profileContainer.style.transition =
+        "opacity 0.5s ease, transform 0.5s ease";
+      profileContainer.style.opacity = "1";
+      profileContainer.style.transform = "translateX(0)";
+    }, 200);
+  });
+
+  //Accesibilidad
+  var accIcon = document.getElementById("acc-icon");
+  var menuAcc = document.getElementById("accesibilidad");
+
+  accIcon.addEventListener("click", function () {
+    menuAcc.style.display =
+      menuAcc.style.display === "none" || menuAcc.style.display === ""
+        ? "block"
+        : "none";
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!accIcon.contains(event.target) && !menuAcc.contains(event.target)) {
+      menuAcc.style.display = "none";
+    }
+  });
+</script>
+{% endblock %}

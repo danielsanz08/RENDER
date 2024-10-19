@@ -1,0 +1,106 @@
+{% extends "navbar.html" %}
+{% block titulo %}Crear Perfil{% endblock %}
+{% block contenido %}
+{% load static %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href="{% static 'css/registro.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+
+<div class="container">
+    <form id="register-form" method="post" enctype="multipart/form-data" class="form sign-up">
+        {% csrf_token %}
+        <h1 title="Crear perfil">CREAR PERFIL</h1>
+    
+        <!-- Mensaje de error dinámico -->
+        <div id="error-message-container" class="error-message" style="display: none;">
+            <p id="error-message">Por favor complete todos los campos obligatorios.</p>
+            <div id="error-timer" class="timer-bar"></div>
+        </div>
+    
+        <!-- Foto de perfil -->
+        <div class="form-group">
+            <label for="imageUpload" title="Foto de perfil">Foto de Perfil:</label>
+            <div class="input-group">
+                <input type="file" name="profile_picture" id="imageUpload" class="profile_picture" required title="Selecciona una foto de perfil">
+            </div>
+        </div>
+    
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="name" title="Nombre">Nombre:</label>
+            <div class="input-group">
+                <input type="text" name="name" id="name" placeholder="Nombre" required title="Ingresa tu nombre">
+            </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email" title="Correo electrónico">Correo electrónico:</label>
+            <div class="input-group">
+                <input type="email" name="email" id="email" placeholder="Email" required title="Ingresa tu correo electrónico">
+            </div>
+        </div>
+    
+        <!-- Rol -->
+        <div class="form-group">
+            <label for="role" title="Rol">Rol:</label>
+            <select name="role" id="role" required title="Selecciona un rol">
+                <option value="">Selecciona un rol</option>
+                {% for choice, label in form.role.field.choices %}
+                    <option value="{{ choice }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <!-- Teléfono -->
+        <div class="form-group">
+            <label for="phone" title="Teléfono">Teléfono:</label>
+            <div class="input-group">
+                <input type="text" name="phone" id="phone" placeholder="Teléfono" required title="Ingresa tu número de teléfono">
+            </div>
+        </div>
+        
+        <!-- Contraseña -->
+        <div class="form-group">
+            <label for="password" title="Contraseña">Contraseña:</label>
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="Contraseña" required title="Ingresa una contraseña">
+            </div>
+            <div id="passwordFeedback"></div> <!-- Mensaje de feedback de la contraseña -->
+        </div>
+    
+        <!-- Confirmar Contraseña -->
+        <div class="form-group">
+            <label for="confirm_password" title="Confirmar contraseña">Confirmar Contraseña:</label>
+            <div class="input-group">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirmar Contraseña" required title="Confirma tu contraseña">
+            </div>
+            <div id="confirmPasswordFeedback"></div> <!-- Mensaje de feedback de confirmación -->
+        </div>
+    
+        <div id="messageAlert" class="hide"></div> <!-- Mensaje de alerta general -->
+
+        <!-- Botones de acción -->
+        <div class="button-group">
+            <button class="btn btn-success" type="submit" title="Registrarse">Registrarse</button>
+            <a class="btn btn-warning" href="{% url 'usuario' %}" role="button" title="Volver">Volver</a>
+        </div>
+    </form>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <div class="checkmark">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+            </svg>
+        </div>
+        <p>Registro exitoso</p>
+    </div>
+</div>
+
+<script src="{% static 'js/registro.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

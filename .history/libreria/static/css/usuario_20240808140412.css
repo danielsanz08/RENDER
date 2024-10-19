@@ -1,0 +1,207 @@
+/* Estilos generales */
+main {
+    height: 91.7vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor {
+    padding-top: 10vh;
+}
+
+.container {
+    height: 50%;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.8rem;
+    margin-top: 0;
+    text-align: center;
+    font-weight: 700;
+    color: black;
+}
+
+
+
+#user-actions ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#user-actions ul li {
+    margin-bottom: 10px;
+}
+
+.btn {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: small;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 30px;
+    border: 1px solid;
+    border-radius: 1000px;
+    display: inline-block;
+    transition: all .2s;
+    position: relative;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+}
+
+.btn:active {
+    transform: translateY(-3px);
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: -1;
+    transition: all .3s;
+}
+
+.btn:hover::after {
+    background-color: #53bee9;
+    transform: scaleX(1.4) scaleY(1.5);
+    opacity: 0;
+}
+
+.list-group-item {
+    background-color: rgba(0, 255, 255, 0);
+    border: none;
+}
+
+.list-group-item a {
+    border: none;
+}
+
+.profile-picture img {
+    border-radius: 90px;
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 30%;
+    margin-left: 35%;
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+/* Modo oscuro */
+body.dark main {
+    background-color: #000;
+}
+
+body.dark .container {
+    background-color: rgba(117, 125, 138, 0);
+}
+
+body.dark #bienvenida {
+    background-color: #93a9b9;
+}
+
+body.dark #user-actions {
+    background-color: #93a9b9;
+}
+
+body.dark .btn-success {
+    background-color: rgb(190, 189, 189);
+}
+
+body.dark .btn-success:hover {
+    background-color: #1662af;
+    box-shadow: 0px 15px 20px rgba(103, 139, 218, 0.61);
+}
+
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+    /* Cambia la dirección del flex a horizontal y alinea los elementos al centro */
+    .container {
+        flex-direction: row; /* Cambia la dirección del flex a horizontal */
+        align-items: center; /* Alinea los elementos al centro verticalmente */
+        justify-content: center; /* Alinea los elementos al centro horizontalmente */
+    }
+
+    #bienvenida, #user-actions {
+        width: 45vh;
+        margin: 10px; /* Añade un margen entre los elementos */
+    }
+
+    #user-actions {
+        margin-top: 0; /* Quita el margen superior */
+    }
+
+    .btn-success {
+        width: auto;
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 1367px) {
+    /* Cambia la dirección del flex a horizontal y alinea los elementos al centro */
+    .container {
+        flex-direction: column; /* Cambia la dirección del flex a horizontal */
+        align-items: center; /* Alinea los elementos al centro verticalmente */
+        justify-content: center; /* Alinea los elementos al centro horizontalmente */
+    }
+
+    
+        #bienvenida {
+            background-color: #c9e4f7;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 70vh;
+        }
+    
+
+    #user-actions {
+        margin-top: 0; /* Quita el margen superior */
+    }
+
+    .btn-success {
+        width: auto;
+        margin-left: 0;
+    }
+}

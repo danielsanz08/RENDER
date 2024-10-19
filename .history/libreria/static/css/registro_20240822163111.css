@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.card_uno {
+    width: 50%;
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 0.8s ease-in-out;
+}
+
+.card_dos {
+    width: 550px;
+    height: 620px;
+    background: #679B9B;
+    padding: 20px 20px 50px 20px;
+    color: #fff;
+    border-radius: 17px;
+    animation: popIn 1s ease-in-out;
+}
+
+.input-group {
+    height: 6vh;
+    background-color: grey;
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 40px;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.input-group input[type="file"] {
+    padding: 10px 10px 10px 35px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}

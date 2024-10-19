@@ -1,0 +1,42 @@
+{% extends "navbar.html" %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/consultar_insumo.css' %}?v1.1" rel="stylesheet"/>
+<section id="consultar" class="section">
+    <div class="container">
+        <h2>Consultar Insumos</h2><br><br>
+        <form id="consultar-insumos">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for insumo in insumos %}
+                    <tr>
+                        <td>{{ insumo.id }}</td>
+                        <td>{{ insumo.nombre }}</td>
+                        <td>{{ insumo.descripcion }}</td>
+                        <td>{{ insumo.cantidad }}</td>
+                        <td>
+                            <a href="{% url 'editar_insumo' %}" class="btn btn-warning" role="button">Editar</a>
+                            <a href="{% url 'eliminar_insumo' insumo.id %}" class="btn btn-danger"role="button">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-warning" href="{% url 'insumos' %}" role="button">Volver</a>
+        </form>
+    </div>
+    <footer>
+    <div class="container">
+        <p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+    </div>
+</footer>
+{% endblock %}

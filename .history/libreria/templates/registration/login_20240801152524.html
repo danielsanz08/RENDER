@@ -1,0 +1,36 @@
+{% extends "navbar.html" %}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block contenido %}
+<div class="container">
+    <div class="formulario">
+        <h1>Bienvenido</h1>
+        <form action="">
+            <div class="campo1">
+                <input class="input_email" placeholder=" " id="email">
+                <label class="campo_Email" for="email">E-mail</label>
+            </div>
+
+            <div class="campo2">
+                <input class="input_password" type="password" placeholder=" " id="contraseña">
+                <label class="campo_contraseña" for="contraseña">Contraseña</label>
+            </div>
+
+            <div class="campo3">
+                <button class="btn_inicio" onclick="ingresar()" type="button">Ingresar</button>
+            </div>
+            <div id="alert" class="alert">
+                <i class="fas fa-exclamation-triangle" id="alerta-icono" ></i>
+                <p><h4>Se ha detectado un error, verifica y vuelve a digitar por favor .</h4></p>
+                <button onclick="cerrarVentana()"><h3>Aceptar</h3></button>
+            </div>
+        </form>
+        <p><i class="fas fa-pencil-alt" id="icono-crear"></i>
+            <a href="registro.html">Crear una cuenta</a></p>
+        <p><i class="fas fa-question-circle" id="icono-pregunta"></i>
+            <a href="manual_usuario_fecu_sa.pdf">Ayuda</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "navbar.html" %} 
+{% load static %} 
+{% block titulo %}Inicio{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/index.css' %}?v={% now "U" %}" rel="stylesheet" />
+<div class="background-image">
+  <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+</div>
+
+<body>
+  <article class="gallery">
+      <img src="{% static 'index_imagenes/gal_01.png' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_02.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_03.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_04.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_05.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_06.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_07.jpg' %}" alt="deadpool & marvel">
+      <img src="{% static 'index_imagenes/gal_08.jpg' %}" alt="deadpool & marvel">
+  </article>
+</body>
+{% endblock %}

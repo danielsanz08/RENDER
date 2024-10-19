@@ -1,0 +1,238 @@
+:root {
+    --primary-color: #01AB7B;
+    --secondary-color: #01AB7B;
+    --black: #000000;
+    --white: #ffffff;
+    --gray: #efefef;
+    --gray-2: #757575;
+
+    --facebook-color: #4267B2;
+    --google-color: #DB4437;
+    --twitter-color: #1DA1F2;
+    --insta-color: #E1306C;
+}
+
+/* Ajustes globales */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-image: url("/static/imagen/Inicio.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Contenedor del formulario */
+#container {
+    background: rgba(255, 255, 255, 0.5); /* Fondo transparente */
+    padding: 30px 40px;
+    border-radius: 15px;
+    width: 350px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Sombra con efecto de vidrio */
+    backdrop-filter: blur(10px); /* Efecto de desenfoque en el fondo */
+    border: 1px solid rgba(255, 255, 255, 0.18); /* Borde suave */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto gráfico flotante */
+#container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    z-index: 0;
+    animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Títulos */
+h1 {
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Inputs */
+input[type="text"], input[type="password"] {
+    appearance: none; /* Evita los íconos nativos del navegador */
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(240, 245, 245, 0.26); /* Usando el color principal */
+    color: black; /* Letras en negro */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder {
+    color: rgba(0, 0, 0, 0.5); /* Placeholder en negro con transparencia */
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    background: rgba(103, 155, 155, 0.4); /* Efecto de enfoque con color más fuerte */
+    outline: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Efecto de profundidad al enfocar */
+}
+
+/* Botón de inicio de sesión */
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #01AB7B, #4a6d6d); /* Gradiente con el color principal */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(103, 155, 155, 0.5); /* Sombra con efecto de resplandor */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #01AB7B, #679B9B); /* Cambio de gradiente al hover */
+    box-shadow: 0 4px 20px rgba(103, 155, 155, 0.7);
+    transform: scale(1.05); /* Ligera ampliación al hover */
+}
+
+/* Estilo para enlaces */
+a {
+    color: #679B9B; /* Usando el color principal */
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #4a6d6d; /* Oscurecer al hover */
+}
+
+/* Ajuste del checkbox */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+/* Enlace de recuperación de contraseña */
+.options a{
+    display: block;
+    margin-top: 15px;
+    font-size: 16px; /* Tamaño más grande */
+    color: #333; /* Color más oscuro */
+    font-weight: bold;
+}
+
+.options a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* Contenedor del ícono y el título */
+.icon-title-container {
+    text-align: center; /* Centra el ícono y el título */
+    margin-bottom: 20px; /* Espacio entre el título y el resto del formulario */
+}
+
+/* Estilo del ícono encima del título */
+.bi-person-fill {
+    font-size: 30px; /* Tamaño moderado del ícono */
+    color: black; /* Color del ícono, usando el color principal */
+    margin-bottom: 10px; /* Espaciado entre el ícono y el título */
+}
+
+/* Contenedor del grupo de inputs */
+.input-group, .input-group-password {
+    display: flex; /* Usa flexbox para alinear los elementos horizontalmente */
+    align-items: stretch; /* Alinea verticalmente los íconos y los inputs sin centrar el contenido del input */
+}
+
+/* Estilos del ícono dentro del contenedor */
+.input-group-text {
+    display: flex;
+    align-items: center; /* Centra el ícono verticalmente */
+    justify-content: center; /* Centra el ícono horizontalmente */
+    height: 45px; /* Ajusta la altura del ícono para que coincida con la del input */
+    width: 45px; /* Ajusta el ancho del ícono */
+    font-size: 20px; /* Tamaño del ícono */
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    border-radius: 0; /* Sin bordes redondeados */
+    margin-right: 5px; /* Espacio entre el ícono y el input */
+    padding: 0; /* Elimina padding */
+}
+
+/* Estilos del input */
+.form-control {
+    flex: 1; /* Ocupa el espacio restante en el contenedor */
+    height: 45px; /* Altura del input debe coincidir con la del ícono */
+    padding: 0 10px; /* Espacio dentro del input */
+    border: 1px solid #ccc; /* Borde del input */
+    border-radius: 5px; /* Bordes redondeados del input */
+    box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
+    font-size: 16px; /* Tamaño de la fuente en el input */
+}
+
+/* Contenedor específico para el input de contraseña */
+.input-group-password {
+    position: relative; /* Permite que el botón de mostrar/ocultar contraseña esté posicionado absolutamente */
+}
+
+/* Estilo para el ícono de mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 10px; /* Ajustado para que se vea mejor */
+    top: 50%; /* Centrado verticalmente */
+    transform: translateY(-50%); /* Ajustado para centrar verticalmente el ícono */
+    cursor: pointer;
+    font-size: 20px; /* Tamaño del ícono */
+}
+
+/* Ajuste del ícono de mostrar/ocultar contraseña */
+.toggle-password i {
+    font-size: 20px; /* Tamaño del ícono */
+}
+
+/* Ocultar el ícono de visibilidad por defecto en los campos de contraseña */
+input[type="password"]::-ms-reveal, 
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-outer-spin-button,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-reveal-button {
+    display: none;
+}

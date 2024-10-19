@@ -1,0 +1,36 @@
+{% extends "navbar.html" %}
+{% block titulo %}{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/editar_insumo.css' %}?v1.2" rel="stylesheet" />
+
+<section id="modificar" class="section section-dark">
+    <div class="container">
+        <b><h2>Editar Insumo</h2></b>
+
+        {% if not form %}
+        <form method="get" id="select-insumo-form">
+            <div class="form-group">
+                <br><br><h2>Seleccionar Insumo</h4>
+                <select id="select-insumo" name="nombre" class="seleccionar_insumo">
+                    {% for insumo in insumos %}
+                        <option value="{{ insumo.nombre }}">{{ insumo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" class="btn btn-success"value="Seleccionar Insumo">
+        </form>
+        {% endif %}        
+
+
+        {% if form %}
+        <form id="update-insumo-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-success" value="Modificar insumo"/>
+            <a href="{% url 'insumos' %}" class="btn btn-success" role="button">Volver</a>
+        </form>
+        {% endif %}        
+    </div>
+</section>
+{% endblock %}

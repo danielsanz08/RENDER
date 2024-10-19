@@ -1,0 +1,65 @@
+{% extends "navbar.html" %}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block css %}
+<link href="{% static 'css/registro.css' %}?v1.7" rel="stylesheet" />
+{% endblock %}
+{% block contenido %}
+<main>
+    <section>
+        <div class="container">
+            <div class="card_uno">
+                <div class="card_dos">
+                    <h2>Crear perfil </h2>
+                    <form method="post" enctype="multipart/form-data" class="form sign-up">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <label for="imageUpload"></label>
+                            <input type="file" id="imageUpload" name="profile_picture">
+                            {% if form.profile_picture.errors %}
+                            <span class="error">{{ form.profile_picture.errors }}</span>
+                        {% endif %}
+
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" name="nombre" placeholder="Nombre">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bx-mail-send'></i>
+                            <input type="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <i class='b'></i>
+                            <select name="rol" required id="op_create">
+                                <option value="" selected disabled>Selecciona una opción </option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Empleado">Empleado</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="text" name="telefono" placeholder="Telefono">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" name="contraseña" placeholder="Contraseña">
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" name="contraseña2" placeholder="Confirma Contraseña">
+                        </div>
+                        <button id="btn" type="submit">
+                            Sign up
+                        </button>
+                
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+

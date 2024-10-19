@@ -1,0 +1,79 @@
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<link href="{% static 'css/crear_transaccion.css' %}?v1.7" rel="stylesheet" />
+
+<div class="container">
+    <div class="login wrap">
+        <form id="transaction-form" method="post">
+            {% csrf_token %}
+            <h2>Registrar Nueva Transacción</h2><br>
+            <div class="form-group">
+                <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                <select name="tipo" required class="op_create">
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="Compra">Compra</option>
+                    <option value="Venta">Venta</option>
+                    <option value="Gasto">Gasto</option>
+                    <option value="Ingreso">Ingreso</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descripcion"><h3>Descripción</h3></label>
+                <input type="text" name="descripcion" placeholder="Ingresa una descripción" required class="op_create">
+            </div>
+            <div class="form-group">
+                <label for="monto"><h3>Monto ($ COP)</h3></label>
+                <input type="number" name="monto" step="0.01" placeholder="Ingresa el monto" required class="op_create">
+            </div>
+            <div class="form-group">
+                <label for="fecha"><h3>Fecha</h3></label>
+                <input type="date" name="fecha" required class="op_create">
+            </div>
+            <input class="btn btn-success" type="submit" onclick="mostrarAlerta()" value="Registrar Transacción">
+            <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button">Volver</a>
+        </form>
+    </div>
+</div>
+    <div id="alert" class="alert" >
+        <i class="fas fa-exclamation-triangle" id="alerta-icono"></i>
+        <p><h4>Transacción exitosa</h4></p>
+        <button onclick="cerrarVentana()"><h3>Aceptar</h3></button>
+    </div><div class="overlay" id="overlay"></div>
+    <div class="card" id="cambiar_contraseña" style="display: none;">
+        <div class="card-header">
+            <h3 class="text-center mb-0"><b>Cambiar Contraseña</b></h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="password_actual">
+                    <label for="currentPassword" class="form-label fw-bold">Contraseña actual:</label>
+                    <input type="password" class="form-control" id="currentPassword" required>
+                </div>
+                <div class="new_password">
+                    <label for="newPassword" class="form-label fw-bold">Nueva contraseña:</label>
+                    <input type="password" class="form-control" id="newPassword" required>
+                </div>
+                <div class="new_password">
+                    <label for="confirmPassword" class="form-label fw-bold">Confirmar nueva contraseña:</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+                <div class="mensaje">
+                    <div class="form-text">
+                        La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula, un número y un carácter especial.
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input class="btn-success" onclick="confirmarEnvio()" type="submit" value="Cambiar"/>
+            <a class="btn-warning" onclick="cerrarVentana()" role="button">Volver</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+
+<script src="{% static 'js/crear_transaccion.js' %}?v1.3"></script>
+
+{% endblock %}

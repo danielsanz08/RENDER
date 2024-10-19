@@ -1,0 +1,167 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.card_uno {
+    width: 50%;
+    padding: 20px;
+    
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 0.8s ease-in-out;
+}
+
+.card_dos {
+    width: 550px;
+    height: 720px;
+    background: #679B9B;
+    padding: 20px 20px 50px 20px;
+    color: #fff;
+    border-radius: 17px;
+    animation: popIn 1s ease-in-out;
+}
+.input-group {
+    height: 6vh;
+    background-color: grey;
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 40px;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+/*La seccion de pedir la foto*/
+.input-group input[type="file"] {
+    padding: 10px 10px 10px 35px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+.input-group select {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px; /* Espaciado interno del campo de selección */
+    border-radius: 50px; /* Bordes ovalados para el campo de selección */
+    background-color: white; /* Color de fondo del campo de selección */
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc; /* Color del borde */
+    border-radius: 50px; /* Borde ovalado */
+    padding: 5px; /* Espaciado interno */
+    background-color: #ffffff; /* Color de fondo opcional */
+}
+
+.input-group i {
+    margin-right: 10px; /* Espacio entre el ícono y el campo de entrada */
+    color: #333; /* Color del ícono */
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px; /* Espaciado interno del campo de entrada */
+    border-radius: 50px; /* Bordes ovalados para el campo de entrada */
+}
+
+.input-group .error {
+    color: red; /* Color del mensaje de error */
+    font-size: 0.9em; /* Tamaño de fuente del mensaje de error */
+    margin-left: 10px; /* Espacio entre el campo de entrada y el mensaje de error */
+}
+#btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+#btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    background-color: #096931;
+    transform: translateY(-7px);
+    color: white;
+}
+
+#btn-success:active {
+    transform: translateY(-1px);
+}
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 20%;
+    margin-left: 40%;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+    background-color: #fab039;
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

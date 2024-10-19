@@ -1,0 +1,44 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Detalles del Usuario{% endblock %}
+{% block contenido %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link href="{% static 'css/ver_perfil.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="contenedor">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 title="Detalles del usuario">Detalles del Usuario</h3>
+            </div>
+            <div class="card-body">
+                <div class="profile_picture" title="Foto de perfil del usuario">
+                    {% if usuario.profile_picture %}
+                        <img src="{{ usuario.profile_picture.url }}" class="profile" alt="Foto de perfil" title="Foto de perfil de {{ usuario.name }}">
+                    {% else %}
+                        <p title="Foto de perfil no disponible">No disponible</p>
+                    {% endif %}
+                </div>
+                <div class="user-details" title="Detalles del usuario">
+                    <div class="detail">
+                        <span title="Nombre del usuario"><b>Nombre:</b><br> {{ usuario.name }}</span>
+                    </div>
+                    <div class="detail">
+                        <span title="Correo electrónico del usuario"><b>Correo electrónico:</b><br> {{ usuario.email }}</span>
+                    </div>
+                    <div class="detail">
+                        <span title="Teléfono del usuario"><b>Teléfono:</b><br> {{ usuario.phone }}</span>
+                    </div>
+                    <div class="detail">
+                        <span title="Rol del usuario"><b>Rol:</b><br> {{ usuario.role }}</span>
+                    </div>
+                </div>
+                <a class="btn btn-warning" href="{% url 'usuario' %}" role="button" title="Volver">Volver</a>
+                <a class="btn btn-warning" href="{% url 'editar_perfil' usuario.id %}" role="button" title="Volver">Editar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

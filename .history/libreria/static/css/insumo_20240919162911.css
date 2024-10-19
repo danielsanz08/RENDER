@@ -1,0 +1,90 @@
+  /* Contenedor de la imagen de fondo */
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+}
+
+.background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+main {
+    margin-top: 10%;
+    margin-left: 12%;
+    margin-right: 6%;
+  }
+  
+  .nav_insumos {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #23b68c;
+    color: rgb(0, 0, 0); /* Text color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0; /* Adjust for design */
+    margin-top: 8%;
+    margin-left: 9%;
+    border-radius: 20px;
+    padding: 20px; /* Spacing */
+    width: 87%;
+}
+
+.nav_insumos::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 600% 600%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: 0;
+}
+section {
+    width: 160vh;
+    position: relative; /* Asegúrate de que position esté configurado */
+    left: -90px; /* Ajusta este valor según lo necesario para moverlo más a la izquierda */
+    background-color: rgba(211, 211, 211, 0.342);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Incremento de la sombra */
+    border-radius: 20px;
+    padding: 20px 20px 30px 20px; /* Margen de 30px en la parte inferior */
+    top:-10vh;
+    }
+.crud{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10vh;
+}
+.op_insumos{
+    background-color: #23b68c;
+    height: 20vh;
+    margin-top: 5vh;
+}

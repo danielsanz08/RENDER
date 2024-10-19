@@ -1,0 +1,35 @@
+
+.container {
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: rgb(200, 208, 223);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 0;
+    padding-right: 0;
+    border: no;
+    margin-top: 10%;
+}
+body.dark .card {
+    background: linear-gradient(to right, #1d261d, #167a1d);
+}
+.card-header{
+    color: aliceblue;
+    background-color: #4984ac;
+}
+
+
+
+.name_user, .email_user, .phone_user, .rol_user {
+    background-color: #4984ac;
+    height: 50px;
+    margin: 20px;
+}
+
+input {
+    justify-content: center;
+    align-items: center;
+}

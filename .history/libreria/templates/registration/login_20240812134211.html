@@ -1,0 +1,91 @@
+{% block titulo %}
+    <title>Login</title>
+{% endblock %}
+{% load static %}
+{% block css %}
+<link href="{% static 'css/login.css' %}?v1.3" rel="stylesheet" />
+<style>
+    .container::before {
+        left: 0;
+        right: auto;
+        transform: translate(-65%, 0);
+    }
+    .container.sign-in::before {
+        transform: translate(0, 0);
+        left: 50%;
+    }
+    .container.sign-in .col.sign-in {
+        transform: translateX(100%);
+    }
+    .container.sign-in .content-row {
+        transform: translateX(-100%);
+    }
+    @media only screen and (max-width: 425px) {
+        .container.sign-in .col.sign-in {
+            transform: translateY(0);
+        }
+        .container.sign-in .content-row {
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+{% block contenido %}
+<div id="container" class="container sign-in">
+    <!-- CONTENT SECTION -->
+    <div class="row content-row">
+        <!-- SIGN IN CONTENT -->
+        <div class="col align-items-center flex-col">
+            <div class="text sign-in">
+                <h2>
+                    Bienvenido a HEDY_NET
+                </h2>
+            </div>
+            <div class="img sign-in">
+            </div>
+        </div>
+    </div>
+    <!-- FORM SECTION -->
+    <div class="row">
+        <!-- SIGN IN -->
+        <div class="col align-items-center flex-col sign-in">
+            <div class="form-wrapper align-items-center">
+                <form method="post" class="form sign-in">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <i class='bx bxs-user'></i>
+                        <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"
+                               placeholder="Username" class="form-control"
+                               value="{{ form.username.value|default_if_none:'' }}">
+                    </div>
+                    <div class="input-group">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}"
+                               placeholder="Password" class="form-control">
+                    </div>
+                    <button type="submit">
+                        Sign in
+                    </button>
+                    <p>
+                        <b>
+                            Forgot password?
+                        </b>
+                    </p>
+                    <p>
+                        <span>
+                            Don't have an account?
+                        </span>
+                        <b onclick="location.href=''" class="pointer">
+                            Sign up here
+                        </b>
+                    </p>
+                </form>
+            </div>
+        </div>
+        <!-- END SIGN IN -->
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/login.js' %}?v1.2"></script>
+{% endblock %}

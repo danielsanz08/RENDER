@@ -1,0 +1,234 @@
+/* Ajustes para el layout principal */
+main {
+    margin-top: 22vh;
+    margin-left: 5%; /* Ajustado para ser más responsivo */
+    margin-right: 5%; /* Ajustado para ser más responsivo */
+    margin-bottom: 80px; /* Espacio adicional en la parte inferior */
+}
+
+/* Contenedor de la tarjeta de edición */
+.card {
+    width: 45%;
+    max-width: 700px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    margin: 30px auto;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: #01AB7B;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.8rem; /* Aumenté el tamaño de fuente */
+    font-weight: 700;
+    border-bottom: 3px solid #03c993;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+}
+
+.card-body {
+    padding: 25px 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 0 0 20px 20px;
+}
+
+/* Centrar los botones de acción en la tarjeta */
+.botones {
+    display: flex; /* Usar flexbox para centrar los botones */
+    justify-content: center; /* Centrar horizontalmente */
+    gap: 10px; /* Espacio entre los botones */
+}
+
+.cambiar {
+    display: flex;
+    flex-direction: column; /* Mantiene la dirección en columna */
+    align-items: center; /* Centra horizontalmente */
+    gap: 15px;
+    background: #f9f9f900;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0);
+    width: 75%;
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+.cambiar label {
+    display: flex; /* Usar flexbox para centrar el contenido */
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+}
+
+.cambiar img.picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #01AB7B;
+    transition: transform 0.3s ease-in-out;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.1));
+}
+
+.cambiar img.picture:hover {
+    transform: scale(1.1);
+}
+
+/* Asegúrate de que estos estilos existan para los inputs y los botones */
+.card-body .form-control {
+    width: 450px; /* Aumenta a 100% */
+    height: 50px; /* Aumenta la altura */
+    border: none;
+    border-radius: 15px; /* Bordes más suaves */
+    background: #f2f2f2;
+    padding: 12px; /* Aumenta el padding */
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    font-size: 1.1rem; /* Aumenta el tamaño de fuente */
+}
+
+.card-body .form-control:focus {
+    box-shadow: 0px 0px 8px rgba(1, 171, 123, 0.5);
+    background-color: #ffffff;
+}
+
+label{
+    font-size: 1.2rem; /* Aumentar tamaño de fuente */
+    font-weight: bold; /* Hacer texto más audaz */
+    color: #333; /* Color de texto más oscuro para un mejor contraste */
+}
+
+.btn-success, .btn-warning, .btn_cambiar_foto {
+    position: relative; /* Necesario para el efecto decorativo */
+    padding: 0.5em 1.2em; /* Espaciado más equilibrado */
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    text-transform: uppercase; 
+    letter-spacing: 1px; /* Espaciado entre letras */
+    font-weight: 600; /* Grosor de fuente */
+    color: #fff; /* Texto blanco */
+    background-color: #01AB7B; /* Verde sutil */
+    border: none; /* Sin borde */
+    border-radius: 30px 0px 30px 0px; /* Bordes redondeados solo en los lados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer;
+    margin: 2px 5px; /* Margen entre los botones */
+}
+
+/* Efecto decorativo para los botones de acción */
+.btn-success::after, .btn-warning::after, .btn_cambiar_foto::after {
+    content: ""; /* Efecto decorativo */
+    position: absolute; /* Posicionamiento absoluto */
+    top: 0; /* Alineado en la parte superior */
+    left: 0; /* Alineado a la izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    background: rgba(255, 255, 255, 0.3); /* Fondo blanco con transparencia */
+    border-radius: 30px 0px 30px 0px; /* Forma ligeramente redondeada */
+    transform: scale(0); /* Escalar inicialmente */
+    transition: transform 0.3s ease; /* Efecto de transformación suave */
+}
+
+/* Efectos hover */
+.btn-success:hover, .btn-warning:hover, .btn_cambiar_foto:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+}
+
+/* Efecto hover para el decorativo */
+.btn-success:hover::after, .btn-warning:hover::after, .btn_cambiar_foto:hover::after {
+    transform: scale(1); /* Escalar al pasar el mouse */
+}
+
+/* Efecto al hacer clic */
+.btn-success:active, .btn-warning:active, .btn_cambiar_foto:active {
+    transform: translateY(1px); /* Efecto de presionar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+/* Estilos para el botón de volver */
+.btn-warning {
+    position: relative; /* Necesario para el efecto decorativo */
+}
+
+/* Efecto decorativo para el botón de volver */
+.btn-warning::after {
+    content: ""; /* Efecto decorativo */
+    position: absolute; /* Posicionamiento absoluto */
+    top: 0; /* Alineado en la parte superior */
+    left: 0; /* Alineado a la izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    background: rgba(255, 255, 255, 0.3); /* Fondo blanco con transparencia */
+    border-radius: 30px 0px 30px 0px; /* Forma ligeramente redondeada */
+    transform: scale(0); /* Escalar inicialmente */
+    transition: transform 0.3s ease; /* Efecto de transformación suave */
+}
+
+/* Efecto hover para el botón de volver */
+.btn-warning:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    color: #fff; /* Asegúrate de que el texto sea blanco */
+}
+
+/* Efecto hover para el decorativo del botón de volver */
+.btn-warning:hover::after {
+    transform: scale(1); /* Escalar al pasar el mouse */
+}
+
+/* Efecto al hacer clic en el botón de volver */
+.btn-warning:active {
+    transform: translateY(1px); /* Efecto de presionar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+.error-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(182, 5, 5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it appears above other elements */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s, fadeOut 0.5s 4.5s; /* Fade in and out animations */
+    width: 300px; /* Set a fixed width for the message box */
+}
+
+.progress-bar {
+    height: 5px;
+    background-color: white; /* Color of the progress bar */
+    margin-top: 5px;
+    border-radius: 3px;
+    width: 100%;
+    animation: progress 5s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes progress {
+    from { width: 0%; }
+    to { width: 100%; }
+}

@@ -1,0 +1,42 @@
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<link href="{% static 'css/crear_transaccion.css' %}?v1.6" rel="stylesheet" />
+
+<div class="container">
+    <div class="login wrap" id="">
+        <form id="transaction-form" method="post">
+            {% csrf_token %}
+            <h2>Registrar Nueva Transacción</h2><br>
+            <div class="form-group">
+                <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                <select name="tipo" required id="op_create">
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="Compra">Compra</option>
+                    <option value="Venta">Venta</option>
+                    <option value="Gasto">Gasto</option>
+                    <option value="Ingreso">Ingreso</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descripcion"><h3>Descripción</h3></label>
+                <input type="text" name="descripcion" placeholder="Ingresa una descripción" required>
+            </div>
+            <div class="form-group">
+                <label for="monto"><h3>Monto ($ COP)</h3></label>
+                <input type="number" name="monto" step="0.01" placeholder="Ingresa el monto" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha"><h3>Fecha</h3></label>
+                <input type="date" id="fecha" name="fecha" min="" required/>
+            </div>
+            <input class="btn btn-success" type="submit" onclick="mostrarAlerta()" value="Registrar Transacción"/>
+            <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button">Volver</a>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/crear_transaccion.js' %}?v1.2"></script>
+{% endblock %}

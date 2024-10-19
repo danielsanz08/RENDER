@@ -1,0 +1,133 @@
+  /* Contenedor de la imagen de fondo */
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+}
+
+.background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+main {
+    margin-top: 10%;
+    margin-left: 12%;
+    margin-right: 6%;
+  }
+  
+  .nav_insumos {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #23b68c;
+    color: rgb(0, 0, 0); /* Text color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0; /* Adjust for design */
+    margin-top: 8%;
+    margin-left: 9%;
+    border-radius: 20px;
+    padding: 20px; /* Spacing */
+    width: 87%;
+}
+
+.nav_insumos::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 600% 600%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: 0;
+}
+/* insumo.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.background-image {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.background-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.insumos, .proveedores {
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav_insumos {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+h2 i {
+    margin-left: 10px;
+}
+
+.crud {
+    display: flex;
+    flex-direction: column;
+}
+
+.op_insumos, .op_proveedores {
+    margin-bottom: 10px;
+}
+
+.op_insumos a, .op_proveedores a {
+    display: block;
+    padding: 15px;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.op_insumos a:hover, .op_proveedores a:hover {
+    background-color: #0056b3;
+}

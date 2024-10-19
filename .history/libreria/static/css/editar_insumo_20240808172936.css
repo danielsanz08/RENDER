@@ -1,0 +1,13 @@
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+/* Reglas de estilo generales */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}

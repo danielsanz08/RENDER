@@ -1,0 +1,41 @@
+{% extends "navbar.html" %}
+{% block titulo %}{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/editar_insumo.css' %}?v1.1" rel="stylesheet" />
+
+
+    <section id="modificar" class="section section-dark">
+        <div class="container">
+            <h2>Editar Insumo</h2>
+    
+            {% if not form %}
+            <form method="get" id="select-insumo-form">
+                <div class="form-group">
+                    <br><br><h4>Seleccionar Insumo</h4>
+                    <select id="select-insumo" name="nombre" class="seleccionar_insumo">
+                        {% for insumo in insumos %}
+                            <option value="{{ insumo.nombre }}">{{ insumo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary"value="Seleccionar Insumo">
+            </form>
+            {% endif %}        
+    
+    
+            {% if form %}
+            <form id="update-insumo-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="card-footer">
+                   <button type="submit" class="btn btn-success"></button>
+                </div>
+            </form>
+            {% endif %}        
+        </div>
+    </section>
+
+{% endblock %}
+<!--  <button type="submit" class="btn btn-success">Editar insumo</button>
+                    <a class="btn-success" href="{% url 'contabilidad' %}">Cancelar</a>-->

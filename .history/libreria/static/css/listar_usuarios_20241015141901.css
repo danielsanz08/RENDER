@@ -1,0 +1,285 @@
+main {
+  margin-top: 22vh;
+  margin-left: 19vh;
+  margin-right: 6%;
+  margin-bottom: 80px; /* Espacio adicional en la parte inferior */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+body{
+  font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 30px;
+  font-weight: 800;
+  margin-top: 0;
+  text-align: center;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.alerta {
+  font-size: 24px;  /* Ajusta el tamaño del ícono */
+  transition: transform 0.3s ease;  /* Animación suave al cambiar el tamaño */
+}
+
+.alerta:hover {
+  transform: scale(1.5);  /* Aumenta el tamaño al pasar el cursor por encima */
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 700px;
+    height: 45px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+input[type="text"]:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+input[type="text"]:active {
+    transform: scale(0.95);
+}
+
+input[type="text"]:focus {
+    border: 2px solid rgb(116, 116, 116);
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.table-responsive { 
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table th, .table td {
+  padding: 20px;
+  font-size: 16px;
+  width: auto;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Estilo para centrar el botón usando flexbox */
+#search-results {
+  display: flex;
+  flex-direction: column; /* Organizar los elementos en columna */
+  align-items: center; /* Centrar horizontalmente */
+}
+
+.btn-success {
+  padding: 0.1em 0.8em; /* Reducción del padding para hacerlo más bajo */
+  font-size: 12px; /* Tamaño de fuente reducido */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 20px; /* Radio del borde más pequeño */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  height: 35px; /* Altura fija para que coincida con las otras opciones */
+}
+
+.btn-success:hover {
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.btn-success:active {
+  transform: translateY(-1px);
+}
+
+.btn-warning{
+  padding: 1em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-warning:hover {
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.btn-warning:active {
+  transform: translateY(-1px);
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .table, .table * {
+        visibility: visible;
+    }
+    .table {
+        position: static; 
+        width: 100%; 
+        margin: 0; 
+        padding: 0;
+    }
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+
+    main {
+        margin-top: 15vh;
+        margin-left: 15vh;
+      }
+  }
+  
+  /* Toggle Switch Container */
+.cl-toggle-switch {
+  position: relative;
+}
+
+/* Switch Element */
+.cl-switch {
+  position: relative;
+  display: inline-block;
+}
+
+/* Input */
+.cl-switch > input {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  z-index: -1;
+  position: absolute;
+  right: 6px;
+  top: -8px;
+  display: block;
+  margin: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(0, 0, 0, 0.38);
+  outline: none;
+  opacity: 0;
+  transform: scale(1);
+  pointer-events: none;
+  transition: opacity 0.3s 0.1s, transform 0.2s 0.1s;
+}
+
+/* Track */
+.cl-switch > span::before {
+  content: "";
+  display: inline-block;
+  margin: 5px 0 5px 10px;
+  border-radius: 7px;
+  width: 36px;
+  height: 14px;
+  background-color: rgb(0, 0, 0, 0.38);
+  vertical-align: top;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+/* Thumb */
+.cl-switch > span::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 16px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Checked State */
+.cl-switch > input:checked {
+  right: -10px;
+  background-color: #85b8b7;
+}
+
+.cl-switch > input:checked + span::before {
+  background-color: #85b8b7;
+}
+
+.cl-switch > input:checked + span::after {
+  background-color: #018786;
+  transform: translateX(16px);
+}
+
+/* Hover, Focus */
+.cl-switch:hover > input {
+  opacity: 0.04;
+}
+
+.cl-switch > input:focus {
+  opacity: 0.12;
+}
+
+.cl-switch:hover > input:focus {
+  opacity: 0.16;
+}
+
+/* Active State */
+.cl-switch > input:active {
+  opacity: 1;
+  transform: scale(0);
+  transition: transform 0s, opacity 0s;
+}
+
+.cl-switch > input:active + span::before {
+  background-color: #8f8f8f;
+}
+
+.cl-switch > input:checked:active + span::before {
+  background-color: #85b8b7;
+}
+
+/* Disabled State */
+.cl-switch > input:disabled {
+  opacity: 0;
+}
+
+.cl-switch > input:disabled + span::before {
+  background-color: #ddd;
+}
+
+.cl-switch > input:checked:disabled + span::before {
+  background-color: #bfdbda;
+}
+
+.cl-switch > input:checked:disabled + span::after {
+  background-color: #61b5b4;
+}

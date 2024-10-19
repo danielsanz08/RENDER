@@ -1,0 +1,12 @@
+{% extends "navbar.html" %}
+{% block titulo %}Insumos{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/insumo.css' %}?v={% now "U" %}" rel="stylesheet" />
+<main>
+    <div class="background-image">
+        <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+      </div>
+      <section></section>
+</main>
+{% endblock %}

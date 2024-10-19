@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.card_uno {
+    width: 50%;
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 0.8s ease-in-out;
+}
+
+.card_dos {
+    width: 550px;
+    height: 620px;
+    background: #679B9B;
+    padding: 20px 20px 50px 20px;
+    color: #fff;
+    border-radius: 17px;
+    animation: popIn 1s ease-in-out;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.input-group i {
+    position: absolute;
+    left: 10px;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.input-group label {
+    display: none;
+}
+
+
+
+.input-group .error {
+    display: block;
+    color: #f00;
+    font-size: 0.875rem;
+    margin-top: 5px;
+}

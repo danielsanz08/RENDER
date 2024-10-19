@@ -1,0 +1,81 @@
+/* Estilos generales */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; /* Color de fondo suave */
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  margin: 20px;
+}
+
+/* Estilos del carrusel */
+.carousel {
+  position: relative;
+  max-width: 00px; /* Ancho máximo del carrusel */
+  margin: 0 auto; /* Centrando el carrusel */
+  border-radius: 15px; /* Bordes redondeados */
+  overflow: hidden; /* Oculta los elementos fuera del área del carrusel */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor del carrusel */
+}
+
+.carousel-inner {
+  border-radius: 15px; /* Asegura que los bordes redondeados se apliquen también a las imágenes */
+}
+
+.carousel-item img {
+  object-fit: cover; /* Recorta las imágenes para cubrir completamente el carrusel */
+  width: 100%;
+  height: 400px; /* Altura fija para las imágenes del carrusel */
+  transition: transform 0.5s ease; /* Animación suave para las imágenes */
+}
+
+/* Efecto hover para las imágenes */
+.carousel-item img:hover {
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el ratón */
+}
+
+/* Estilos de los botones de control */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1); /* Hace los íconos de control blancos */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%; /* Reduce el tamaño del área de los controles */
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para el texto */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+  color: #ffffff; /* Texto en color blanco */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
+  margin: 0;
+}
+
+/* Estilos adicionales para el texto */
+.carousel-caption h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.carousel-caption p {
+  font-size: 1rem;
+}
+
+/* Estilos de los indicadores del carrusel */
+.carousel-indicators [data-mdb-target] {
+  background-color: #ffffff; /* Color de los indicadores */
+  border: 1px solid #000; /* Borde alrededor de los indicadores */
+}
+
+.carousel-indicators .active {
+  background-color: #007bff; /* Color del indicador activo */
+}

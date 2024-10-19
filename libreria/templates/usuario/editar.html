@@ -1,0 +1,105 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Editar Perfil{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/editar_perfil.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<div class="card edit-user-card">
+    <div class="card-header">
+        <h3 class="text-center" title="Editar usuario">EDITAR USUARIO</h3>
+    </div>
+    <div class="card-body">
+        <form id="editUserForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="cambiar">
+                <img src="{% if form.profile_picture.value and form.profile_picture.value.url %}{{ form.profile_picture.value.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="Foto de perfil" class="picture" title="Foto de perfil">
+                <label for="profilePic" class="btn_cambiar_foto" title="Cambiar la foto de perfil">
+                    Cambiar foto
+                    <input type="file" id="profilePic" name="profile_picture" class="d-none">
+                </label>
+            </div><br>
+            <div class="form-group">
+                <label for="name" title="Nombre">Nombre:</label>
+                {{ form.name }}
+            </div><br>
+            <div class="form-group">
+                <label for="email" title="Correo electrónico">Correo electrónico:</label>
+                {{ form.email }}
+            </div><br>
+            <div class="form-group">
+                <label for="phone" title="Teléfono">Teléfono:</label>
+                {{ form.phone }}
+            </div><br>
+            <div class="form-group">
+                <label for="role" id="rol" title="Rol">Rol:</label>
+                {{ form.role }}
+            </div><br>
+            <div class="botones" title="Sección de botones de acción">
+                <button class="btn btn-success" type="submit" title="Guardar cambios">Guardar Cambios</button>
+                <a class="btn btn-warning" href="{% url 'listar_usuario' %}" role="button" title="Volver">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{% static 'js/editar_perfil.js' %}?v={% now 'U' %}"></script>
+<script>
+    document.getElementById('editUserForm').addEventListener('submit', function(event) {
+        const selectedRole = document.getElementById('id_role').value; // Get selected role
+        const currentRole = '{{ form.role.value }}'; // Get current role from the form
+        const phone = document.getElementById('id_phone').value; // Get phone value
+        const name = document.getElementById('id_name').value; // Get name value
+
+        // Check if changing from Empleado to Administrador and if there's already an admin
+        const adminUsersCount = {{ admin_users_count }}; // Length of the list of admin users
+
+        // Validate phone number
+        if (phone.length !== 10 || !/^\d+$/.test(phone)) {
+            event.preventDefault(); // Prevent form submission
+            showError('ERROR: El teléfono debe ser de 10 dígitos y solo números.'); // Display an error message
+            return; // Exit the function
+        }
+
+        // Validate name
+        if (!/^[A-Za-z\s]+$/.test(name)) {
+            event.preventDefault(); // Prevent form submission
+            showError('ERROR: Solo caracteres en el nombre.'); // Display an error message
+            return; // Exit the function
+        }
+
+        // Check if changing from Empleado to Administrador and if there's already an admin
+        if (currentRole === 'Empleado' && selectedRole === 'Administrador' && adminUsersCount > 0) {
+            event.preventDefault(); // Prevent form submission
+            showError('No puedes cambiar el rol de Empleado a Administrador. Ya hay un Administrador registrado.'); // Display an error message
+        }
+    });
+
+    function showError(message) {
+        // Create a div element for the error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.innerText = message;
+
+        // Create a progress bar div
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+
+        // Append to error message div
+        errorDiv.appendChild(progressBar);
+
+        // Append to body
+        document.body.appendChild(errorDiv);
+
+        // Animate progress bar
+        progressBar.style.animation = 'progress 5s forwards';
+
+        // Remove the message and progress bar after 5 seconds
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
+    }
+</script>
+
+<style>
+  
+</style>
+
+{% endblock %}

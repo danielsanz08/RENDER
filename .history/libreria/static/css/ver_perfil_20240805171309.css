@@ -1,0 +1,82 @@
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    padding-top: 30px;
+    height: 50vh;
+}
+
+.card {
+    background-color: rgb(200, 208, 223);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10%;
+    
+}
+.card-header {
+    background-color: #5dade2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #000000;
+    padding: 10px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.card-title {
+    text-align: center;
+    margin: 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.user-details {
+    text-align: center;
+}
+
+.user-details label {
+    font-weight: bold;
+}
+
+.user-details p {
+    margin-bottom: 10px;
+}
+
+.card-footer {
+    background-color: #5dade2;
+    padding: 10px 20px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    border: none;
+}
+.btn-primary:hover {
+    opacity: 0.8;
+}
+a{
+    text-decoration: none;
+}
+
+/*Modo oscuro*/
+body.dark section{
+    ba
+}

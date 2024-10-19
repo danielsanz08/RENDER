@@ -1,0 +1,38 @@
+  /* Contenedor de la imagen de fondo */
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+}
+
+.background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}

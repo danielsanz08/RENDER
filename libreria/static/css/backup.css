@@ -1,0 +1,126 @@
+body {
+    margin-top: 22vh;
+    margin-left: 19vh;
+    margin-right: 6%;
+    background-color: #f4f4f4; /* Fondo suave para la página */
+    height: 100vh;
+}
+
+#backup {
+    background-color: #fff; /* Fondo blanco para la sección */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 30px;
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.backup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa; /* Fondo suave para el encabezado */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.backup-header h2 {
+    color: black; /* Color principal para los encabezados */
+    font-size: 1.5rem; /* Tamaño de fuente */
+    margin: 0; /* Sin márgenes */
+}
+
+.btn-create-backup {
+    background-color: #01AB7B; /* Color principal */
+    color: white; /* Texto blanco */
+    padding: 8px 12px; /* Tamaño más pequeño */
+    font-size: 0.9rem; /* Fuente más pequeña */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+}
+
+.btn-create-backup:hover {
+    background-color: #019f69; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de aumento */
+}
+
+/* Estilos para la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    padding: 20px;
+    font-size: 20px;
+    text-align: center; /* Centrar el contenido */
+    border-bottom: 1px solid #eaeaea; /* Línea de separación */
+}
+
+/* Título de la tabla centrado */
+.table-title {
+    text-align: center; /* Centrar título de la tabla */
+    margin: 20px 0; /* Espacio superior e inferior */
+    font-size: 2.3rem; /* Tamaño de fuente */
+    color: black; /* Color principal */
+}
+
+/* Estilos para los botones de acción en la tabla */
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+.btn-danger{
+    padding: 1em 1em;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-danger:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-danger:active {
+    transform: translateY(-1px);
+}

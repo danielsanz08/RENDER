@@ -1,0 +1,114 @@
+/* Estilos para el contenedor de la tabla */
+.table {
+    margin: 70px;
+    padding: 20px;
+    max-width: 10%;
+}
+
+  /* Estilos generales para la tabla */
+.table_transaccion {
+    width: 70%;
+    margin-left: 10%;
+    background-color: #f9f9f9; /* Color de fondo de la tabla */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.table_transaccion th,
+.table_transaccion td {
+    padding: 12px;
+    border: 1px solid #000000;
+    text-align: left;
+}
+body.dark .table_transaccion th,
+body.dark .table_transaccion td {
+    border: 1px solid #ffffff;
+    
+
+}
+
+  /* Estilos para los encabezados de la tabla */
+.table_transaccion th {
+    background: linear-gradient(to right,#4EA685 #57B894 );
+    color: rgb(0, 0, 0); /* Color del texto en los encabezados */
+}
+/*columnas*/
+.table_transaccion td{
+    background: rgb(235, 234, 234);
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+body.dark .table_transaccion th{
+    background: linear-gradient(to right, #21cf2d, #1d261d);
+    color: white;
+}
+body.dark .table_transaccion td{
+    background: gray;
+    color: white;
+}
+  /* Estilos específicos para cada columna */
+.item1{
+    width: 5%;
+}
+.item2{
+    width: 25%;
+}
+.item3{
+    width: 10%;
+}
+.item4{
+    width: 5%;
+}
+#back-icon{
+    padding-right: 100%;
+}
+/* Filtro de busqueda*/
+#search-form{
+    
+    height: 90px;
+    padding: 20px 20px;
+}
+#search-select {
+    background-color: rgb(228, 228, 228);
+    height: 40px;
+    width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px; /* Hace que el elemento sea ovalado */
+    border: none; /* Sin bordes */
+    outline: none; /* Sin contorno al enfoque */
+    padding: 5px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+
+#search-select option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#search-select option:checked {
+    background-color: #167a1d; /* Color de fondo para la opción seleccionada */
+    color: white; /* Color del texto para la opción seleccionada */
+}
+#search-button {
+    font-family: 'Times New Roman', Times, serif;
+    background: linear-gradient(to right, #167a1d, white);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: rgb(0, 0, 0); /* Color del texto */
+    border: none; /* Sin bordes */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar el color de fondo */
+}
+
+#search-button:hover {
+    background: linear-gradient(to right, #0e4d12, rgb(189, 187, 187));
+    color: white;
+}
+
+
+

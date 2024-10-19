@@ -1,0 +1,36 @@
+.container{
+    background-color: rgba(241, 241, 241, 0);
+    height: 940px;
+    width: 1000px;
+    margin-top: 2%;
+    padding: 4%;
+    padding-left: 18%;
+    border-radius: 20px;
+    padding-left: 19%;
+    padding-right: 20%;
+}
+.card{
+    border-radius: 20px;
+    width: 400px;
+    background-color: rgb(200, 208, 223);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-header{
+    background-color: #4984ac;
+}
+.form-text{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.card-footer{
+    background: linear-gradient(to right, white, rgb(113, 192, 113));
+    border: none;
+}
+
+.card-header{
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+

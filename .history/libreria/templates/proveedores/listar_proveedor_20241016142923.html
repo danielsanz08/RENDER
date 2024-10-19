@@ -1,0 +1,147 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Proveedores Registrados{% endblock %}
+{% block contenido %}
+
+<!-- Bibliotecas para generación de PDFs y Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Solo usa una versión de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- html2pdf debe estar al final después de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link href="{% static 'css/listar_proveedor.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+<link href="{% static 'css/eliminar_proveedor.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="container">
+    <h2 title="Proveedores registrados">Proveedores Registrados</h2>
+    <div class="toolbar">
+        <form id="search-form">
+            <select id="search-select"  title="Seleccionar criterio de búsqueda">
+                <option value="todos">Todos</option>
+                <option value="nit">Nit</option>
+                <option value="nombre">Nombre</option>
+                <option value="direccion">Direccion</option>
+                <option value="email">Email</option>
+                <option value="telefono">Telefono</option>
+            </select>
+            <input id="search-input" type="text" style="display: none;" placeholder="Buscar..."  title="Buscar">
+            <input class="btn btn-success" type="submit" value="Buscar"  title="Buscar"/>
+        </form>
+        <p id="search-warning" style="color: red; display: none;"></p>
+
+        <div class="opciones">
+            <a class="opc" onclick="printTable()" title="Imprimir la lista de proveedores">
+                <i class="bi bi-printer"></i>
+                <span>Imprimir</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_excel_proveedor' %}" role="button" data-tooltip="Descargar tabla en excel">
+                <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_pdf_proveedor' %}" role="button" data-tooltip="Descargar tabla en pdf">
+                <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="search-results">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th title="ID">ID</th>
+                    <th title="Nit">Nit</th>
+                    <th title="Tipo de persona">Tipo de persona</th>
+                    <th title="Nombre">Nombre</th>
+                    <th title="Dirección">Dirección</th>
+                    <th title="Email">Email</th>
+                    <th title="Télefono">Télefono</th>
+                    <th title="Registrado por">Registrado por</th>
+                    <th title="Acciones">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedores %}
+                <tr>
+                    <td title="Id del proveedor">{{ proveedor.id }}</td>
+                    <td title="Nit del proveedor">{{ proveedor.nit }}</td>
+                    <td>{{ proveedor.tipo_persona }}</td>
+                    <td title="Nombre del proveedor">{{ proveedor.nombre }}</td>
+                    <td title="Dirección del proveedor">{{ proveedor.direccion }}</td>
+                    <td title="Email del proveedor">{{ proveedor.email }}</td>
+                    <td title="Télefono del proveedor">{{ proveedor.telefono }}</td>
+                    {% if user.role == 'Administrador' %}
+                    <td title="Registrado por {{ proveedor.registrado_por.name }}">
+                        {% if proveedor.registrado_por %}
+                            {{ proveedor.registrado_por.name }}
+                        {% else %}
+                            Sin asignar
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-warning btn-sm" title="Editar proveedor">
+                            <i data-feather="edit" class="icon-small"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="btn btn-danger" role="button" title="Eliminar proveedor" onclick="showConfirmModal('{{ proveedor.id }}', '{{ proveedor.nombre }}')">
+                            <i data-feather="trash" class="icon-small"></i>
+                        </a>
+                    </td>
+                    {% else %}
+                    <td><i data-feather="alert-triangle" style="color: red;"></i>
+                    </td>
+                    <td>Solo admin
+                    </td>
+
+                    {% endif %}
+
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
+        <a class="btn btn-warning" href="{% url 'insumos' %}" role="button" title="Volver">Volver</a>
+    </div><br>
+</div>
+    
+<!-- Overlay -->
+<div id="overlay" class="overlay" style="display: none;"></div>
+
+<!-- Modal para eliminar proveedor -->
+<div class="card" id="eliminar_proveedor" style="display: none;">
+    <div class="card-header text-center">
+        <h3 class="mb-0" title="Eliminar proveedor"><b>ELIMINAR PROVEEDOR</b></h3>
+    </div>
+    <div class="card-body">
+        <p class="confirmation-message" style="text-align: center;">
+            ¿Estás seguro de que quieres eliminar a <span id="proveedor-nombre"></span>?
+        </p>
+        <form method="post" id="delete-form">
+            {% csrf_token %}
+            <div class="card-footer">
+                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar proveedor"/>
+                <a class="btn btn-warning" href="#" onclick="cerrarVentana()" role="button" title="Cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Marca de agua -->
+<img src="{% static 'imagen/logo_hedybed.png' %}" class="watermark" alt="Marca de agua de la empresa">
+<div id="watermark-url" data-url="{% static 'imagen/logo_hedybed.png' %}"></div>
+<script>
+    const watermarkUrl = "{% static 'imagen/logo_hedybed.png' %}";
+</script>
+
+<script src="{% static 'js/listar_proveedor.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/eliminar_proveedor.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

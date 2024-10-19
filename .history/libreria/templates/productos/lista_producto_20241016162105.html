@@ -1,0 +1,149 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Productos Registrados{% endblock %}
+{% block contenido %}
+
+<!-- Bibliotecas para generación de PDFs y Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Solo usa una versión de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- html2pdf debe estar al final después de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link href="{% static 'css/listar_productos.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<link href="{% static 'css/eliminar_productos.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="container">
+    <h2 title="Productos registrados">Productos Registrados</h2>
+    <div class="toolbar">
+        <form id="search-form">
+            <select id="search-select" title="Seleccionar criterio de búsqueda">
+                <option value="todos">Todos</option>
+                <option value="nombre">Nombre</option>
+                <option value="presentacion">Presentación</option>
+                <option value="medida">Unidad de Medida</option>
+                <option value="cantidad">Cantidad</option>
+                <option value="precio">Precio</option>
+            </select>
+            <input id="search-input" type="text" style="display: none;" placeholder="Buscar..." title="Buscar">
+            <input class="btn btn-success" type="submit" value="Buscar" title="Buscar"/>
+        </form>
+        <p id="search-warning" style="color: red; display: none;"></p>
+
+        <div class="opciones">
+            <a class="opc" onclick="printTable()" title="Imprimir la lista de productos">
+                <i class="bi bi-printer"></i>
+                <span>Imprimir</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_excel_producto' %}" role="button" data-tooltip="Descargar tabla en excel">
+                <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_pdf_producto' %}" role="button" data-tooltip="Descargar tabla en pdf">
+                <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
+            </a>
+            <a class="opc" href="{% url 'crear_producto' %}" role="button">
+                <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="search-results">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th title="Nombre">Nombre</th>
+                    <th title="Presentación">Presentación</th>
+                    <th title="Unidad de medida">Unidad de Medida</th>
+                    <th title="Cantidad">Cantidad</th>
+                    <th title="Precio">Precio</th>
+                    <th>Registrado por</th>
+                    <th title="Acciones">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td title="Nombre del producto">{{ producto.nombre }}</td>
+                        <td title="Presentación del producto">{{ producto.presentacion }}</td>
+                        <td title="Unidad de medidad del producto">{{ producto.unidad_medida }}</td>
+                        <td title="Cantidad del producto">{{ producto.cantidad }}</td>
+                        <td title="Precio del producto">${{ producto.formatear_precio }}</td>
+                        <td>
+                            {% if producto.registrado_por.name %}
+                                {{ producto.registrado_por.name }}
+                            {% else %}
+                                Sin asignar
+                            {% endif %}
+                        </td>
+                        {% if user.role == 'Administrador' %}
+                            <td>
+                                <a href="#" class="btn btn-danger" role="button" title="Eliminar producto" onclick="showConfirmModal(event, '{{ producto.pk }}', '{{ producto.nombre }}');">
+                                    <i data-feather="trash" class="icon-small"></i>
+                                </a>
+                                <a href="{% url 'editar_producto' producto.pk %}" class="btn btn-warning btn-sm" title="Editar producto">
+                                    <i data-feather="edit" class="icon-small"></i>
+                                </a>
+                            </td>
+                        {% else %}
+                            <td>
+                                <span title="No tienes permisos para eliminar">Sin acceso</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'editar_producto' producto.pk %}" class="btn btn-warning btn-sm" title="Editar producto">
+                                    <i data-feather="edit" class="icon-small"></i>
+                                </a>
+                            </td>
+                            
+                        {% endif %}
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
+        <a class="btn btn-warning" href="{% url 'productos' %}" role="button" title="Volver">Volver</a>
+    </div><br>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay" style="display: none;"></div>
+
+<!-- Modal para eliminar producto -->
+<div class="card" id="eliminar_producto" style="display: none;">
+    <div class="card-header text-center">
+        <h3 class="mb-0" title="Eliminar producto"><b>ELIMINAR PRODUCTO</b></h3>
+    </div>
+    <div class="card-body">
+        <p class="confirmation-message" style="text-align: center;">
+            ¿Está seguro que desea eliminar el producto "<span id="producto-nombre"></span>"?
+        </p>
+        <form method="post" id="delete-form-producto">
+            {% csrf_token %}
+            <div class="card-footer">
+                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar producto"/>
+                <a class="btn btn-warning" href="#" onclick="cerrarVentana()" role="button" title="Cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Marca de agua -->
+<img src="{% static 'imagen/logo_hedybed.png' %}" class="watermark" alt="Marca de agua de la empresa">
+<div id="watermark-url" data-url="{% static 'imagen/logo_hedybed.png' %}"></div>
+<script>
+    const watermarkUrl = "{% static 'imagen/logo_hedybed.png' %}";
+</script>
+
+<script src="{% static 'js/listar_productos.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/eliminar_productos.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+body {
+    margin-left: 80px;
+    margin-top: 80px;
+    transition: margin-left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    background-color: #2392be;
+    color: black;
+    align-items: center;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    z-index: 200;
+    transition: padding-left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    padding-left: 80px;
+}
+
+body.dark header {
+    background: linear-gradient(to lef, #1d261d, #167a1d);
+    color: #e0e0e0;
+}
+.body_mov header {
+    padding-left: 250px;
+  }
+.icon_menu {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(10px);
+}
+
+.icon_menu i {
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.menu {
+    width: 80px;
+    height: 100%;
+    background-color: #30be23;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    font-size: 18px;
+    z-index: 300;
+    overflow: hidden;
+    
+    transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.menu_mov .opciones_menu .opcion h4 {
+    opacity: 1;
+  }
+.nombre {
+    padding: 20px 30px;
+    display: flex;
+    margin-left: 08px;
+    margin-top: 08px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .nombre:hover {
+    transform: scale(1.1) rotate(15deg);
+    color: #838382; /* Color dorado */
+  }
+
+.opciones_menu {
+    padding: 20px 30px;
+    position: absolute;
+    top: 100px;
+}
+
+.opciones_menu a {
+    color: white;
+    cursor: default;
+    display: block;
+    position: relative;
+    transition: color 300ms;
+}
+
+.opciones_menu a:hover {
+    color: black;
+}
+
+.opciones_menu .opcion {
+    display: flex;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+.opciones_menu .opcion i {
+    width: 20px;
+    margin-right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.opciones_menu .opcion i:hover {
+    transform: scale(1.1) rotate(15deg);
+    color: #838382; /* Color dorado */
+  }
+
+.opciones_menu .opcion h4 {
+    white-space: nowrap;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 300ms ease;
+}
+
+/* Clases para usar en JavaScript */
+.body_mov {
+    margin-left: 250px;
+}
+
+.menu_mov {
+    width: 250px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.white-box {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #167a1d;
+}
+
+.page {
+    width: 80%;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+#toggle {
+    display: none;
+    cursor: pointer;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+#moon {
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+    
+  }
+  
+  #moon:hover {
+    transform: scale(1.1) rotate(15deg);
+    color: #838382; /* Color dorado */
+  }
+
+  h1{
+    font-family: 'Roboto Slab', serif;
+      font-weight: 700;
+  }
+  .accesibilidad {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Asegurarse de que esté por encima de otros elementos */
+}

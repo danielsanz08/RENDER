@@ -1,0 +1,107 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Crear Producto{% endblock %}
+{% block contenido %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href="{% static 'css/crear_producto.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+
+<div class="container">
+    <div class="login wrap">
+        <h1 title="Agregar producto">AGREGAR PRODUCTO</h1>
+
+        <form method="post" class="producto-form" id="productoForm">
+            {% csrf_token %}
+        
+            <div class="form-group">
+                <label for="nombre" title="Nombre del producto">Nombre del Producto</label>
+                <input type="text" placeholder="Nombre" id="nombre" name="nombre" required title="Introduce el nombre del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="categoria" title="Categoría">Categoría</label>
+                <select id="categoria" name="categoria" required title="Selecciona una categoría">
+                    <option value="">Seleccione una categoría</option>
+                    <option value="leche" title="Leche">Leche</option>
+                    <option value="queso" title="Queso">Queso</option>
+                    <option value="mantequilla" title="Mantequilla">Mantequilla</option>
+                    <option value="crema" title="Crema">Crema</option>
+                    <option value="otros" title="Otros">Otros</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="presentacion" title="Presentación">Presentación</label>
+                <input type="text" placeholder="Presentación" id="presentacion" name="presentacion" required title="Introduce la presentación del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="unidad_medida" title="Unidad de medida">Unidad de Medida</label>
+                <select id="unidad_medida" name="unidad_medida" required title="Selecciona una unidad de medida">
+                    <option value="">Seleccione una opción</option>
+                    <option value="litro" title="Litro">Litro (l)</option>
+                    <option value="mililitro" title="Mililitro">Mililitro (ml)</option>
+                    <option value="gramo" title="Gramo">Gramo (g)</option>
+                    <option value="kilogramo" title="Kilogramo">Kilogramo (kg)</option>
+                    <option value="unidad" title="Unidad">Unidad</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="cantidad" title="Cantidad">Cantidad</label>
+                <input type="number" placeholder="Cantidad" id="cantidad" name="cantidad" min="0" step="0.01" required title="Introduce la cantidad del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="precio" title="Precio">Precio ($ COP)</label>
+                <input type="number" placeholder="Precio" id="precio" name="precio" min="0" step="100" required title="Introduce el precio del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="fecha_elaboracion" title="Fecha de elaboración">Fecha de Elaboración</label>
+                <input type="date" placeholder="Fecha de Elaboración" id="fecha_elaboracion" name="fecha_elaboracion" required title="Selecciona la fecha de elaboración del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="fecha_vencimiento"  title="Fecha de vencimiento">Fecha de Vencimiento</label>
+                <input type="date" placeholder="Fecha de Vencimiento" id="fecha_vencimiento" name="fecha_vencimiento" required title="Selecciona la fecha de vencimiento del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="temperatura_conservacion" title="Temperatura de conservación">Temperatura de Conservación (°C)</label>
+                <input type="number" placeholder="Temperatura" id="temperatura_conservacion" name="temperatura_conservacion" min="-20" max="30" step="0.1" required title="Introduce la temperatura de conservación">
+            </div>            
+        
+            <div class="form-group">
+                <label for="lote"  title="Número de lote">Número de Lote</label>
+                <input type="text" placeholder="Número de Lote" id="lote" name="lote" required pattern="[A-Za-z0-9]+" title="Ingresa el número de lote del producto">
+            </div>
+        
+            <div class="form-group">
+                <label for="codigo" title="Código del producto">Código del Producto</label>
+                <input type="text" placeholder="Código" id="codigo" name="codigo" required pattern="[A-Za-z0-9]+" title="Ingresa el código del producto">
+            </div>   
+        
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" title="Crear producto">Crear Producto</button>
+                <a href="{% url 'productos' %}" class="btn btn-secondary" title="Cancelar">Cancelar</a>
+            </div>         
+        </form>        
+
+        <!-- Popup -->
+        <div id="popup" class="popup">
+            <div class="checkmark">
+                <svg class="checkmark-svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+                </svg>
+            </div>
+            <p>Registro exitoso</p>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/crear_producto.js' %}?v={% now 'U' %}"></script>
+{% endblock %}

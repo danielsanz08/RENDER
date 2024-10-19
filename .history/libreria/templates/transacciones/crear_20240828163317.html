@@ -1,0 +1,188 @@
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<link href="{% static 'css/crear_transaccion.css' %}?v1.7" rel="stylesheet" />
+
+<div class="container">
+    <div class="login wrap" >
+        <form id="transaction-form" method="post">
+            {% csrf_token %}
+            <h2>Registrar Nueva Transacción</h2><br>
+            <div class="form-group">
+                <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                <select name="tipo" required id="op_create">
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="Compra">Compra</option>
+                    <option value="Venta">Venta</option>
+                    <option value="Gasto">Gasto</option>
+                    <option value="Ingreso">Ingreso</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="descripcion"><h3>Descripción</h3></label>
+                <input type="text" name="descripcion" placeholder="Ingresa una descripción" required id="op_create">
+            </div>
+            <div class="form-group">
+                <label for="monto"><h3>Monto ($ COP)</h3></label>
+                <input type="number" name="monto" step="0.01" placeholder="Ingresa el monto" required id="op_create">
+            </div>
+            <div class="form-group">
+                <label for="fecha"><h3>Fecha</h3></label>
+                <input type="date" id="fecha" name="fecha"  required id="op_create">
+            </div>
+            <button type="button" class="btn btn-success" onclick="mostrarAlerta()">Registrar Transacción</button>
+            <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button">Volver</a>
+        </form>
+    </div>
+    
+</div>
+<!-- Overlay Background -->
+<div class="overlay"></div>
+
+<!-- Alert Modal -->
+<div id="alert" class="alert" style:>
+    <i class="fas fa-exclamation-triangle" id="alerta-icono"></i>
+    <p><h4>Registro Exitoso</h4></p>
+    <button onclick="cerrarVentana()"><h3>Ok</h3></button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputFecha = document.getElementById('fecha');
+        const today = new Date().toISOString().split('T')[0];
+        inputFecha.setAttribute('min', today);
+    });
+    
+    function validateUpdateForm() {
+        const nombre = document.getElementById("id_nombre").value.trim(); 
+        const cantidad = document.getElementById("id_cantidad").value;
+        const originalNombre = document.getElementById("original-nombre").value;
+        const fecha = document.getElementById("fecha").value; // El campo de fecha
+    
+        toastr.clear();
+    
+        let errorMessages = [];
+        const nombreRegex = /^[a-zA-Z\s]+$/;
+    
+        if (!nombreRegex.test(nombre)) {
+            errorMessages.push('El nombre solo puede contener letras y espacios.');
+        }
+    
+        if (cantidad < 0 || isNaN(cantidad)) {
+            errorMessages.push('No se pueden ingresar números negativos.');
+        }
+    
+        // Validación de la fecha
+        const today = new Date();
+        const selectedDate = new Date(fecha);
+        
+        if (selectedDate < today) {
+            errorMessages.push('No se puede seleccionar una fecha anterior a hoy.');
+        }
+    
+        $.ajax({
+            url: '/verificar_nombre_insumo/',
+            type: 'GET',
+            data: { 'nombre': nombre },
+            dataType: 'json',
+            success: function(response) {
+                if (response.exists && nombre !== originalNombre) {
+                    errorMessages.push('Ya existe un insumo con este nombre.');
+                }
+    
+                if (errorMessages.length > 0) {
+                    toastr.error(errorMessages.join('<br>'), 'Error', {
+                        closeButton: true,
+                        progressBar: true,
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right'
+                    });
+                } else {
+                    toastr.success('El insumo se ha modificado correctamente.', 'Éxito', {
+                        closeButton: true,
+                        progressBar: true,
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right'
+                    });
+    
+                    setTimeout(function() {
+                        document.getElementById("update-insumo-form").submit();
+                    }, 2000);
+                }
+            }
+        });
+    
+        return false;
+    }
+    function validateUpdateForm() {
+        const nombre = document.getElementById("id_nombre").value.trim(); 
+        const cantidad = document.getElementById("id_cantidad").value;
+        const originalNombre = document.getElementById("original-nombre").value;
+        const fecha = document.getElementById("fecha").value; // El campo de fecha
+    
+        toastr.clear();
+    
+        let errorMessages = [];
+        const nombreRegex = /^[a-zA-Z\s]+$/;
+    
+        if (!nombreRegex.test(nombre)) {
+            errorMessages.push('El nombre solo puede contener letras y espacios.');
+        }
+    
+        if (cantidad < 0 || isNaN(cantidad)) {
+            errorMessages.push('No se pueden ingresar números negativos.');
+        }
+    
+        // Validación de la fecha
+        const today = new Date();
+        const selectedDate = new Date(fecha);
+        
+        if (selectedDate < today) {
+            errorMessages.push('No se puede seleccionar una fecha anterior a hoy.');
+        }
+    
+        $.ajax({
+            url: '/verificar_nombre_insumo/',
+            type: 'GET',
+            data: { 'nombre': nombre },
+            dataType: 'json',
+            success: function(response) {
+                if (response.exists && nombre !== originalNombre) {
+                    errorMessages.push('Ya existe un insumo con este nombre.');
+                }
+    
+                if (errorMessages.length > 0) {
+                    toastr.error(errorMessages.join('<br>'), 'Error', {
+                        closeButton: true,
+                        progressBar: true,
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right'
+                    });
+                } else {
+                    toastr.success('El insumo se ha modificado correctamente.', 'Éxito', {
+                        closeButton: true,
+                        progressBar: true,
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right'
+                    });
+    
+                    setTimeout(function() {
+                        document.getElementById("update-insumo-form").submit();
+                    }, 2000);
+                }
+            }
+        });
+    
+        return false;
+    }
+    function mostrarAlerta() {
+        document.getElementById("alert").style.display = 'block';
+    }
+    
+    function cerrarVentana() {
+        document.getElementById("alert").style.display = 'none';
+    }
+    
+</script>
+{% endblock %}

@@ -1,0 +1,241 @@
+/* Ajustes para el layout principal */
+main {
+    margin-top: 22vh;
+    margin-left: 5%; /* Ajustado para ser más responsivo */
+    margin-right: 5%; /* Ajustado para ser más responsivo */
+    margin-bottom: 80px; /* Espacio adicional en la parte inferior */
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #eaeef1; /* Fondo más neutro */
+    border: 2px solid #01AB7B; /* Borde verde suave */
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
+    font-size: 20px; /* Tamaño de letra */
+    font-family: 'Times New Roman', serif; /* Fuente personalizada */
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(20px); /* Desplazado hacia abajo */
+    animation: fadeInUp 0.5s forwards; /* Animación de entrada */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Regresa a su posición original */
+    }
+}
+
+#crear-proveedor-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login h1 {
+    text-align: center;
+    color: black; /* Color más oscuro para el título */
+    margin-bottom: 30px;
+    font-size: 32px; /* Tamaño de letra aumentado */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Estilos para cada input */
+.nit_input,
+.name_input,
+.direccion_input,
+.email_input,
+.form-group, .tipo_persona_input{
+    margin-bottom: 20px; /* Margen entre grupos */
+}
+.tipo_persona_input {
+    margin-bottom: 15px;
+}
+
+.tipo_persona_input label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tipo_persona_input select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    font-size: 14px;
+    hei
+}
+
+.tipo_persona_input select:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+}
+
+.nit_input label,
+.name_input label,
+.direccion_input label,
+.email_input label,
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: black; /* Color de texto más oscuro */
+    font-weight: bold;
+}
+
+.nit_input input,
+.name_input input,
+.direccion_input input,
+.email_input input,
+.form-group input {
+    width: 100%;
+    height: 50px; /* Altura de input ajustada */
+    padding: 10px;
+    border: none; /* Sin borde */
+    border-radius: 20px; /* Bordes redondeados */
+    background-color: #fff; /* Fondo blanco para los inputs */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: all 0.3s ease; /* Transición suave */
+    font-size: 16px; /* Tamaño de letra */
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
+    animation-delay: 0.3s; /* Retardo en la animación */
+}
+
+/* Efecto en el foco */
+.nit_input input:focus,
+.name_input input:focus,
+.direccion_input input:focus,
+.email_input input:focus,
+.form-group input:focus {
+    outline: none; /* Sin borde por defecto */
+    box-shadow: 0 0 10px #01AB7B; /* Sombra verde al hacer foco */
+}
+
+/* Cambiar el color del placeholder */
+.nit_input input::placeholder,
+.name_input input::placeholder,
+.direccion_input input::placeholder,
+.email_input input::placeholder,
+.form-group input::placeholder {
+    color: rgba(0, 0, 0, 0.2); /* Color gris claro */
+    opacity: 1; /* Asegúrate de que el placeholder sea completamente opaco */
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Regresa a su posición original */
+    }
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Ajuste de espacio superior */
+}
+
+.button-group button,
+.button-group a {
+    padding: 10px 20px; /* Botones con padding ajustado */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animación en botones */
+    font-size: 18px; /* Tamaño de letra para los botones */
+    border: none; /* Sin borde */
+    text-transform: uppercase;
+}
+
+.button-group button[type="submit"] {
+    background-color: #01AB7B; /* Color verde para el botón de guardar */
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.button-group button[type="submit"]:hover {
+    background-color: #00995c; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Animación de aumento al pasar el mouse */
+}
+
+.button-group a {
+    color: #fff;
+    background-color: #01AB7B; /* Color verde para el botón de "volver" */
+    text-decoration: none; /* Sin subrayado */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.button-group a:hover {
+    background-color: #00995c; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+    color: #fff;
+}
+
+/* Estilos para el popup */
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 9999;
+}
+
+/* Estilos de alertas (éxito y error) */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.checkmark {
+    margin: 10px auto;
+}
+
+.checkmark-svg {
+    width: 50px;
+    height: 50px;
+    stroke: #4CAF50;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawCircle 0.6s ease-out forwards;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCheck 0.3s 0.6s ease-out forwards;
+}
+
+@keyframes drawCircle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

@@ -1,0 +1,44 @@
+{% extends "navbar.html" %}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block contenido %}
+<div class="container">
+    <div id="container" class="container">
+        <!-- FORM SECTION -->
+        <div class="row">
+            <!-- SIGN IN -->
+            <div class="col align-items-center flex-col sign-in">
+                <div class="form-wrapper align-items-center">
+                    <form class="form sign-in" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" name="username" placeholder="Usuario" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" name="password" placeholder="Contraseña" required>
+                        </div>
+                        <button type="submit">
+                            Iniciar Sesión
+                        </button>
+                        <p>
+                            <b>
+                                <a href="{% url 'password_reset' %}">Olvidé mi contraseña</a>
+                            </b>
+                        </p>
+                        <p>
+                            <span>
+                                No tengo cuenta
+                            </span>
+                            <b onclick="toggle()" class="pointer">
+                                Registrar aquí
+                            </b>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <!-- END SIGN IN -->
+{% endblock %}

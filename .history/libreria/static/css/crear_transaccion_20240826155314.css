@@ -1,0 +1,10 @@
+main {
+    margin-top: 0%;
+    background-color: rgb(233, 173, 173);
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: purple;
+}

@@ -1,0 +1,229 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>{% block titulo %}Lácteos Hedybed{% endblock %}</title>
+  
+  <!-- CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  
+  <!-- CSS de íconos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- CSS personalizado base -->
+  <link href="{% static 'css/navbar.css' %}?v={% now "U" %}" rel="stylesheet" />
+</head>
+<body id="body">
+
+  <!-- Header -->
+  <header id="main-header">
+  
+    <div class="header-content">
+      <b>Lácteos Hedybed</b>
+      <div class="nombre">
+        <img src="{% static 'imagen/logo.png' %}" alt="Logo Hedybed" id="logo">
+      </div>
+    </div>
+      <!--breadcrumbs-->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        {% if breadcrumb.url %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+        {% else %}
+          <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  </nav>
+    <div class="header-icons">
+      {% if user.is_authenticated %}
+        <span class="name">Usuario: {{ user_name }}</span>
+      {% else %}
+        <span class="name">Usuario: Invitado</span>
+      {% endif %}
+    </div>
+  </header>
+  <!--Perfil-->
+  <div class="user">
+    {% if user.is_authenticated %}
+      <img src="{{ user_profile_picture }}" alt="Foto de perfil" title="{{ user_name }}" class="rounded-circle" width="50" height="50">
+      <div class="user-menu">
+        <a href="{% url 'logout_view' %}" class="logout"><i data-feather="log-out"></i>
+        </a>
+      </div>
+    {% else %}
+      <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+      <div class="user-menu">
+        <a href="{% url 'logout_view' %}" class="logout">Cerrar sesión</a>
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <ul class="navbar__menu">
+      <li class="navbar__item">
+        <a href="{% url 'inicio' %}" class="navbar__link"><i data-feather="home"></i><span>Inicio</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'contabilidad' %}" class="navbar__link"><i data-feather="dollar-sign"></i><span>Contabilidad</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'usuario' %}" class="navbar__link"><i data-feather="users"></i><span>Usuarios</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'insumos' %}" class="navbar__link"><i data-feather="coffee"></i><span>Insumos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'backup' %}" class="navbar__link"><i data-feather="cloud"></i><span>Copia de seguridad</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="Manual" class="navbar__link"><i data-feather="help-circle"></i><span>Manual de usuario</span></a>
+      </li>
+    </ul>
+  </nav>
+  
+  <!-- Contenido de la página -->
+  <main>
+    {% block contenido %}
+    <!-- Contenido específico de cada página aquí -->
+    {% endblock %}
+  </main>
+
+  <!-- Circulo blanco para accesibilidad -->
+  <div class="acc_icon" id="acc-icon" title="accesibilidad">
+    <i data-feather="settings"></i>
+  </div>
+  <!-- Menú para la accesibilidad -->
+  <div class="accesibilidad" id="accesibilidad" title="accesibilidad">
+    <ul>
+      <li><label for="toggle">
+          <i data-feather="moon"></i>
+        </label></li>
+      <li><button id="increase-font"><i data-feather="plus"></i></button></li>
+      <li><button id="decrease-font"><i data-feather="minus"></i></button></li>
+    </ul>
+  </div>
+  {% block footer %}
+  <footer>
+    <img src="{% static 'imagen/logoFooter.png' %}" alt="Logo Hedybed" class="logoFooter"><p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+  </footer>
+  {% endblock %}
+
+  <!-- Scripts de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9InLY0aPp6IRLz0zKZX0z5F02z4PAq0IIO4IYYgKp3kkbScw9i" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-x5dB2aFhFzQK2qLlD4eij0qQOkeGpNSn5VZ8Kj5z/36pLJfC37/4y7C3WQ1ks6Nf" crossorigin="anonymous" defer></script>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      feather.replace();
+    });
+  </script>
+
+  <!-- Scripts personalizados -->
+  <script>
+  //Modo oscuro
+    function darkMode() {
+      var toggle = document.getElementById('toggle');
+      toggle.checked = localStorage.getItem('darkMode') === 'true';
+      
+      toggle.addEventListener('change', function(event) {
+        if (event.target.checked) {
+          document.body.classList.add('dark');
+          localStorage.setItem('darkMode', true);
+        } else {
+          document.body.classList.remove('dark');
+          localStorage.setItem('darkMode', false);
+        }
+      });
+      
+      if (toggle.checked) {
+        document.body.classList.add('dark');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', darkMode);
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      const increaseFontBtn = document.getElementById("increase-font");
+      const decreaseFontBtn = document.getElementById("decrease-font");
+      const rootElement = document.documentElement;
+      const storedFontSize = localStorage.getItem("fontSize");
+      if (storedFontSize) {
+        rootElement.style.fontSize = storedFontSize;
+      }
+      function changeFontSize(amount) {
+        let currentSize = parseFloat(window.getComputedStyle(rootElement).fontSize);
+        let newSize = currentSize + amount;
+        rootElement.style.fontSize = newSize + "px";
+        localStorage.setItem("fontSize", rootElement.style.fontSize);
+      }
+      increaseFontBtn.addEventListener("click", function() {
+        changeFontSize(2);
+      });
+      decreaseFontBtn.addEventListener("click", function() {
+        changeFontSize(-2);
+      });
+    });
+    
+   document.addEventListener("DOMContentLoaded", function () {
+  const accIcon = document.getElementById("acc-icon");
+  const accesibilidadMenu = document.getElementById("accesibilidad");
+
+  function toggleMenu() {
+    if (accesibilidadMenu.style.display === "none" || accesibilidadMenu.style.display === "") {
+      accesibilidadMenu.style.display = "block"; // Muestra el menú
+    } else {
+      accesibilidadMenu.style.display = "none"; // Oculta el menú
+    }
+  }
+
+  accIcon.addEventListener("click", function (event) {
+    event.stopPropagation(); // Previene que el clic se propague al documento
+    toggleMenu();
+  });
+
+  // Event listener para cerrar el menú cuando se hace clic fuera de él
+  document.addEventListener('click', function(event) {
+    const isClickInsideMenu = accesibilidadMenu.contains(event.target);
+    const isClickOnIcon = accIcon.contains(event.target);
+    
+    if (!isClickInsideMenu && !isClickOnIcon && accesibilidadMenu.style.display === "block") {
+      accesibilidadMenu.style.display = "none";
+    }
+  });
+
+  // Prevenir que los clics dentro del menú cierren el menú
+  accesibilidadMenu.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
+});
+document.querySelector('.user img').addEventListener('click', function() {
+  const menu = document.querySelector('.user-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', function (event) {
+  const userMenu = document.getElementById('user-menu');
+  const userAvatar = document.getElementById('user-avatar');
+
+  // Verifica si el clic está fuera del menú de usuario
+  if (!userMenu.contains(event.target) && !userAvatar.contains(event.target)) {
+    userMenu.style.display = 'none'; // Oculta el menú de usuario
+  }
+});
+
+// Muestra el menú de usuario al hacer clic en el avatar
+document.getElementById('user-avatar').addEventListener('click', function () {
+  const userMenu = document.getElementById('user-menu');
+  userMenu.style.display = 'block'; // Muestra el menú de usuario
+});
+  </script>
+
+</body>
+</html>

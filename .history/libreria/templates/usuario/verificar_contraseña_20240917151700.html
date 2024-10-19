@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Contraseña</title>
+    
+</head>
+<body>
+    <h2>Verificación de Contraseña del Administrador</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="admin_password">Contraseña del Administrador:</label>
+        <input type="password" name="admin_password" id="admin_password" required>
+        <button type="submit">Enviar</button>
+    </form>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

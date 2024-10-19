@@ -1,0 +1,38 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.5" rel="stylesheet" />
+
+<div class="container">
+    <div class="bienvenida text-center" id="bienvenida">
+        {% if user.is_authenticated %}
+            <h2>¡Hola, {{ user.first_name }}!</h2>
+            <p>Bienvenido a tu panel de usuario.</p>
+        {% else %}
+            <h2>¡Hola!</h2>
+            <p>Por favor, <a href="{% url 'login' %}">inicia sesión</a> para acceder a las funcionalidades de tu cuenta.</p>
+        {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <!-- Sección de acciones disponibles -->
+    <section class="user-actions mt-4" id="user-actions">
+        <h2>Acciones Disponibles</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'ver_perfil' %}" class="btn btn-info">Ver Perfil</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'editar_perfil' %}" class="btn btn-warning">Editar Perfil</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'cambiar_contraseña' %}" class="btn btn-secondary">Cambiar Contraseña</a>
+            </li>
+        </ul>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

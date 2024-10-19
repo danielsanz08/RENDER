@@ -1,0 +1,578 @@
+/* Variables y fuentes */
+:root {
+    --border-radius: 10px;
+    --spacer: 1rem;
+    --link-height: calc(var(--spacer) * 3.5);
+    --timing: 250ms;
+    --transition: var(--timing) ease all;
+    --primary: #01AB7B; /* Color primario */
+    --text: #333; /* Color de texto */
+}
+
+/* Importar fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+/* Estilos del body */
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease;
+}
+
+.user {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .user img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .user img:hover {
+    transform: scale(1.1);
+  }
+  
+  .user-menu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 6vh;
+    background-color: rgb(77, 30, 30);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+  }
+  
+  .user:hover .user-menu {
+    display: block;
+  }
+  
+  .user-menu a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  
+/* Estilos para el header */
+#main-header {
+    background: var(--primary);
+    color: white;
+    position: fixed;
+    top: var(--spacer);
+    right: 80px; /* Ajuste del espacio para la foto de perfil */
+    left: calc(var(--spacer) * 7.5);
+    border-radius: var(--border-radius);
+    padding: var(--spacer);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar el header */
+    transform: none; /* Eliminar transformaciones para mostrar el header */
+}
+
+
+/* Contenido del header */
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.header-content h2 {
+    margin: 0;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.nombre img {
+    width: 50px;
+    margin-right: 1rem;
+}
+
+/* Iconos del header */
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons .name {
+    margin-right: 1rem;
+}
+
+.header-icons .logout {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    position: fixed;
+    top: var(--spacer);
+    left: var(--spacer);
+    background: var(--primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacer) 0;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+    height: calc(100vh - calc(var(--spacer) * 4));
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar la navbar */
+    transform: none; /* Eliminar transformaciones para mostrar la navbar */
+}
+
+/* Menú de la navbar */
+.navbar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar__item {
+    margin-bottom: var(--spacer);
+}
+
+.navbar__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--link-height);
+    width: calc(var(--spacer) * 5.5);
+    color: var(--text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.navbar__link span {
+    position: absolute;
+    left: 100%;
+    transform: translate(calc(var(--spacer) * -3));
+    margin-left: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    color: black;
+    background: #2ec083;
+    padding: calc(var(--spacer) * 0.75);
+    transition: var(--transition);
+    border-radius: calc(var(--border-radius) * 1.75);
+}
+
+.navbar__link:hover {
+    color: #fff;
+}
+
+.navbar__link:hover span,
+.navbar:not(:hover) .navbar__link:focus span {
+    opacity: 1;
+    transform: translate(0);
+}
+
+.navbar__item:last-child::before {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    top: 0;
+    left: var(--spacer);
+    width: var(--link-height);
+    height: var(--link-height);
+    background: var(--primary);
+    border-radius: calc(var(--border-radius) * 1.75);
+    transition: var(--timing) cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+/* Estilos del ícono de accesibilidad */
+.acc_icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5vh;
+}
+
+.acc_icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    background-color: #01AB7B;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px rgb(0, 0, 0);
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+}
+
+.acc_icon:hover {
+    background-color: #0f966f;
+}
+
+.accesibilidad {
+    position: fixed;
+    bottom: 20vh;
+    right: 20px;
+    background-color: #4bdb937c;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 270px;
+    height: 450px;
+    display: none;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+    animation: float 3s ease-in-out infinite;
+}
+
+.accesibilidad ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.accesibilidad ul li {
+    margin: 15px 0; /* Aumentar el espacio entre elementos del menú */
+}
+
+.accesibilidad ul li a {
+    text-decoration: none;
+    color: #838382;
+    transition: color 0.3s ease;
+}
+
+.accesibilidad ul li a:hover {
+    color: black;
+}
+.img{
+    margin-right: 74px;
+}
+/* Estilo del botón de accesibilidad */
+/* Contenedores de opciones en el menú */
+.menu-option {
+    font-size: inherit; /* Hereda el tamaño de letra fijo del menú */
+    background-color: #f9f9f900;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+/* Controles de zoom */
+#zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+/* Botones de zoom */
+.zoom-button, .zoom-reset {
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    color: #679B9B;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Botón de reinicio */
+.zoom-reset {
+    background: linear-gradient(145deg, #ffeb3b, #fdd835);
+    color: #333;
+}
+
+/* Efecto de hover para los botones */
+.zoom-button:hover, .zoom-reset:hover {
+    background: linear-gradient(145deg, #f1f1f1, #e0e0e0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo del porcentaje de zoom */
+#zoom-percentage {
+    font-size: 1.2em;
+    color: #679B9B;
+}
+/* Estilo del botón de cambio de tema */
+.theme-button {
+    display: flex;
+    align-items: center;
+    background: #444;
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+
+/* Alineación del ícono y texto */
+.theme-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.theme-text {
+    font-size: 1em;
+}
+
+/* Efecto de hover para el botón de cambio de tema */
+.theme-button:hover {
+    background: #666;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Botón de resaltar títulos */
+.highlight-titles-button {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(145deg, #9c8e0f, #caa500);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Efecto de hover para el botón de resaltar títulos */
+.highlight-titles-button:hover {
+    background: linear-gradient(145deg, #cca327, #c4a037);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+
+/* Opción de resaltar enlaces */
+.highlight-links-button {
+    display: flex;
+    align-items: center;
+    background: #005b96; /* Color de fondo para el botón */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+
+/* Efecto de hover para el botón de resaltar enlaces */
+.highlight-links-button:hover {
+    background: #0077b6;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para los enlaces resaltados */
+.highlighted-link {
+    background-color: yellow; /* Fondo resaltado */
+    color: #000; /* Color del texto */
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold;
+}
+
+
+
+
+
+/* Estilo para el botón de fuente legible */
+.readable-font-button {
+    display: flex;
+    align-items: center;
+    background: #679B9B; /* Color de fondo similar al tema */
+    color: #ffffff; /* Color de texto */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.readable-font-button .theme-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.readable-font-button:hover {
+    background: #4a6d6d; /* Color de hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para la fuente legible */
+body.readable-font {
+    font-family: 'Arial', sans-serif; /* Usa una fuente legible como Arial */
+    line-height: 1.6; /* Aumenta el espaciado entre líneas para mejorar la legibilidad */
+    font-size: 20px; /* Aumenta ligeramente el tamaño de la fuente */
+}
+
+
+/* Estilos para el menú de perfil */
+
+.prof {
+    position: fixed;
+    top: 50%;
+    right: -200px;
+    transform: translateY(-50%);
+    background-color: var(--primary);
+    padding: 1rem;
+    border-radius: 10px 0 0 10px;
+    transition: right 0.3s ease-in-out;
+    width: 200px;
+    z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+}
+
+.prof:hover {
+    right: 0;
+}
+
+.prof::before {
+    content: '👤';
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    background-color: #222;
+    padding: 0.5rem;
+    border-radius: 50% 0 0 50%;
+    cursor: pointer;
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: block;
+    object-fit: cover;
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.prof a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.prof a:hover {
+    transform: translateX(5px);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Otros ajustes */
+a {
+    text-decoration: none;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-top: 5%;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 100;
+    color: #0ff02d;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #0ff02d;
+  }
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+  }
+  .header-icons .logout {
+    margin-left: auto;
+  }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgba(10, 112, 6, 0.274); /* Fondo semi-transparente */
+    color: white;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil en la parte superior */
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+.logoFooter{
+    
+    height: 23px;
+}
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+     
+
+  }
+  

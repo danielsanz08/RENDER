@@ -1,0 +1,51 @@
+body {
+  background-color: rgb(255, 246, 246);
+}
+body:hover{
+  background-color:  rgb(236, 233, 233);
+}
+
+
+
+
+.image-container .r {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.image-container .col {
+  flex: 0 0 auto;
+}
+
+.image-container img {
+  width: 300px;
+  height: 450px;
+  border-radius: 8px;
+}
+
+/* Animación del carrusel */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Efecto de oscurecimiento y cambio de cursor al pasar el cursor sobre la imagen */
+.image-container img:hover {
+  opacity: 0.7; /* Oscurece la imagen */
+  cursor: crosshair; /* Cambia el cursor a un puntero de mano */
+}
+/* Estilos para pantallas de mesa */
+@media (min-width: 1367px) {
+
+  main {
+    margin-top: 4%;
+    margin-left: 3%;
+  }
+
+}

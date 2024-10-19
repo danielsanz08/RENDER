@@ -1,0 +1,77 @@
+main {
+    height: 90.7vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: rgb(200, 208, 223);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    margin-top: 10%;
+}
+
+body.dark .card {
+    background: linear-gradient(to right, #1d261d, #167a1d);
+}
+
+.card-header {
+    color: aliceblue;
+    background-color: #4984ac;
+}
+
+.name_user, .email_user, .phone_user, .rol_user {
+    background-color: #4984ac;
+    height: 50px;
+    margin: 20px;
+}
+
+input.form-control {
+    justify-content: center;
+    align-items: center;
+}
+.botones{
+    background-color: rgba(0, 255, 255, 0);
+    border: none;
+    display: flex; /* Usar flexbox para alinear los botones horizontalmente */
+    gap: px; /* Ajusta el espacio entre los botones */
+}
+
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 30%;
+    margin-left: 35%;
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}

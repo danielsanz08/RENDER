@@ -1,0 +1,36 @@
+{% extends "navbar.html" %}
+{% block titulo %}Productos{% endblock %}
+{% block contenido %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link href="{% static 'css/productos.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="producto-container">
+    <h2 class="clientes-title" title="Gestión de productos">GESTIÓN DE PRODUCTOS</h2>
+    <div class="clientes-wrapper">
+        <div class="cliente-card">
+            <div class="card-content">
+                <div class="card-icon" title="Icono para agregar productos">
+                    <i class="bi bi-plus-circle-fill"></i> <!-- Icono de agregar producto -->
+                </div>
+                <h3 title="Agregar producto">AGREGAR PRODUCTO</h3>
+                <p title="Descripción de la acción de agregar productos">Agrega nuevos productos para tu inventario.</p>
+                <a href="{% url 'crear_producto' %}" class="btn btn-agregar" title="Agregar producto">AGREGAR PRODUCTO</a>
+            </div>
+        </div>
+
+        <div class="cliente-card">
+            <div class="card-content">
+                <div class="card-icon" title="Icono para listar productos">
+                    <i class="bi bi-list-ul"></i> <!-- Icono de listar productos -->
+                </div>
+                <h3 title="Listar productos">LISTAR PRODUCTOS</h3>
+                <p title="Descripción de la acción de listar productos">Accede a los productos registrados en el sistema.</p>
+                <a href="{% url 'lista_productos' %}" class="btn btn-consultar" title="Consultar productos">CONSULTAR PRODUCTOS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

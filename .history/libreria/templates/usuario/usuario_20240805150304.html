@@ -1,0 +1,28 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.4" rel="stylesheet" />
+
+<div class="conta">
+    <div class="bienvenida">
+        <h2>COMO ESTAS{{ nombre_usuario }}</h2>
+    </div><br>
+    
+    <!-- Formulario de búsqueda de usuarios -->
+    <div class="container">
+        <input type="date" id="search-input" style="display: none;">
+    <button type="button" id="search-button">Buscar</button>
+        <section class="user-actions">
+            <h2>Acciones Disponibles</h2>
+            <ul>
+                <li><a href="{% url 'ver_perfil' %}" class="btn">Ver Perfil</a></li>
+                <li><a href="#" class="btn">Listar usuarios</a></li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+{% endblock %}

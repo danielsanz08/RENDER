@@ -1,0 +1,20 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.4" rel="stylesheet" />
+
+<div class="container">
+    <div class="bienvenida">
+        <h2>COMO ESTAS{{ nombre_usuario }}</h2>
+    </div><br>
+    
+    <!-- Formulario de búsqueda de usuarios -->
+    <div class="row justify-content-center">
+       row justify-content-center
+    </div>
+</div>
+
+{% endblock %}

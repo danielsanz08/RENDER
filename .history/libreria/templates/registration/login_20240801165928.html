@@ -1,0 +1,40 @@
+{% extends "navbar.html" %}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block contenido %}
+
+
+<div id="container" class="container">
+    <div class="row">
+        <div class="col align-items-center flex-col sign-in">
+            <div class="form-wrapper align-items-center">
+                <form method="post" class="form sign-in">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Sign in
+                    </button>
+                    <p class="forgot-password">
+                        <b>
+                            <a href="#">Forgot password?</a>
+                        </b>
+                    </p>
+                    <div class="img sign-in">
+                        <!-- Aquí puedes agregar una imagen si lo deseas -->
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

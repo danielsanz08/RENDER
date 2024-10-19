@@ -1,0 +1,34 @@
+{% extends "navbar.html" %}
+
+{% block titulo%}{% endblock %}
+
+{% block contenido%}
+{%load static %}
+<link href="{% static 'css/usuario.css' %}" rel="stylesheet" />
+<br><div class=bienvenida>
+    <h2>Bienvenido {{ nombre_usuario }}</h2>
+</div><br>
+
+<div class="container">
+    <section class="user-info">
+        <h2>Información del Usuario</h2>
+        <div class="info-item">
+            <strong>Nombre:</strong> <span>{{ nombre_usuario }}</span>
+        </div>
+        <div class="info-item">
+            <strong>Email:</strong> <span>{{ email_usuario }}</span>
+        </div>
+        <div class="info-item">
+            <strong>Rol:</strong> <span>{{ rol_usuario }}</span>
+        </div>
+    </section>
+
+    <section class="user-actions">
+        <h2>Acciones Disponibles</h2>
+        <ul>
+            <li><a href="{% url 'ver_perfil' %}" class="btn">Ver Perfil</a></li>
+            <li><a href="#" class="btn">Cerrar Sesión</a></li>
+        </ul>
+    </section>
+</div>
+{% endblock %}

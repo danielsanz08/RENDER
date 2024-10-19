@@ -1,0 +1,32 @@
+body {
+  background-color: rgb(255, 246, 246);
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.carrusel {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.imagenes {
+  display: flex;
+  transition: opacity 1s ease-in-out;
+}
+
+.imagenes img {
+  width: 100%;
+  flex: 0 0 100%;
+  height: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

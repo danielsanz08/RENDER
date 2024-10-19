@@ -1,0 +1,200 @@
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+main {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 80vh;
+    
+}
+
+.container {
+    max-width: 500px;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-out;
+    
+}
+
+.card {
+    background-color: #0e53e7;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    margin-top: 20vh;
+    margin-bottom: 6%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    color: aliceblue;
+    background-color: #7700ff;
+    transition: background-color 0.3s ease;
+    margin-bottom: 1vh;
+}
+
+.name_user, .email_user, .phone_user, .rol_user {
+    background-color: #49ac72;
+    height: 50px;
+    margin: 20px;
+    border-radius: 10px;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.name_user:hover, .email_user:hover, .phone_user:hover, .rol_user:hover {
+    background-color: #367d5a;
+    transform: scale(1.02);
+}
+
+input.form-control {
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.3s ease;
+}
+
+input.form-control:focus {
+    border-color: #00e25e;
+    outline: none;
+}
+
+.list-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    animation: fadeIn 1s ease-out;
+}
+
+.card-footer .btn-success {
+    margin: 0;
+}
+
+.btn-success{
+    padding: 1em 1em;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+    width: 30%;
+    margin-left: 35%;
+    text-align: center;
+}
+
+.btn-success:hover {
+    background-color: #1eff62;
+    box-shadow: 0px 15px 20px rgba(46, 229, 86, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.picture {
+    border-radius: 80px;
+    display: block;
+    margin: 0;
+    height: 150px;
+    margin-left: 20vh;
+    transition: transform 0.3s ease;
+}
+
+.picture:hover {
+    transform: scale(1.05);
+}
+
+.cambiar {
+    display: flex;
+    gap: 5vh;
+    background-color: #852a8d;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modo oscuro */
+body.dark main {
+    background-color: #000;
+}
+
+body.dark .card {
+    background-color: #93a9b9;
+}
+
+body.dark .card-header {
+    background-color: #366686;
+}
+
+body.dark .name_user,
+body.dark .email_user,
+body.dark .phone_user,
+body.dark .rol_user {
+    background-color: #366686;
+}
+
+body.dark .btn-success {
+    background-color: rgb(190, 189, 189);
+}
+
+@media (min-width: 1367px) {
+    .card {
+        width: 70vh;
+        margin-top: 20vh;
+    }
+
+    .name_user, .email_user, .phone_user, .rol_user {
+        margin-left: 7vh;
+        margin-right: 9vh;
+    }
+
+    .btn-success {
+        height: 5vh;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-body {
+        padding: 7vh 7vh;
+        background-color: aquamarine;
+    }
+}

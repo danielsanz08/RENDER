@@ -1,0 +1,31 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.4" rel="stylesheet" />
+
+<div class="bienvenida">
+    <h2>COMO ESTAS{{ nombre_usuario }}</h2>
+</div><br>
+
+<!-- Formulario de búsqueda de usuarios -->
+<div class="container">
+    <form method="GET" action="{% url 'search' %}">  <!-- Asegúrate de que la URL corresponda a tu vista de búsqueda -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar usuario..." name="query" aria-label="Buscar usuario" required>
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+</div>
+
+<section class="user-actions">
+        <h2>Acciones Disponibles</h2>
+        <ul>
+            <li><a href="{% url 'ver_perfil' %}" class="btn">Ver Perfil</a></li>
+            <li><a href="#" class="btn">Cerrar Sesión</a></li>
+        </ul>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Verificación de Administrador</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="admin_password">Contraseña de Administrador:</label>
+    <input type="password" id="admin_password" name="admin_password" required>
+    <button type="submit">Verificar</button>
+</form>
+{% endblock %}

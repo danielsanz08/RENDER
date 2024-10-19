@@ -1,0 +1,147 @@
+body {
+    height: 50vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #000000;
+}
+
+/* Reglas de estilo generales */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section {
+    margin-top: 8%;
+    margin-left: 30%;
+    width: 800px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.459);
+    position: relative;
+    overflow: hidden;
+    background-color: #c9e4f7;
+    border-radius: 20px;
+}
+
+
+.section h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 0;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+h4{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #4984ac;
+    color: #ffffff;
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+form label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: black;
+}
+
+form input[type="text"],
+form input[type="number"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #4d4d4d;
+}
+
+form button {
+    background: linear-gradient(to bottom, #07d322, #6fa2b8);
+    border: none;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    width: 170px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: skew(-21deg);
+}
+form button:hover {
+    color: #fff;
+}
+
+/* Estilos de botones */
+.btn-primary {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-primary:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+/* Estilos específicos para elementos */
+.seleccionar_insumo {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid rgb(51, 119, 221);
+    border-radius: 4px;
+    background-color: #eeebeb;
+    color: black;
+}
+
+.seleccionar_insumo:hover {
+    border-color: rgb(104, 163, 240);
+}
+
+.seleccionar_insumo:focus {
+    border-color: rgb(151, 192, 113);
+    box-shadow: 0 0 0 0.2rem rgb(54, 119, 218);
+}

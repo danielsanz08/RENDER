@@ -1,0 +1,26 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+{% block titulo %}{% endblock %}
+
+{% block contenido %}
+<link href="{% static 'css/index.css' %}?v.1.5" rel="stylesheet" />
+
+<main>
+  <section class="image-container">
+    <div class="r">
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_01.jpg' %}" alt="Image 1">
+      </div>
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_02.jpg' %}" alt="Image 2">
+      </div>
+      <div class="col">
+        <img src="{% static 'index_imagenes/gal_03.jpg' %}" alt="Image 3">
+      </div>
+    </div>
+    
+    </div>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+<link href="{% static 'css/crear_transaccion.css' %}?v1.2" rel="stylesheet" />
+<main>
+    <section>
+        <div class="container">
+            <form id="transaction-form" method="post">
+                {% csrf_token %}
+                <h3>Registrar Nueva Transacción</h3><br>
+                <div class="form-group">
+                    <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                    <select name="tipo" required id="op_create">
+                        <option value="" selected disabled>Selecciona una opción</option>
+                        <option value="Compra">Compra</option>
+                        <option value="Venta">Venta</option>
+                        <option value="Gasto">Gasto</option>
+                        <option value="Ingreso">Ingreso</option>
+                    </select>
+                </div>
+                <div class="form-group" id="desc">
+                    <label for="descripcion"><h3>Descripción</h3></label>
+                    <input type="text" name="descripcion" placeholder="Ingresa una descripción" required>
+                </div>
+                <div class="form-group" id=monto>
+                    <label for="monto"><h3>Monto ($ COP)</h3></label>
+                    <input type="number" name="monto" step="0.01" placeholder="Ingresa el monto" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha"><h3>Fecha</h3></label>
+                    <input type="date" name="fecha" required>
+                </div>
+                <button type="submit" class="btn">Registrar Transacción</button>
+                <a class="btn btn-primary" href="{% url 'ver_transacciones' %}" role="button">Ver transacciones</a>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}

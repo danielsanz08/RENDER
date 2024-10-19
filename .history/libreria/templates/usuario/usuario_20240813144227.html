@@ -1,0 +1,66 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.7" rel="stylesheet" />
+
+<main>
+    <div class="contenedor">
+        <div class="container">
+            <div class="bienvenida text-center" id="bienvenida">
+                {% if user.is_authenticated %}
+                    <h2>¡Hola, {{ user.first_name }}!</h2>
+                    <div class="profile-picture">
+                        <img src="https://via.placeholder.com/150" alt="Foto de perfil">
+                    </div>
+                    <p>Bienvenido a tu panel de usuario.</p>
+                {% else %}
+                    <h2>¡Hola!</h2>
+                    <p>Por favor, <a href="{% url 'login' %}">inicia sesión</a> para acceder a las funcionalidades de tu cuenta.</p>
+                {% endif %}
+            </div>
+        
+            {% if user.is_authenticated %}
+            <!-- Sección de acciones disponibles -->
+            <section class="user-actions mt-4" id="user-actions">
+                <h2>Acciones Disponibles</h2>
+                <ul class="list-group">
+                    <a class="btn-success" href="{% url 'ver_perfil' %}">Ver perfil</a><br>
+                    <a class="btn-success" href="{% url 'editar_perfil' %}">Editar Perfil</a><br>
+                    <a class="btn-success" href="#" onclick="mostrarAlerta()">Cambiar Contraseña</a><br>
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+    <div id="alert" class="cambiar" style="display: none;">
+        <i class="fas fa-exclamation-triangle" id="alerta-icono"></i>
+        <p><h4>¿Estás seguro de que quieres registrar esta transacción?</h4></p>
+        <button onclick="confirmarEnvio()"><h3>Aceptar</h3></button>
+        <button onclick="cerrarVentana()"><h3>Cancelar</h3></button>
+    </div>
+    <footer>
+    <div class="c">
+        <p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+</main>
+<script>
+    function mostrarAlerta() {
+        document.getElementById("alert").style.display = 'block';
+    }
+    
+    function confirmarEnvio() {
+        document.getElementById("alert").style.display = 'none';
+        // Submit the form if the user confirms
+        document.getElementById('cambiar_contraseña').submit();
+    }
+    
+    function cerrarVentana() {
+        document.getElementById("alert").style.display = 'none';
+    }
+</script>
+{% endblock %}

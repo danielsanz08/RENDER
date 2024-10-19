@@ -1,0 +1,195 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section {
+    margin: 20px;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.section h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 0;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+input[type="text"] {
+    width: 100%;
+    max-width: 700px;
+    height: 45px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+input[type="text"]:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+input[type="text"]:active {
+    transform: scale(0.95);
+}
+
+input[type="text"]:focus {
+    border: 2px solid rgb(116, 116, 116);
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive { 
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    padding: 20px;
+    font-size: 16px;
+    width: auto;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    --background: #2b3044;
+    --background-hover: #1E2235;
+    --text: #fff;
+    --shadow: rgba(0, 9, 61, 0.2);
+    --paper: #5C86FF;
+    --paper-lines: #fff;
+    --trash: #E1E6F9;
+    --trash-lines: #BBC1E1;
+    --check: #fff;
+    --check-background: #5C86FF;
+    position: relative;
+    border: none;
+    background: var(--background); /* Añadido para que el botón tenga un fondo por defecto */
+    padding: 10px 24px;
+    border-radius: 7px;
+    min-width: 142px;
+    cursor: pointer;
+    display: flex;
+    color: var(--text);
+    transform: scale(var(--scale, 1)); /* Añadido valor por defecto para la variable --scale */
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s; /* Corregido el tiempo de transición para el background */
+}
+.button trash.before{
+    left: 1px;
+}
+.button .trash:After{
+    right: 1px;
+    --x: -3px;
+}
+.button trash .top {
+    position: absolute;
+    overflow: hidden;
+    left: -4px;
+    right: -4px;
+    bottom: 100%;
+    height: 40px;
+    z-index: 1;
+    transform: translate(2px);
+}
+.button .trash 
+.top .paper ::after {
+    --t
+}
+.btn-danger:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-danger:active {
+    transform: translateY(-1px);
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .table, .table * {
+        visibility: visible;
+    }
+    .table {
+        position: static; 
+        width: 100%; 
+        margin: 0; 
+        padding: 0;
+    }
+}

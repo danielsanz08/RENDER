@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.gallery {
+  --size: 150px;  /* Increased from 100px */
+  display: grid;
+  grid-template-columns: repeat(6, var(--size));
+  grid-auto-rows: var(--size);
+  margin-bottom: var(--size);
+  place-items: start center;
+  gap: 10px;  /* Increased from 5px */
+
+  &:has(:hover) img:not(:hover),
+  &:has(:focus) img:not(:focus) {
+      filter: brightness(0.5) contrast(0.5);
+  }
+
+  & img {
+      object-fit: cover;
+      width: calc(var(--size) * 2);
+      height: calc(var(--size) * 2);
+      clip-path: path("M135,15 C150,0 150,0 165,15 285,135 285,135 285,135 300,150 300,150 285,165 285,165 165,285 165,285 150,300 150,300 135,285 135,285 15,165 15,165 0,150 0,150 15,135Z");
+      transition: clip-path 0.3s, filter 0.9s;  /* Slightly increased transition times */
+      grid-column: auto / span 2;
+      border-radius: 8px;  /* Increased from 5px */
+
+      &:nth-child(5n-1) {
+          grid-column: 2 / span 2;
+      }
+
+      &:hover,
+      &:focus {
+          clip-path: path("M0,0 C0,0 300,0 300,0 300,0 300,150 300,150 300,150 300,300 300,300 300,300 150,300 150,300 150,300 150,300 0,300 0,300 0,150 0,150 0,150 0,150 0,150Z");
+          z-index: 1;
+          transition: clip-path 0.3s, filter 0.3s;
+      }
+
+      &:focus {
+          outline: 2px dashed black;  /* Increased from 1px */
+          outline-offset: -8px;  /* Adjusted from -5px */
+      }
+  }
+}
+/* Contenedor de la imagen de fondo */
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Cambiado de 'cover' a 'contain' */
+  opacity: 0.5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin-top: 34vh;
+}
+.{
+  
+}

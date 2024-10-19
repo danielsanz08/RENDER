@@ -1,0 +1,30 @@
+body.dark main
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
+  margin: 0 px;
+}
+
+.image-container .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-container .col {
+  flex-basis: 25%; /* 25% para cada columna (100% / 4) */
+  margin: 5px;
+}
+
+.image-container img {
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: 0.5s ease;
+}
+
+.image-container img:hover {
+  cursor: crosshair;
+  opacity: 1;
+  filter: contrast(120%);
+}

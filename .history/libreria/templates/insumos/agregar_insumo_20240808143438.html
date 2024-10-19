@@ -1,0 +1,29 @@
+{% extends "navbar.html" %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/.css' %}?v1.1" rel="stylesheet"/>
+
+<section id="agregar" class="section">
+    <br><h2>Agregar Insumo</h2>
+    <div class="container">
+        <form id="add-insumo-form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" id="cantidad" name="cantidad" required>
+            </div><br>
+
+            <input class="btn btn-success" type="submit" value="Agregar insumo"/>
+            <a class="btn btn-warning" href="{% url 'insumos' %}" role="button">Volver</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

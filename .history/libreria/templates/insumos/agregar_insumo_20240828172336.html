@@ -1,0 +1,43 @@
+{% extends "navbar.html" %}
+{% block contenido %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<link href="{% static 'css/agregar_insumo.css' %}?v1.6" rel="stylesheet"/>
+
+<div class="alert-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+    <div class="login wrap">
+        <h2>Agregar Insumo</h2><br>
+        <form id="add-insumo-form" method="POST" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="form-group">
+                
+                <input placeholder="Nombre" type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                
+                <input placeholder="Descripcion" type="text" id="descripcion" name="descripcion" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input placeholder="Cantidad" type="number" id="cantidad" name="cantidad" required>
+            </div><br>
+
+            <input class="btn btn-success" type="submit" value="Agregar insumo"/>
+            <a class="btn btn-warning" href="{% url 'insumos' %}" role="button">Volver</a>
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/agregar_insumo.js' %}?v1.1"></script>
+{% endblock %}

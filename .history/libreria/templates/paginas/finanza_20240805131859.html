@@ -1,0 +1,79 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Index{% endblock %}
+
+{% load static %}
+{% block contenido %}
+
+<link href="{% static 'css/contabilidad.css' %}?v1.5" rel="stylesheet" />
+<main>
+    <nav class="header-nav">
+        <ul>
+            <li><a href="#balance">Balance General</a></li>
+            <li><a href="#transacciones">Registro de transaciones</a></li>
+            <li><a href="#registros-recientes">Registros Recientes</a></li>
+            
+        </ul>
+    </nav>
+    
+    <section id="balance">
+        <br><h2>Balance General</h2>
+        <div class="balance-info">
+            <div class="balance-item">
+                <h3>Total de Activos</h3>
+                <p class="amount">$1,200,000 COP</p>
+            </div>
+            <div class="balance-item">
+                <h3>Total de Pasivos</h3>
+                <p class="amount">$800,000 COP</p>
+            </div>
+            <div class="balance-item">
+                <h3>Patrimonio Neto</h3>
+                <p class="amount">$400,000 COP</p>
+            </div>
+        </div>
+    </section>
+    <section id="transacciones" class="section">
+        <div class="nombre">
+            <img src="{% static 'imagen/logo_hedybed-sf.png' %}" width="200" alt="Logo Hedybed">
+          </div>
+        <h2>Registro de Transacciones</h2>
+        <a
+            name=""
+            id=""
+            class="btn_Ver"
+            href="{% url 'ver_transacciones' %}"
+            role="button"
+            >Ver transacciones</a>
+            <a
+                name=""
+                id=""
+                class="btn_crear"
+                href="{% url 'crear_transacciones' %}"
+                role="button"
+                >Crear transacciones</a
+            >
+            
+        
+        
+    </section>
+    <section id="registros-recientes" class="section">
+        <h2>Registros Recientes</h2>
+        <div class="recent-records">
+            <div class="record-item">
+                <p><i class="fas fa-dollar-sign"></i> Se registró una venta por $10,000 COP.</p>
+                <p>Fecha: 15 de junio de 2024</p>
+            </div>
+            <div class="record-item">
+                <p><i class="fas fa-money-bill-alt"></i> Se registró un gasto por $500 COP en suministros.</p>
+                <p>Fecha: 14 de junio de 2024</p>
+            </div>
+            <div class="record-item">
+                <p><i class="fas fa-cart-plus"></i> Se registró una compra de insumos por $2,000 COP.</p>
+                <p>Fecha: 13 de junio de 2024</p>
+            </div>
+        </div>
+    
+        
+</main>
+{% endblock %}

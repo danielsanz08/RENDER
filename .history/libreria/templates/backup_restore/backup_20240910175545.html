@@ -1,0 +1,75 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/backup.css'%}?v1.2">
+{% endblock %}
+
+{% block titulo %}Copias de Seguridad{% endblock %}
+
+{% block contenido %}
+<br><br><br><br>zbr<div class="container">
+    <h1>Copias de Seguridad</h1>
+
+    {% if messages %}
+    <div id="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" id="createBackupForm">
+        {% csrf_token %}
+        <button type="submit" name="create_backup" class="btn btn-primary" onclick="return confirm('¿Está seguro de que desea crear una nueva copia de seguridad?')">
+            Crear Backup
+        </button>
+    </form>
+
+    <h2>Copias de Seguridad Disponibles</h2>
+    {% if backups %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for backup in backups %}
+                <tr>
+                    <td>{{ backup.name }}</td>
+                    <td>{{ backup.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <form method="post" action="{% url 'backup' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="backup_id" value="{{ backup.id }}">
+                            <button type="submit" name="restore_backup" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea restaurar esta copia de seguridad? Esta acción sobrescribirá los datos actuales.')">
+                                Restaurar
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'backup' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="backup_id" value="{{ backup.id }}">
+                            <button type="submit" name="delete_backup" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar esta copia de seguridad? Esta acción no se puede deshacer.')">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        No hay copias de seguridad disponibles.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

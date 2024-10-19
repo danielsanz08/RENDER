@@ -1,0 +1,55 @@
+{% extends "navbar.html" %}
+{% block contenido %}
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<link href="{% static 'css/consultar_insumo.css' %}?v1.2" rel="stylesheet"/>
+
+<section id="consultar" class="section">
+    <div class="container">
+        <h2>Consultar Insumos</h2>
+        <form id="consultar-insumos" method="GET" action="{% url 'consultar_insumo' %}">
+            <input type="text" name="q" id="buscar-insumo" placeholder="Buscar insumo..." value="{{ request.GET.q }}">
+            <input type="submit" class="btn btn-success" value="Buscar">
+            <br><br>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for insumo in insumos %}
+                    <tr>
+                        <td>{{ insumo.id }}</td>
+                        <td>{{ insumo.nombre }}</td>
+                        <td>{{ insumo.descripcion }}</td>
+                        <td>{{ insumo.cantidad }}</td>
+                        <td>
+                            <a href="{% url 'editar_insumo' pk=insumo.pk %}" class>Editar</a>
+
+                            <a href="{% url 'eliminar_insumo' insumo.id %}" class="btn btn-danger"role="button">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-success" role="button" onclick="printTable()">Imprimir Tabla</a>
+            <a class="btn btn-success" role="button" onclick="exportToExcel()">Descargar Excel</a>
+            <a class="btn btn-success" role="button" onclick="exportToPDF()">Descargar PDF</a>
+            <a class="btn btn-warning" href="{% url 'insumos' %}" role="button">Volver</a>
+        </form>
+    </div>
+</section>
+
+<script src="{% static 'js/consultar_insumo.js' %}?v1.1"></script>
+{% endblock %}

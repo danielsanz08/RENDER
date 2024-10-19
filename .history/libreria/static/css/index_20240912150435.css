@@ -1,0 +1,6 @@
+body {
+    background-image: url("{% static 'images/tu_imagen.jpg' %}");
+    background-size: cover; /* Esto ajusta la imagen para que cubra toda la pantalla */
+    background-repeat: no-repeat; /* Esto evita que la imagen se repita */
+    background-position: center; /* Esto centra la imagen en la pantalla */
+}

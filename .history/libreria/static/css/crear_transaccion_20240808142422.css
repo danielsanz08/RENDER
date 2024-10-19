@@ -1,0 +1,128 @@
+/* Estilo general del cuerpo de la página */
+main {
+    font-family: Arial, sans-serif;
+    padding: 0px;
+    max-height: max-content;
+    
+}
+/* Estilo para el contenedor del formulario */
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 91.6vh; /* Ocupa toda la altura de la ventana */
+    background-color: #ffffff;
+    padding: 20px; /* Ajusta el padding si es necesario, pero no negativo */
+    box-sizing: border-box; /* Incluye padding en el tamaño total */
+    padding-bottom: 7%;
+    
+}
+#transaction-form {
+    background-color: #4984ac;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px; /* Ajusta el ancho máximo del formulario */
+    width: 100%;
+    margin: 10px auto 0; /* Añade un margen superior para empujar el formulario hacia arriba */
+    
+}
+
+h3 {
+    color: #000000; /* Color del texto */
+    font-size: 1.5rem; /* Tamaño de la fuente */
+    margin-bottom: 15px; /* Espacio debajo del elemento */
+    font-family: 'Times New Roman', Times, serif; /* Familia de la fuente */
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+
+.list-group {
+    display: flex; /* Usa Flexbox para alinear los elementos de la lista */
+    justify-content: center; /* Centra los botones horizontalmente */
+    padding: 0; /* Elimina el padding predeterminado de la lista */
+    margin: 0; /* Elimina el margen predeterminado de la lista */
+    list-style-type: none; /* Elimina los puntos de la lista */
+}
+
+.list-group-item {
+    margin: 0; /* Elimina el margen entre los elementos de la lista */
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: auto; /* Ajusta el ancho según el contenido */
+    margin: 0 10px; /* Espacio entre los botones, ajusta según sea necesario */
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+    padding: 20px;
+    box-sizing: border-box;
+}
+#op_create{
+    background-color: rgb(255, 255, 255);
+    height: 50px;
+    width: 461px;
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+
+#op_create option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#op_create option:checked {
+    background-color: #167a1d; /* Color de fondo para la opción seleccionada */
+    color: white; /* Color del texto para la opción seleccionada */
+}

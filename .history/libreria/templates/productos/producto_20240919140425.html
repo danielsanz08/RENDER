@@ -1,0 +1,68 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Crear Producto{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/crear_producto.css' %}?v1.0" rel="stylesheet" />
+<style>
+    main{
+        mar
+    }
+</style>
+<main>
+    <section>
+        <div class="container">
+            <div class="card_uno">
+                <div class="card_dos">
+                    <div class="card-header">Crear Producto</div>
+                    <form method="post" enctype="multipart/form-data" class="form create-product">
+                        {% csrf_token %}
+                        
+                        <!-- Nombre del producto -->
+                        <div class="input-group">
+                            <i class='bx bx-package'></i>
+                            <input type="text" name="nombre" placeholder="Nombre del producto" required>
+                        </div>
+                        
+                        <!-- Presentación -->
+                        <div class="input-group">
+                            <i class='bx bx-cube'></i>
+                            <input type="text" name="presentacion" placeholder="Presentación" required>
+                        </div>
+    
+                        <!-- Unidad de medida -->
+                        <div class="input-group">
+                            <i class='bx bx-ruler'></i>
+                            <select name="unidad_medida" required>
+                                <option value="">Selecciona unidad de medida</option>
+                                <option value="kg">Kilogramo (kg)</option>
+                                <option value="g">Gramo (g)</option>
+                                <option value="l">Litro (l)</option>
+                                <option value="ml">Mililitro (ml)</option>
+                                <option value="unidad">Unidad</option>
+                            </select>
+                        </div>
+    
+                        <!-- Cantidad -->
+                        <div class="input-group">
+                            <i class='bx bx-list-ol'></i>
+                            <input type="number" name="cantidad" placeholder="Cantidad" required min="0" step="0.01">
+                        </div>
+                        
+                        <!-- Precio -->
+                        <div class="input-group">
+                            <i class='bx bx-money'></i>
+                            <input type="number" name="precio" placeholder="Precio ($ COP)" required min="0" step="0.01">
+                        </div>
+    
+                        <!-- Botón de creación -->
+                        <div class="botones">
+                            <button type="submit" id="btn-success">Crear Producto</button>
+                            <a class="btn-warning" href="{% url 'productos' %}" role="button">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

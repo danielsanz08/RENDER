@@ -1,0 +1,29 @@
+/* Contenedor de la imagen de fondo */
+.background-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centra el contenedor de la imagen */
+  width: 90%; /* Ajusta el ancho para que sea un poco más grande */
+  max-width: 900px; /* Limita el tamaño máximo de la imagen a un valor mayor */
+  height: auto; /* Deja que la altura se ajuste automáticamente */
+  z-index: -1; /* Asegura que la imagen esté detrás de todos los demás elementos */
+  overflow: hidden; /* Oculta cualquier parte de la imagen que se salga del contenedor */
+}
+
+.background-image img {
+  width: 100%;
+  height: auto; /* Mantiene la relación de aspecto de la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra todo el contenedor */
+  opacity: 0.5; /* Ajusta la opacidad de la imagen de fondo */
+}
+
+/* Estilos del contenido principal */
+.content {
+  position: relative; /* Asegura que el contenido se superponga sobre la imagen de fondo */
+  z-index: 1; /* Coloca el contenido sobre la imagen de fondo */
+  padding: 20px;
+  color: rgb(0, 0, 0); /* Color del texto, ajusta según tu diseño */
+  text-align: center; /* Centra el texto dentro del contenido */
+  margin-top: 34vh; /* Ajusta el margen superior si es necesario */
+}

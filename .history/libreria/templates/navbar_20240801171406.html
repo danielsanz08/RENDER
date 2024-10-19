@@ -1,0 +1,128 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>{% block titulo %}Lacteos Hedybed{% endblock %}</title>
+  {% block css %}{% endblock %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="{% static 'css/navbar.css' %}?v1.2" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<style>
+  body.dark .menu{
+    background: linear-gradient(to top, black, #167a1d);
+  }
+  body.dark header{
+    background: linear-gradient(to left, #1d261d, #167a1d);
+}
+</style>
+<body id="body">
+  <header>
+    <h1>LACTEOS HEDYBED</h1>
+    <div class="icon_menu">
+      <i class="bi bi-list" id="btn_open"></i>
+    </div>
+    <label for="toggle">
+      <i class="fas fa-moon fa-2x" id="moon"></i>
+    </label>
+    <input type="checkbox" id="toggle">
+  </header>
+  <main>
+    <div class="menu" id="menu">
+      <div class="nombre">
+        <img src="{% static 'imagen/logo_hedybed-sf.png' %}" width="70" alt="Logo Hedybed">
+      </div>
+      <div class="opciones_menu">
+        <a href="{% url 'inicio' %}" class="select">
+          <div class="opcion">
+            <i class="bi bi-house-fill" title="Inicio"></i>
+            <h4>Inicio</h4>
+          </div>
+        </a>
+        <a href="{% url 'usuario' %}">
+          <div class="opcion">
+            <i class="bi bi-people-fill" title="Usuario"></i>
+            <h4>Usuario</h4>
+          </div>
+        </a>
+        <a href="{% url 'contabilidad' %}">
+          <div class="opcion">
+            <i class="bi bi-calculator" title="Contabilidad"></i>
+            <h4>Contabilidad</h4>
+          </div>
+        </a>
+        <a href="{% url 'insumos' %}">
+          <div class="opcion">
+            <i class="bi bi-file-earmark-fill" title="Insumos"></i>
+            <h4>Insumos</h4>
+          </div>
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">
+          <div class="opcion">
+            <i class="bi bi-file-earmark-fill" title="Insumos"></i>
+            <h4>Logout</h4>
+          </div>
+          </a>
+          <span>Usuario: {{ user.username }}</span>
+        {% else %}
+          <a href={% url 'login' %}>Login</a>
+          {% endif %}
+      </div>
+    </div>
+    {% block contenido %}
+    <!-- El contenido específico de cada página irá aquí -->
+    {% endblock %}
+  </main>
+  <footer>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
+
+  <script>
+    document.getElementById("btn_open").addEventListener("click", open_close_menu);
+
+    var menu = document.getElementById("menu");
+    var body = document.getElementById("body");
+
+    function open_close_menu() {
+      body.classList.toggle("body_mov");
+      menu.classList.toggle("menu_mov");
+    }
+
+    function darkMode() {
+  var toggle = document.getElementById('toggle');
+
+  toggle.checked = localStorage.getItem('darkMode') === 'true';
+
+  toggle.addEventListener('change', function(event) {
+    if (event.target.checked) {
+      document.body.classList.add('dark');
+      localStorage.setItem('darkMode', true);
+    } else {
+      document.body.classList.remove('dark');
+      localStorage.setItem('darkMode', false);
+    }
+  });
+
+  // Aplicar el modo oscuro al cargar la página si está activo
+  if (toggle.checked) {
+    document.body.classList.add('dark');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', darkMode);
+  </script>
+  {% block js %}
+  {% endblock %}
+</body>
+</html>

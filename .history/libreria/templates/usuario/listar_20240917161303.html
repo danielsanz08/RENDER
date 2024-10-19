@@ -1,0 +1,79 @@
+{% extends "navbar.html" %}
+{% block titulo %}Usuarios Registrados{% endblock %}
+{% load static %}
+
+{% block contenido %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="{% static 'css/listar_usuarios.css' %}?v={% now "U" %}" rel="stylesheet" />
+<div class="background-image">
+    <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+  </div>
+<main>
+    <section id="consultar" class="section">
+        <div class="container">  
+            <h2>Usuarios Registrados</h2>  
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Teléfono</th>
+                        <th>Foto de Perfil</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-body">
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.name }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.role }}</td>
+                        <td>{{ usuario.phone }}</td>
+                        <td>
+                            {% if usuario.profile_picture %}
+                                <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" style="width: 50px; height: 50px;">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            <!-- Switch para activar/inactivar usuario -->
+                            <input type="checkbox" 
+                                   data-id="{{ usuario.id }}" 
+                                   class="switch-toggle" 
+                                   {% if usuario.is_active %}checked{% endif %} 
+                                   data-toggle="toggle" 
+                                   data-on="Activo" 
+                                   data-off="Inactivo">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="{% url 'editar_perfil' %}" role="button"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-warning" href="{% url 'usuario' %}">Volver</a>
+            <p id="no-results" style="display: none;">No se encontraron resultados.</p>
+        </div>
+    </section>
+    
+</main>
+<style>
+.selected {
+    background-color: #e0e0e0;
+}
+</style>
+<!-- jQuery (necesario para Bootstrap Toggle) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Bootstrap JS (si no lo has incluido ya) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Bootstrap Toggle JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+{% endblock %}

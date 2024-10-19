@@ -1,0 +1,736 @@
+/* Variables y fuentes */
+:root {
+    --border-radius: 10px;
+    --spacer: 1rem;
+    --link-height: calc(var(--spacer) * 3.5);
+    --timing: 250ms;
+    --transition: var(--timing) ease all;
+    --primary: #01AB7B; /* Color primario */
+    --text: #333; /* Color de texto */
+}
+
+/* Estilos del body */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos para el header */
+#main-header {
+    background: var(--primary);
+    color: white;
+    position: fixed;
+    top: var(--spacer);
+    right: 80px; /* Ajuste del espacio para la foto de perfil */
+    left: calc(var(--spacer) * 7.5);
+    border-radius: var(--border-radius);
+    padding: 3px 20px; /* Reducción del padding para un tamaño más pequeño */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar el header */
+    transform: none; /* Eliminar transformaciones para mostrar el header */
+    
+}
+
+/* Contenido del header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+}
+
+.nombre img {
+    width: 60px; /* Reducción del tamaño de la imagen */
+    margin-right: 0.5rem; /* Espaciado reducido */
+}
+
+/* Estilos de la sección de nombre de usuario */
+.header-icons {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Empuja el contenedor a la derecha */
+    margin-right: 10px; /* Espacio a la derecha del nombre del usuario */
+}
+
+.header-icons .name {
+    font-size: 19px;
+}
+
+/* Contenedor del perfil */
+.user {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Imagen de perfil */
+.user img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #009269;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Efecto de hover en la imagen */
+.user img:hover {
+    transform: scale(1.05);
+}
+
+/* Menú desplegable, oculto por defecto */
+.user-menu {
+    display: none;
+    position: absolute;
+    top: 65px;
+    left: 50%; /* Mueve el menú al centro del contenedor */
+    transform: translateX(-50%); /* Centra el menú desplazándolo hacia la izquierda */    
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    width: 150px;
+}
+
+/* Mostrar el menú al pasar el mouse sobre la imagen */
+.user:hover .user-menu {
+    display: block;
+}
+
+/* Estilo de los enlaces del menú */
+.user-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.user-menu a:hover {
+    background-color: #01AB7B;
+    color: white;
+}
+
+/* Estilos para el contenedor de los breadcrumbs */
+.breadcrumbs-container {
+    background: var(--primary); /* Mismo color de fondo que el header */
+    color: white; /* Color del texto */
+    position: fixed; /* Fijo para mantenerlo en la misma posición que el header */
+    top: calc(var(--spacer) + 68px); /* Ajustar a la altura del header más un poco de espacio */
+    right: 80px; /* Ajuste del espacio para la foto de perfil */
+    left: calc(var(--spacer) * 7.5); /* Mismo ancho que el header */
+    border-radius: var(--border-radius); /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    z-index: 999; /* Asegurar que esté por debajo del header */
+}
+
+.breadcrumb {
+    margin: 0; /* Eliminar márgenes por defecto */
+}
+
+.breadcrumb-item a {
+    color: #ffffff; /* Color de enlace blanco */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+.breadcrumb-item.active {
+    color: #ffffff; /* Color para la página activa */
+}
+
+
+/* Estilos para la barra de navegación */
+.navbar {
+    position: fixed;
+    top: var(--spacer);
+    left: var(--spacer);
+    background: var(--primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacer) 0;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+    height: calc(98vh - calc(var(--spacer) * 4));
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar la navbar */
+    transform: none; /* Eliminar transformaciones para mostrar la navbar */
+}
+
+/* Menú de la navbar */
+.navbar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar__item {
+    margin-bottom: var(--spacer);
+}
+
+.navbar__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--link-height);
+    width: calc(var(--spacer) * 5.5);
+    color: white;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.navbar__link span {
+    position: absolute;
+    left: 100%;
+    transform: translate(calc(var(--spacer) * -3));
+    margin-left: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    color: black;
+    background: #2ec083;
+    padding: calc(var(--spacer) * 0.75);
+    transition: var(--transition);
+    border-radius: calc(var(--border-radius) * 1.75);
+}
+
+.navbar__link:hover {
+    color: black;
+}
+
+.navbar__link:hover span,
+.navbar:not(:hover) .navbar__link:focus span {
+    opacity: 1;
+    transform: translate(0);
+}
+
+.navbar__item:last-child::before {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    top: 0;
+    left: var(--spacer);
+    width: var(--link-height);
+    height: var(--link-height);
+    background: var(--primary);
+    border-radius: calc(var(--border-radius) * 1.75);
+    transition: var(--timing) cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+.img{
+    margin-right: 74px;
+}
+
+/* Otros ajustes */
+a {
+    text-decoration: none;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3px 20px; /* Espacio más pequeño */
+    background-color: #FAFAFA; /* Fondo claro y moderno */
+    border-top: 3px solid #01AB7B; /* Borde superior verde principal */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    z-index: 1000;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+footer p {
+    margin: 0;
+    font-size: 15px; /* Tamaño de fuente reducido */
+    font-weight: 400; /* Peso de fuente normal */
+    color: black; /* Texto gris oscuro */
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Colocar el texto en columnas */
+    align-items: center; /* Centrar el texto */
+}
+
+footer p span {
+    font-weight: 400; /* Peso de fuente más fuerte para el subtítulo */
+    font-size: 15px; /* Tamaño de fuente más pequeño */
+    color: black; /* Color gris claro para el subtítulo */
+    margin-top: 2px; /* Espaciado entre líneas reducido */
+}
+
+footer:hover {
+    background-color: #F0F4F4; /* Cambio de color en hover */
+    color: #01AB7B; /* Texto en verde en hover */
+}
+
+/* Posicionar el menú en la esquina inferior de la página */
+#accessibility-button {
+    position: fixed;
+    bottom: 60px; /* Ajusta la distancia del botón respecto al fondo */
+    right: 20px; 
+    z-index: 1000; 
+}
+
+/* Estilo del botón de accesibilidad */
+#toggle-accessibility-menu {
+    background-color: #01AB7B; /* Color degradado */
+    color: white;
+    border: none;
+    padding: 12px 20px; /* Espaciado interior */
+    border-radius: 50px; /* Bordes redondeados para un estilo más contemporáneo */
+    cursor: pointer;
+    font-size: 1em; /* Tamaño de fuente más grande */
+    font-weight: bold; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s; /* Transiciones suaves */
+    position: fixed; 
+    bottom: 65px; /* Posición arriba del footer */
+    right: 10px; 
+    z-index: 1000; 
+}
+
+/* Efecto de hover para el botón de accesibilidad */
+#toggle-accessibility-menu:hover {
+    background-color: #00875d; /* Cambio de degradado en hover */
+    transform: translateY(-2px); /* Ligero desplazamiento hacia arriba */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Sombra más intensa al pasar el ratón */
+}
+
+/* Menú de accesibilidad oculto */
+#accessibility-menu {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    bottom: 125px; /* Ajustado para que esté justo encima del botón */
+    right: 10px;
+    width: 320px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    font-size: 19px; /* Fijo para que no cambie de tamaño */
+}
+
+/* Estilo para hacer visible el menú */
+#accessibility-menu.visible {
+    display: block;
+}
+
+/* Contenedores de opciones en el menú */
+.menu-option {
+    font-size: inherit; /* Hereda el tamaño de letra fijo del menú */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Controles de zoom */
+#zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+/* Botones de zoom */
+.zoom-button, .zoom-reset {
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    color: #679B9B;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Botón de reinicio */
+.zoom-reset {
+    background: linear-gradient(145deg, #ffeb3b, #fdd835);
+    color: #333;
+}
+
+/* Efecto de hover para los botones */
+.zoom-button:hover, .zoom-reset:hover {
+    background: linear-gradient(145deg, #f1f1f1, #e0e0e0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo del porcentaje de zoom */
+#zoom-percentage {
+    font-size: 1.2em;
+    color: #679B9B;
+}
+
+/* Estilo del botón de cambio de tema */
+.theme-button {
+    display: flex;
+    align-items: center;
+    background: #444;
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Alineación del ícono y texto */
+.theme-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.theme-text {
+    font-size: 1em;
+}
+
+/* Efecto de hover para el botón de cambio de tema */
+.theme-button:hover {
+    background: #666;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Modo oscuro para el cuerpo de la página */
+body.dark-mode {
+    background-color: #121212; /* Fondo de la página en modo oscuro */
+    color: #e0e0e0; /* Color del texto en modo oscuro */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+/* Modo oscuro para secciones principales */
+body.dark-mode footer,
+body.dark-mode th,
+body.dark-mode td,
+body.dark-mode #r, 
+body.dark-mode .cambiar img.picture,
+body.dark-mode .profile{
+    background-color: #333; /* Fondo oscuro para secciones */
+    color: #e0e0e0; /* Texto en blanco */
+    border-color: #444; /* Color del borde si lo tienen */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+/* Modo oscuro para contenedores adicionales */
+body.dark-mode #main-header,
+body.dark-mode #toggle-accessibility-menu,
+body.dark-mode .navbar,
+body.dark-mode .container,
+body.dark-mode .breadcrumbs-container,
+body.dark-mode .profile-photo,
+body.dark-mode .btn-success,
+body.dark-mode .btn-warning,
+body.dark-mode .input-group, 
+body.dark-mode #cambiar_contraseña,
+body.dark-mode .card, 
+body.dark-mode .card-body,
+body.dark-mode .btn_cambiar_foto,
+body.dark-mode .cliente-card,
+body.dark-mode .gestion-card,
+body.dark-mode .movimientos-card,
+body.dark-mode #nombre,
+body.dark-mode #cantidad,
+body.dark-mode #role,
+body.dark-mode #name,
+body.dark-mode #email,
+body.dark-mode #phone,
+body.dark-mode #backup,
+body.dark-mode .user-menu,
+body.dark-mode textarea, 
+body.dark-mode .cantidad-input,
+body.dark-mode .nav, 
+body.dark-mode .swal2-popup.swal2-modal.swal2-border-radius,
+body.dark-mode .panel,
+body.dark-mode li,
+body.dark-mode #descripcion {
+    background-color: #333 !important; /* Fondo de los contenedores en modo oscuro */
+    color: #e0e0e0 !important; /* Color del texto en contenedores */
+    border-color: #555 !important; /* Color del borde si lo tienen */
+    transition: background-color 0.3s ease, color 0.3s ease !important; /* Transición suave */
+}
+
+body.dark-mode #bienvenida, 
+body.dark-mode #user-actions, 
+body.dark-mode .navbar__link span,
+body.dark-mode #imageUpload,
+body.dark-mode #name,
+body.dark-mode #email,
+body.dark-mode #role,
+body.dark-mode #phone,
+body.dark-mode #password,
+body.dark-mode #confirm_password,
+body.dark-mode .btn.btn-success,
+body.dark-mode .btn-warning:hover,
+body.dark-mode .detail,
+body.dark-mode .cambiar,
+body.dark-mode #id_name,
+body.dark-mode #id_email,
+body.dark-mode #id_phone,
+body.dark-mode #id_role,
+body.dark-mode .clientes-container,
+body.dark-mode select,
+body.dark-mode #telefono,
+body.dark-mode #direccion,
+body.dark-mode #id_tipo_cliente,
+body.dark-mode #id_nombre,
+body.dark-mode #id_telefono,
+body.dark-mode #id_direccion,
+body.dark-mode .gestion-container,
+body.dark-mode #id_nit,
+body.dark-mode #descripcion,
+body.dark-mode #id_proveedor,
+body.dark-mode #id_descripcion,
+body.dark-mode #id_cantidad,
+body.dark-mode .producto-container,
+body.dark-mode #presentacion,
+body.dark-mode #precio,
+body.dark-mode #fecha_elaboracion,
+body.dark-mode #fecha_vencimiento,
+body.dark-mode #temperatura_conservacion,
+body.dark-mode #lote,
+body.dark-mode #codigo,
+body.dark-mode .btn.btn-primary,
+body.dark-mode .btn.btn-primary:hover,
+body.dark-mode .btn.btn-secondary,
+body.dark-mode #id_codigo,
+body.dark-mode #id_presentacion,
+body.dark-mode #id_unidad_medida,
+body.dark-mode #id_precio,
+body.dark-mode .movimientos-container,
+body.dark-mode #agregar-producto,
+body.dark-mode #op_create,
+body.dark-mode #cliente,
+body.dark-mode .producto-select,
+body.dark-mode input.cantidad-input,
+body.dark-mode #monto-total,
+body.dark-mode #fecha,
+body.dark-mode #search-select,
+body.dark-mode .opc,
+body.dark-mode #nombre,
+body.dark-mode #unidad_medida,
+body.dark-mode #cantidad,
+body.dark-mode .alert,
+body.dark-mode #search-select option,
+body.dark-mode .swal2-icon.swal2-warning,
+body.dark-mode .swal2-confirm.swal2-styled.swal2-default-outline,
+body.dark-mode .rol_user, 
+body.dark-mode .balance-item, 
+body.dark-mode .card-header, 
+body.dark-mode .report-card,
+body.dark-mode input,
+body.dark-mode .backup-header,
+body.dark-mode .company-info,
+body.dark-mode .btn {
+    background-color: #505050 !important; /* Fondo de los contenedores en modo oscuro */
+    color: #e0e0e0 !important; /* Color del texto en contenedores */
+    border-color: #757575 !important; /* Color del borde si lo tienen */
+    transition: background-color 0.3s ease, color 0.3s ease !important; /* Transición suave */
+}
+
+/* Ajustar color de texto para todos los elementos en modo oscuro */
+body.dark-mode #register-form h1,
+body.dark-mode #crear-cliente-form h1,
+body.dark-mode .login h1,
+body.dark-mode #transaction-form h1,
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode div,
+body.dark-mode label,
+body.dark-mode .swal2-popup.swal2-modal.swal2-border-radius,
+body.dark-mode a {
+    color: #e0e0e0; /* Cambia todo el texto a blanco */
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .input-group input:focus, 
+body.dark-mode .input-group select:focus,
+body.dark-mode .button-group button[type="submit"]:hover, 
+body.dark-mode .button-group a:hover,
+body.dark-mode .user-menu a:hover {
+    background-color: #555; /* Fondo más claro al enfocar */
+}
+
+/* Asegurar que el menú de accesibilidad esté en modo oscuro */
+body.dark-mode #accessibility-menu {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #e0e0e0;
+}
+
+/* Asegurar que los controles de zoom estén en modo oscuro */
+body.dark-mode #zoom-controls span {
+    color: #aaaaaa;
+}
+
+/* Botones de zoom en modo oscuro */
+body.dark-mode .zoom-button, 
+body.dark-mode .zoom-reset {
+    background: linear-gradient(145deg, #444, #333);
+    color: #e0e0e0;
+}
+
+/* Botones en modo oscuro */
+body.dark-mode button {
+    background-color: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode #logo {
+    filter: drop-shadow(0 0 5px white);
+}
+
+/* Modo monocromo aplicado solo a elementos de contenido */
+body.monochrome-mode *:not(#accessibility-menu) {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+/* Asegura que el menú de accesibilidad esté siempre visible y sin cambios */
+#accessibility-menu {
+    z-index: 9999; /* Asegura que el menú esté en el frente */
+    position: fixed; /* Fijar el menú en una posición específica */
+}
+
+/* Estilo de los títulos resaltados */
+.highlight-titles h1, .highlight-titles h2, .highlight-titles h3 {
+    background-color: #ffeb3b;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Botón de resaltar títulos */
+.highlight-titles-button {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(145deg, #9c8e0f, #caa500);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Efecto de hover para el botón de resaltar títulos */
+.highlight-titles-button:hover {
+    background: linear-gradient(145deg, #cca327, #c4a037);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Opción de resaltar enlaces */
+.highlight-links-button {
+    display: flex;
+    align-items: center;
+    background: #005b96; /* Color de fondo para el botón */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+
+/* Efecto de hover para el botón de resaltar enlaces */
+.highlight-links-button:hover {
+    background: #0077b6;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para los enlaces resaltados */
+.highlighted-link {
+    background-color: yellow; /* Fondo resaltado */
+    color: #000; /* Color del texto */
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none; /* Sin subrayado */
+    font-weight: bold;
+}
+
+/* Estilo para el botón de fuente legible */
+.readable-font-button {
+    display: flex;
+    align-items: center;
+    background: #679B9B; /* Color de fondo similar al tema */
+    color: #ffffff; /* Color de texto */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.readable-font-button .theme-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.readable-font-button:hover {
+    background: #4a6d6d; /* Color de hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para la fuente legible */
+body.readable-font {
+    font-family: 'Arial', sans-serif; /* Usa una fuente legible como Arial */
+    line-height: 1.6; /* Aumenta el espaciado entre líneas para mejorar la legibilidad */
+    font-size: 20px; /* Aumenta ligeramente el tamaño de la fuente */
+}
+

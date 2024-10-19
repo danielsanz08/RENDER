@@ -1,0 +1,407 @@
+main {
+    margin-left: auto; /* Alinea horizontalmente */
+    margin-right: auto; /* Alinea horizontalmente */
+    display: flex;
+    justify-content: center; /* Centra contenido horizontalmente */
+    align-items: flex-start; /* Alinea al principio verticalmente */
+    width: 100%; /* Ancho completo */
+    max-width: 1200px; /* Limita el ancho máximo */
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Asegúrate de que el body ocupe toda la altura */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    margin-top: 9.1vh; /* Espacio superior */
+} 
+
+/* Estilo del contenedor */
+.container {
+    width: 90%; /* Ancho del contenedor aumentado */
+    max-width: 1200px; /* Limita el ancho máximo */
+    padding: 30px; /* Padding */
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+    border-radius: 15px; 
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto; /* Centramos y añadimos margen */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Sombra más prominente */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transiciones */
+    border: 2px solid #01AB7B; /* Borde verde */
+}
+
+.container:hover {
+    transform: scale(1.02); /* Efecto de escala al pasar el mouse */
+}
+
+/* Bienvenida y acciones */
+#bienvenida, #user-actions {
+    background-color: #e4eaf1; /* Fondo con degradado suave */
+    padding: 20px 30px; /* Espaciado */
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Borde sutil */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Sombra */
+    text-align: center;
+    margin-bottom: 20px; /* Margen entre secciones */
+    animation: fadeIn 0.6s ease; /* Animación de aparición */
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Títulos */
+h2 {
+    font-size: 2rem; /* Tamaño de fuente más grande */
+    margin-top: 0;
+    font-weight: 700;
+    color: #333; /* Color de los títulos */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    transition: color 0.3s; /* Transición de color */
+}
+
+h2:hover {
+    color: #1d8f6fa1; /* Cambia de color al pasar el mouse */
+}
+
+p{
+    font-size: 19px;
+}
+
+/* Lista de acciones */
+#user-actions ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex; /* Usar flexbox para los botones */
+    flex-wrap: wrap; /* Permitir que se ajusten en varias líneas */
+    justify-content: center; /* Centrar los botones */
+}
+
+#user-actions ul li {
+    margin: 10px; /* Margen reducido entre botones */
+}
+
+/* Estilo de los enlaces */
+.list-group-item {
+    background-color: transparent; /* Fondo transparente */
+    border: none;
+}
+
+/* Imagen de perfil */
+.profile-picture img {
+    border-radius: 50%; /* Imágenes redondas */
+    margin-bottom: 15px;
+    width: 120px; /* Ancho de imagen */
+    height: 120px; /* Alto de imagen */
+    border: 2px solid #01AB7B; /* Borde gris */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: transform 0.3s; /* Transición de imagen */
+}
+
+.profile-picture img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+/* Nuevos Botones Modernos */
+.btn-success {
+    padding: 0.5em 1.2em; /* Espaciado más equilibrado */
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    text-transform: uppercase; 
+    letter-spacing: 1px; /* Espaciado entre letras */
+    font-weight: 600; /* Grosor de fuente */
+    color: #fff; /* Texto blanco */
+    background-color: #01AB7B; /* Verde sutil */
+    border: none; /* Sin borde */
+    border-radius: 30px 0px 30px 0px; /* Bordes redondeados solo en los lados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer;
+}
+
+.btn-success:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+}
+
+.btn-success:active {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Volver a sombra original */
+}
+
+/* Estilo de enlace dentro de la lista */
+#user-actions a {
+    text-decoration: none; /* Sin subrayado */
+}
+
+/* Efecto de fondo */
+body:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.05); /* Fondo ligero */
+    z-index: -1; /* Envuelto detrás del contenido */
+    animation: pulse 4s infinite; /* Animación de pulso */
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.05;
+    }
+    50% {
+        opacity: 0.1;
+    }
+    100% {
+        opacity: 0.05;
+    }
+}
+
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+    main {
+        height: 86.8vh;
+        margin: 0;
+        margin-top: 4%;
+        margin-left: 12%;
+        margin-right: 6%;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    .container {
+        flex-direction: row;
+    }
+
+    #bienvenida, #user-actions {
+        width: 60vh;
+        margin: 20px;
+    }
+}
+
+@media (min-width: 1367px) {
+    main {
+        height: 91.7vh;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    #bienvenida, #user-actions {
+        width: 70vh;
+    }
+
+    .btn-success {
+        width: 30%;
+        margin-left: 35%;
+    }
+}
+
+
+
+/* Estilo de la superposición */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.90); /* Fondo oscuro */
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+    transition: opacity 0.5s ease-in-out; /* Efecto de desvanecimiento suave */
+}
+
+/* Tarjeta de fondo */
+.background-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 550px; /* Ajuste de ancho */
+    height: auto;
+    background: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    z-index: 999; /* Detrás de la tarjeta */
+    transform: translate(-50%, -50%); /* Centrado */
+    padding: 30px; /* Relleno */
+    animation: bounceIn 0.7s ease-out; /* Animación de rebote */
+}
+
+/* Ventana emergente */
+.card {
+    border-radius: 25px; /* Bordes redondeados */
+    width: 480px; /* Ancho ajustado */
+    background-image: #ffffff; /* Fondo degradado suave */
+    border: none;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrar vertical y horizontalmente */
+    z-index: 1001;
+    animation: fadeSlideIn 0.6s ease; /* Animación de entrada */
+    padding: 20px;
+}
+
+/* Animación de entrada suave */
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Animación de rebote */
+@keyframes bounceIn {
+    0% {
+        transform: translate(-50%, -70%);
+        opacity: 0;
+    }
+    60% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    80% {
+        transform: translate(-50%, -52%);
+    }
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Encabezado de la tarjeta */
+.card-header {
+    background-color: #01AB7B; /* Color principal */
+    color: #ffffff; /* Texto blanco */
+    font-family: 'Times New Roman', Times, serif;
+    border-radius: 25px 25px 0 0; /* Bordes redondeados superiores */
+    padding: 20px; /* Relleno del encabezado */
+    text-align: center; /* Centrar el texto */
+    font-size: 1.6em; /* Tamaño de fuente mayor */
+    letter-spacing: 0.5px; /* Espaciado de letras */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Sombra pronunciada en el encabezado */
+}
+
+/* Estilo del texto dentro de la tarjeta */
+.form-label {
+    font-weight: bold; /* Negrita */
+    color: #444; /* Color oscuro para el texto de la etiqueta */
+    font-size: 1.1em;
+}
+
+/* Estilo de los inputs */
+.form-control {
+    border-radius: 15px; /* Bordes redondeados */
+    background-color: #f0f0f0; /* Fondo gris claro */
+    padding: 14px; /* Relleno */
+    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 1em; /* Tamaño de fuente */
+    color: #333; /* Color negro para el texto en el input */
+    border: 1px solid #ddd; /* Borde gris claro */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra interna en los inputs */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones para borde y sombra */
+}
+
+.form-control:focus {
+    border-color: #01AB7B; /* Borde verde al enfocar */
+    outline: none; /* Sin contorno */
+    box-shadow: 0 0 10px rgba(1, 171, 123, 0.5); /* Sombra al enfocar */
+}
+
+/* Estilo del texto de ayuda */
+.form-text {
+    font-size: 0.99em; /* Tamaño de fuente más pequeño */
+    color: #3a3a3a; /* Color gris para el texto de ayuda */
+    margin-bottom: 15px; /* Espaciado inferior */
+}
+
+/* Pie de la tarjeta */
+.card-footer {
+    display: flex;
+    justify-content: space-between; /* Espacio entre botones */
+    padding: 15px; /* Relleno del pie */
+    border-top: 1px solid #ddd; /* Línea separadora en la parte superior */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo suave en el pie */
+    border-radius: 0 0 25px 25px; /* Bordes redondeados en la parte inferior */
+}
+
+/* Botones */
+.card-footer .btn-success, .card-footer .btn-warning {
+    flex: 1; /* Botones ocupan el mismo espacio */
+    margin: 0 5px; /* Margen horizontal */
+    padding: 12px; /* Relleno */
+    border: none;
+    border-radius: 15px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en mano */
+    transition: transform 0.2s, background-color 0.3s; /* Transición para el fondo y la escala */
+
+    /* Propiedades de tipografía uniformes */
+    font-family: 'Times New Roman', Times, serif; /* Asegura el uso de una misma fuente */
+    font-size: 16px; /* Tamaño de fuente consistente */
+    font-weight: 600; /* Grosor de letra */
+    text-transform: uppercase; /* Todo en mayúsculas */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+}
+
+/* Estilos de hover */
+.card-footer .btn-success:hover, .card-footer .btn-warning:hover {
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+}
+
+/* Botón verde */
+.card-footer .btn-success {
+    background-color: #4CAF50; /* Verde */
+    color: white; /* Texto blanco */
+}
+
+.card-footer .btn-success:hover {
+    background-color: #45a049; /* Verde oscuro al pasar el ratón */
+}
+
+/* Botón amarillo */
+.card-footer .btn-warning {
+    background-color: #ffc107; /* Amarillo */
+    color: white; /* Texto blanco */
+}
+
+.card-footer .btn-warning:hover {
+    background-color: #e0a800; /* Amarillo oscuro al pasar el ratón */
+}
+
+/* Efecto de desvanecimiento para footer y botones */
+.fade-out {
+    opacity: 0; /* Opacidad cero */
+    transition: opacity 0.5s ease; /* Efecto de desvanecimiento */
+}
+
+/* Mantener visible cuando el modal está oculto */
+.show-footer {
+    opacity: 1; /* Opacidad total */
+}

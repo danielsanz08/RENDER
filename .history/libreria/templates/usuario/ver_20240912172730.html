@@ -1,0 +1,49 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Detalles del Usuario{% endblock %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% block contenido %}
+<link href="{% static 'css/ver_perfil.css' %}?v={% now "U" %}" rel="stylesheet" />
+<div class="background-image">
+    <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+  </div>
+<main>
+    <div class="contenedor">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Detalles del Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <div class="profile_picture">
+                        {% if usuario.profile_picture %}
+                            <img src="{{ usuario.profile_picture.url }}" class="profile" alt="Foto de perfil" style="width: 100px; height: 100px;">
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </div>
+                    <div class="user-details">
+                        <div class="mb-3">
+                            <label><b>Nombre:</b></label>
+                            <p>{{ usuario.name }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label><b>Correo electrónico:</b></label>
+                            <p>{{ usuario.email}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label><b>Teléfono:</b></label>
+                            <p>{{ usuario.phone }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label><b>Rol:</b></label>
+                            <p>{{ usuario.role }}</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-warning" href="{% url 'usuario' %}" role="button">Volver</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

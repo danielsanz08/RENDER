@@ -1,0 +1,47 @@
+.container{
+    background-color: rgba(241, 241, 241, 0);
+    height: 940px;
+    width: 1000px;
+    margin-top: 2%;
+    padding: 4%;
+    padding-left: 18%;
+    border-radius: 20px;
+    padding-left: 19%;
+    padding-right: 20%;
+}
+body.dark .container{
+    background-color: rgb(0, 0, 0);
+
+}
+.card{
+    border-radius: 20px;
+    width: 400px;
+    background: linear-gradient(to right, white, rgb(113, 192, 113));
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+body.dark .card{
+    background: linear-gradient(to right, #167a1d, #1d261d);
+    box-shadow: 0 2px 4px rgba(255, 248, 248, 0.1);
+}
+.form-text{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+body.dark .form-text{
+    color: rgb(255, 255, 255);
+}
+.card-footer{
+    background: linear-gradient(to right, white, rgb(113, 192, 113));
+    border: none;
+}
+body.dark .card-body{
+    color: #Fff;
+}
+.card-header{
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+body.dark .card-header{
+    color: rgb(255, 255, 255);
+}

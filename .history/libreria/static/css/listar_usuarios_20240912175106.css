@@ -1,0 +1,243 @@
+main {
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 6%;
+  }
+  
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section {
+    margin: 20px;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.section h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 0;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+input[type="text"] {
+    width: 100%;
+    max-width: 700px;
+    height: 45px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+input[type="text"]:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+input[type="text"]:active {
+    transform: scale(0.95);
+}
+
+input[type="text"]:focus {
+    border: 2px solid rgb(116, 116, 116);
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive { 
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    padding: 20px;
+    font-size: 16px;
+    width: auto;
+    text-align: left;
+    white-space: nowrap;
+    background-color: #ffffff3d;
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    margin-left: 50vh;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .table, .table * {
+        visibility: visible;
+    }
+    .table {
+        position: static; 
+        width: 100%; 
+        margin: 0; 
+        padding: 0;
+    }
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+
+    main {
+        margin-top: 15vh;
+        margin-left: 15vh;
+      }
+  }
+  /* From Uiverse.io by gharsh11032000 */ 
+/* The switch - the box around the slider */
+.switch {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 3.5em;
+    height: 2em;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    border: 2px solid #414141;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    left: 0.2em;
+    bottom: 0.2em;
+    background-color: white;
+    border-radius: inherit;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .switch input:checked + .slider {
+    box-shadow: 0 0 20px rgba(9, 117, 241, 0.8);
+    border: 2px solid #0974f1;
+  }
+  
+  .switch input:checked + .slider:before {
+    transform: translateX(1.5em);
+  }
+   /* Contenedor de la imagen de fondo */
+   .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Estilos del contenido principal */
+  .content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+  }
+  

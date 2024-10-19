@@ -1,0 +1,15 @@
+{% {% extends ".html" %}%}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block contenido %}
+<div class="container">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+.table {
+    margin: 70px;
+    padding: 20px;
+    max-width: 10%;
+}
+
+  /* Estilos generales para la tabla */
+.table_transaccion {
+    width: 70%;
+    margin-left: 10%;
+    background-color: #ffffff; /* Color de fondo de la tabla */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin-left: 26vh;
+}
+
+.table_transaccion th,
+.table_transaccion td {
+    padding: 12px;
+    border: 1px solid #000000;
+    text-align: left;
+}
+  /* Estilos para los encabezados de la tabla */
+.table_transaccion th {
+    background-color: #5eace0;
+    color: rgb(0, 0, 0); /* Color del texto en los encabezados */
+}
+/*columnas*/
+.table_transaccion td{
+    background: rgb(235, 234, 234);
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+  /* Estilos específicos para cada columna */
+.item1,.item4, .item5{
+    width: 2%;
+    
+}
+.item2, .item3{
+    width: 10%;
+}
+/*Modo oscuro*/
+body.dark .table_transaccion{
+    background-color: #a4a5a7;
+}
+body.dark .table_transaccion th{
+    background-color: #4984ac;
+}

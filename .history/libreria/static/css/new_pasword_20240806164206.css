@@ -1,0 +1,79 @@
+main{
+    height: 90.7vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('https://images.ecestaticos.com/DeyoqxcPACyuhgd4u40iaMOGDU0=/105x55:1719x1266/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F4d1%2Fe95%2F378%2F4d1e9537815f0efde741c9c80d55be32.jpg');
+}
+.container{
+    background-color: rgba(241, 241, 241, 0);
+    height: 940px;
+    width: 1000px;
+    margin-top: 80vh;
+    padding: 4%;
+    padding-left: 18%;
+    border-radius: 20px;
+    padding-left: 19%;
+    padding-right: 20%;
+}
+.card{
+    border-radius: 20px;
+    width: 400px;
+    background-color: rgb(200, 208, 223);
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-header{
+    background-color: #4984ac;
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+.form-text{
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Espacio entre los botones */
+}
+
+.card-footer .btn-success {
+    margin: 0; /* Asegúrate de que no haya margen adicional */
+}
+
+/* Estilos del botón */
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 30%;
+    margin-left: 35%;
+    
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+a{
+    text-decoration: none;
+}

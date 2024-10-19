@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Transacción</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        /* Estilo para el popup */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Formulario de registro de transacción -->
+    <form id="update-insumo-form" onsubmit="return validateUpdateForm();">
+        <!-- Campos del formulario -->
+        <input type="text" id="id_nombre" placeholder="Nombre" required>
+        <input type="number" id="id_cantidad" placeholder="Cantidad" required>
+        <input type="hidden" id="original-nombre" value="OriginalNombre">
+        <input type="date" id="fecha" required>
+        <button type="submit">Registrar Transacción</button>
+    </form>
+
+    <!-- Popup de confirmación -->
+    <div id="popup">Transacción registrada correctamente.</div>
+
+    <!-- Librerías de JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputFecha = document.getElementById('fecha');
+            const today = new Date().toISOString().split('T')[0];
+            inputFecha.setAttribute('min', today);
+        });
+
+        function mostrarPopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'block'; // Cambiar a 'block' para que sea visible
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000); // Oculta la ventana emergente después de 3 segundos
+        }
+
+        function validateUpdateForm() {
+            const nombre = document.getElementById("id_nombre").value.trim(); 
+            const cantidad = document.getElementById("id_cantidad").value;
+            const originalNombre = document.getElementById("original-nombre").value;
+            const fecha = document.getElementById("fecha").value;
+
+            toastr.clear();
+            let errorMessages = [];
+            const nombreRegex = /^[a-zA-Z\s]+$/;
+
+            if (!nombreRegex.test(nombre)) {
+                errorMessages.push('El nombre solo puede contener letras y espacios.');
+            }
+
+            if (cantidad < 0 || isNaN(cantidad)) {
+                errorMessages.push('No se pueden ingresar números negativos.');
+            }
+
+            const today = new Date();
+            const selectedDate = new Date(fecha);
+            
+            if (selectedDate < today) {
+                errorMessages.push('No se puede seleccionar una fecha anterior a hoy.');
+            }
+
+            $.ajax({
+                url: '/verificar_nombre_insumo/',
+                type: 'GET',
+                data: { 'nombre': nombre },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.exists && nombre !== originalNombre) {
+                        errorMessages.push('Ya existe un insumo con este nombre.');
+                    }
+
+                    if (errorMessages.length > 0) {
+                        toastr.error(errorMessages.join('<br>'), 'Error', {
+                            closeButton: true,
+                            progressBar: true,
+                            timeOut: 5000,
+                            positionClass: 'toast-bottom-right'
+                        });
+                    } else {
+                        toastr.success('El insumo se ha modificado correctamente.', 'Éxito', {
+                            closeButton: true,
+                            progressBar: true,
+                            timeOut: 5000,
+                            positionClass: 'toast-bottom-right'
+                        });
+
+                        // Mostrar popup de éxito
+                        mostrarPopup();
+
+                        setTimeout(function() {
+                            document.getElementById("update-insumo-form").submit();
+                        }, 2000);
+                    }
+                }
+            });
+
+            return false; // Impedir la recarga de la página por defecto
+        }
+    </script>
+</body>
+</html>

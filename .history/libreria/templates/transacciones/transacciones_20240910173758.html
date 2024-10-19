@@ -1,0 +1,67 @@
+{% extends "navbar.html" %}
+{% block titulo %}Transacciones{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<link href="{% static 'css/transacciones.css' %}?v1.10" rel="stylesheet" />
+<main>
+   <div class="header-nav">
+    <ul>
+        <li><a href="#balance">Balance General</a></li>
+        <li><a href="#transacciones">Registro de transacciones</a></li>
+        <li><a href="#registros-recientes">Registros Recientes</a></li>
+    </ul>
+</div>
+
+    
+    <br><section id="balance">
+        <h2>Balance General</h2>
+        <div class="balance-info">
+            <div class="balance-item">
+                <h3>Total de Activos</h3>
+                <p class="amount">$1,200,000 COP</p>
+            </div>
+            <div class="balance-item">
+                <h3>Total de Pasivos</h3>
+                <p class="amount">$800,000 COP</p>
+            </div>
+            <div class="balance-item">
+                <h3>Patrimonio Neto</h3>
+                <p class="amount">$400,000 COP</p>
+            </div>
+        </div>
+    </section><br>
+    
+    <section id="transacciones" class="section">
+        <div>
+            <img src="{% static 'imagen/logo.png' %}" class="logo" alt="Logo Hedybed">
+        </div>
+        <h2>Registro de Transacciones</h2>
+       <div class="botones">
+        <a class="btn btn-success" href="{% url 'ver_transacciones' %}">Ver Transacciones</a><br><br>
+        <a class="btn btn-success" href="{% url 'crear_transacciones' %}">Crear Transacción</a>
+       </div>
+    </section><br>
+
+    <section id="registros-recientes" class="section">
+        <h2>Registros Recientes</h2>
+        <div class="recent-records">
+            {% if recientes %}
+                {% for transaccion in recientes %}
+                    <div class="record-item">
+                        <p>
+                            Tipo: {{ transaccion.tipo }}<br>
+                            Descripción: {{ transaccion.descripcion }}<br>
+                            Monto: {{ transaccion.monto }} COP<br>
+                            Fecha: {{ transaccion.fecha }}
+                        </p>
+                    </div>
+                    {% endfor %}
+        {% else %}
+            <marquee><p><h1 class="text">No hay registros<br> recientes.</h1></p></marquee>
+        {% endif %}  
+        </div>
+    </section><br>
+</main>
+
+{% endblock %}

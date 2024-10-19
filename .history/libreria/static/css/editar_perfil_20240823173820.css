@@ -1,0 +1,114 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    height: 30%;
+}
+.card {
+    background-color: #c9e4f7;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    margin-top: 2%;
+    padding: 20px;
+    width: 40vh;
+}
+.card-header {
+    color: aliceblue;
+    background-color: #4984ac;
+}
+.name_user, .email_user, .phone_user, .rol_user {
+    background-color: #4984ac;
+    height: 50px;
+    margin: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+input.form-control {
+    justify-content: center;
+    align-items: center;
+}
+.card-body {
+    padding: 20px;
+}
+.cambiar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: antiquewhite;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s ease-out;
+}
+.picture {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    transition: transform 0.3s ease;
+}
+.picture:hover {
+    transform: scale(1.1);
+}
+.btn_cambiar_foto {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    animation: fadeInRight 0.7s ease-out;
+}
+
+.card-footer a {
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.card-footer a.btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+
+.card-footer a.btn-warning:hover {
+    background-color: #ffc107;
+    transform: translateY(-3px);
+}
+
+/* Keyframes para las animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}

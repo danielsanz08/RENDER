@@ -1,0 +1,8 @@
+/* En tu archivo CSS */
+.select-custom {
+    border-color: #007bff; /* Azul */
+}
+
+.select-custom:focus {
+    border-color: #0056b3; /* Azul más oscuro al enfocar */
+}

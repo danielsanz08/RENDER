@@ -1,0 +1,151 @@
+  /* Contenedor de la imagen de fondo */
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+}
+
+.background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+main {
+    margin-top: 10%;
+    margin-left: 12%;
+    margin-right: 6%;
+  }
+  
+  .nav {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #23b68c;
+    color: rgb(0, 0, 0); /* Text color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0; /* Adjust for design */
+    margin-top: 0vh;
+    margin-left: 9%;
+    border-radius: 20px;
+    padding: 20px; /* Spacing */
+    width: 87%;
+}
+
+.nav::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 600% 600%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: 0;
+}
+.nav nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav nav ul li {
+    display: inline-block;
+    margin: 0 20px; /* Espaciado ajustado */
+    position: relative;
+}
+
+.nav nav ul li a {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 10px 0; /* Ajuste de espaciado */
+}
+.nav nav ul li a::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: maroon; /* Color de la línea */
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.nav nav ul li a:hover::before {
+    width: 100%; /* Ajuste de la animación al hover */
+}
+section {
+    width: 160vh;
+    position: relative; /* Asegúrate de que position esté configurado */
+    left: -90px; /* Ajusta este valor según lo necesario para moverlo más a la izquierda */
+    background-color: rgba(211, 211, 211, 0.342);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Incremento de la sombra */
+    border-radius: 20px;
+    padding: 20px 20px 30px 20px; /* Margen de 30px en la parte inferior */
+    top:-4vh;
+    }
+    
+
+/* Registros Recientes */
+.recent-records {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    }
+.record-item {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background: linear-gradient(to bottom, #49ac67, #65e7b1);
+        color: black;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 32%;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+        }
+.record-item:hover {
+        transform: translateY(-5px);
+        background:linear-gradient(to bottom, #65e7b1,#49ac67);
+        }
+        
+.record-item p {
+        margin: 0;
+        }
+        
+.record-item p:first-child {
+        font-weight: 700;
+        margin-bottom: 5px;
+        }
+        

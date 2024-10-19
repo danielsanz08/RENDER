@@ -1,0 +1,214 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  
+  <title>{% block titulo %}Lacteos Hedybed{% endblock %}</title>
+  
+  <!-- CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  
+  <!-- CSS de íconos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- CSS personalizado base -->
+  <link href="{% static 'css/navbar.css' %}?v.1.13" rel="stylesheet" />
+
+  <style>
+    body.dark .menu {
+      background-color: #165a75;
+    }
+    body.dark header {
+      background-color: #165a75;
+    }
+    body.dark body {
+      background-color: black;
+    }
+    .breadcrumb {
+      background-color: #9deeb5;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border-radius: 0.375rem;
+      z-index: 1000;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+      content: ">";
+      color: #6c757d;
+    }
+  </style>
+  
+  {% block extra_head %}{% endblock %}
+</head>
+<body id="body">
+  <header>
+    <h2>LACTEOS HEDYBED</h2>
+    <div class="nombre">
+      <img src="{% static 'imagen/logo.png' %}" width="70" alt="Logo Hedybed">
+    </div>
+    <input type="checkbox" id="toggle">
+  </header>
+  
+  <main>
+    <div class="menu" id="menu">
+      <div class="user">
+        {% if user.is_authenticated %}
+            <!-- Mostrar foto de perfil del usuario -->
+            <img src="{{ user_profile_picture }}" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+            <a href="{% url 'logout_view' %}">
+                <div class="opcion">
+                    <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
+                </div>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+      
+      <div class="opciones_menu">
+        <div class="opcion">
+          <i class="bi bi-list" id="btn_open"></i>
+        </div>
+        <a href="{% url 'inicio' %}" class="select">
+          <div class="opcion">
+            <i class="fa fa-house-chimney" title="Inicio"></i>
+            <h4>Inicio</h4>
+          </div>
+        </a>
+        <a href="{% url 'usuario' %}">
+          <div class="opcion">
+            <i class="bi bi-people-fill" title="Usuario"></i>
+            <h4>Usuario</h4>
+          </div>
+        </a>
+        <a href="{% url 'contabilidad' %}">
+          <div class="opcion">
+            <i class="bi bi-calculator" title="Contabilidad"></i>
+            <h4>Contabilidad</h4>
+          </div>
+        </a>
+        <a href="{% url 'insumos' %}">
+          <div class="opcion">
+            <i class="fas fa-cheese" title="Insumos"></i>
+            <h4>Insumos</h4>
+          </div>
+        </a>
+        <a href="{% url 'backup' %}">
+          <div class="opcion">
+            <i class="fas fa-database" style="position: absolute; margin-left: -1px;" title="Crear Copia de Seguridad"></i>
+            <h4>Crear Backup</h4>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          {% if breadcrumb.url %}
+            <li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+          {% else %}
+            <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    
+    {% block contenido %}
+    <!-- Contenido específico de cada página aquí -->
+    {% endblock %}
+  </main>
+
+  <!-- Circulo blanco para accesibilidad -->
+  <div class="acc_icon" id="acc-icon">
+    <i class="fas fa-cog"></i>
+  </div>
+  <!-- Menú para la accesibilidad -->
+  <div class="accesibilidad" id="accesibilidad" title="accesibilidad">
+    <ul>
+      <li><label for="toggle">
+          <i class="fas fa-moon " id="moon"></i>
+        </label></li>
+      <li><button id="increase-font">Aumentar</button></li>
+      <li><button id="decrease-font">Disminuir</button></li>
+    </ul>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
+
+  <script>
+    document.getElementById("btn_open").addEventListener("click", open_close_menu);
+    
+    var menu = document.getElementById("menu");
+    var body = document.getElementById("body");
+    
+    function open_close_menu() {
+      body.classList.toggle("body_mov");
+      menu.classList.toggle("menu_mov");
+    }
+    
+    function darkMode() {
+      var toggle = document.getElementById('toggle');
+      toggle.checked = localStorage.getItem('darkMode') === 'true';
+      
+      toggle.addEventListener('change', function(event) {
+        if (event.target.checked) {
+          document.body.classList.add('dark');
+          localStorage.setItem('darkMode', true);
+        } else {
+          document.body.classList.remove('dark');
+          localStorage.setItem('darkMode', false);
+        }
+      });
+      
+      if (toggle.checked) {
+        document.body.classList.add('dark');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', darkMode);
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      const increaseFontBtn = document.getElementById("increase-font");
+      const decreaseFontBtn = document.getElementById("decrease-font");
+      const rootElement = document.documentElement;
+      const storedFontSize = localStorage.getItem("fontSize");
+      if (storedFontSize) {
+        rootElement.style.fontSize = storedFontSize;
+      }
+      function changeFontSize(amount) {
+        let currentSize = parseFloat(window.getComputedStyle(rootElement).fontSize);
+        let newSize = currentSize + amount;
+        rootElement.style.fontSize = newSize + "px";
+        localStorage.setItem("fontSize", rootElement.style.fontSize);
+      }
+      increaseFontBtn.addEventListener("click", function() {
+        changeFontSize(2);
+      });
+      decreaseFontBtn.addEventListener("click", function() {
+        changeFontSize(-2);
+      });
+    });
+    
+    var accIcon = document.getElementById("acc-icon");
+    var menuAcc = document.getElementById("accesibilidad");
+    
+    accIcon.addEventListener('click', function() {
+      menuAcc.style.display = menuAcc.style.display === 'none' || menuAcc.style.display === '' ? 'block' : 'none';
+    });
+    
+    document.addEventListener('click', function(event) {
+      if (!accIcon.contains(event.target) && !menuAcc.contains(event.target)) {
+        menuAcc.style.display = 'none';
+      }
+    });
+  </script>
+  
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

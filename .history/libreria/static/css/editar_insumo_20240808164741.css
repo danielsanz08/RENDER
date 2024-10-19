@@ -1,0 +1,217 @@
+/* Reglas de estilo generales */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.section {
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark .section {
+    background-color: #000000; /* Fondo negro */
+}
+
+.section h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 0;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+body.dark .section h2 {
+    color: rgb(255, 255, 255);
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+form label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: black;
+}
+
+body.dark form label {
+    color: rgb(255, 255, 255);
+}
+
+form input[type="text"],
+form input[type="number"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #4d4d4d;
+}
+
+form button {
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    border: none;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    width: 170px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: skew(-21deg);
+}
+form button:hover {
+    color: #fff;
+}
+
+/* Estilos de botones */
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-success:hover {
+    background-color: #23c483;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+/* Estilos específicos para elementos */
+.seleccionar_insumo {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid rgb(51, 119, 221);
+    border-radius: 4px;
+    background-color: #eeebeb;
+    color: black;
+}
+
+.seleccionar_insumo:hover {
+    border-color: black;
+}
+
+.seleccionar_insumo:focus {
+    border-color: rgb(141, 113, 192);
+    box-shadow: 0 0 0 0.2rem rgb(54, 119, 218);
+}
+
+.report-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.report-card {
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 30%;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+/* Nav Insumos */
+.nav_insumos {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.nav_insumos nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav_insumos nav ul li {
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+}
+
+.nav_insumos nav ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 10px 0;
+}
+
+body.dark nav ul li a {
+    color: rgb(255, 255, 255);
+}
+
+.nav_insumos nav ul li a::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: maroon;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.nav_insumos nav ul li a:hover::before {
+    width: 100%;
+}

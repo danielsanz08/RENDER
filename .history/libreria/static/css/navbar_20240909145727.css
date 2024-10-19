@@ -1,0 +1,385 @@
+/* Variables y fuentes */
+:root {
+    --border-radius: 10px;
+    --spacer: 1rem;
+    --link-height: calc(var(--spacer) * 3.5);
+    --timing: 250ms;
+    --transition: var(--timing) ease all;
+    --primary: #01AB7B; /* Color primario */
+    --text: #333; /* Color de texto */
+}
+
+/* Importar fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+/* Estilos del body */
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease;
+    
+
+}
+.user {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .user img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .user img:hover {
+    transform: scale(1.1);
+  }
+  
+  .user-menu {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 6vh;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px;
+  }
+  
+  .user:hover .user-menu {
+    display: block;
+  }
+  
+  .user-menu a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  
+/* Estilos para el header */
+#main-header {
+    background: var(--primary);
+    color: white;
+    position: fixed;
+    top: var(--spacer);
+    right: 80px; /* Ajuste del espacio para la foto de perfil */
+    left: calc(var(--spacer) * 7.5);
+    border-radius: var(--border-radius);
+    padding: var(--spacer);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar el header */
+    transform: none; /* Eliminar transformaciones para mostrar el header */
+}
+
+/* Contenido del header */
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.header-content h2 {
+    margin: 0;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.nombre img {
+    width: 50px;
+    margin-right: 1rem;
+}
+
+/* Iconos del header */
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons .name {
+    margin-right: 1rem;
+}
+
+.header-icons .logout {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    position: fixed;
+    top: var(--spacer);
+    left: var(--spacer);
+    background: var(--primary);
+    border-radius: var(--border-radius);
+    padding: var(--spacer) 0;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+    height: calc(100vh - calc(var(--spacer) * 4));
+    z-index: 1000;
+    opacity: 1; /* Cambiar a 1 para mostrar la navbar */
+    transform: none; /* Eliminar transformaciones para mostrar la navbar */
+}
+
+/* Menú de la navbar */
+.navbar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar__item {
+    margin-bottom: var(--spacer);
+}
+
+.navbar__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--link-height);
+    width: calc(var(--spacer) * 5.5);
+    color: var(--text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.navbar__link span {
+    position: absolute;
+    left: 100%;
+    transform: translate(calc(var(--spacer) * -3));
+    margin-left: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    color: black;
+    background: #2ec083;
+    padding: calc(var(--spacer) * 0.75);
+    transition: var(--transition);
+    border-radius: calc(var(--border-radius) * 1.75);
+}
+
+.navbar__link:hover {
+    color: #fff;
+}
+
+.navbar__link:hover span,
+.navbar:not(:hover) .navbar__link:focus span {
+    opacity: 1;
+    transform: translate(0);
+}
+
+.navbar__item:last-child::before {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+    top: 0;
+    left: var(--spacer);
+    width: var(--link-height);
+    height: var(--link-height);
+    background: var(--primary);
+    border-radius: calc(var(--border-radius) * 1.75);
+    transition: var(--timing) cubic-bezier(1, 0.2, 0.1, 1.2) all;
+}
+
+/* Estilos del ícono de accesibilidad */
+.acc_icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.acc_icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    background-color: #01AB7B;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px rgb(0, 0, 0);
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+}
+
+.acc_icon:hover {
+    background-color: #0f966f;
+}
+
+.accesibilidad {
+    position: fixed;
+    bottom: 20vh;
+    right: 20px;
+    background-color: #4bdb937c;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 250px;
+    height: 450px;
+    display: none;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+    animation: float 3s ease-in-out infinite;
+}
+
+.accesibilidad ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.accesibilidad ul li {
+    margin: 15px 0; /* Aumentar el espacio entre elementos del menú */
+}
+
+.accesibilidad ul li a {
+    text-decoration: none;
+    color: #838382;
+    transition: color 0.3s ease;
+}
+
+.accesibilidad ul li a:hover {
+    color: black;
+}
+.img{
+    margin-right: 74px;
+}
+
+
+/* Estilos para el contenedor de perfil */
+.profile-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    width: 40px;
+    height: 40px;
+    opacity: 1; /* Cambiar a 1 para mostrar el contenedor de perfil */
+    transform: none; /* Eliminar transformaciones para mostrar el contenedor de perfil */
+}
+
+/* Estilos para la foto de perfil */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-pic:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para el menú de perfil */
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2001;
+    min-width: 200px;
+    margin-top: 20vh;
+}
+
+.profile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-menu li {
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.profile-menu a {
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.profile-menu i {
+    margin-right: 10px;
+}
+
+.profile-menu.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Ajustes para el modo oscuro */
+body.dark .profile-menu {
+    background-color: #333;
+}
+
+body.dark .profile-menu li:hover {
+    background-color: #444;
+}
+
+body.dark .profile-menu a {
+    color: #fff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Otros ajustes */
+a {
+    text-decoration: none;
+}
+
+.breadcrumb {
+    display: flex;
+    item
+  }
+  
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: #6c757d;
+  }
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-icons .logout {
+    margin-left: auto;
+  }
+  

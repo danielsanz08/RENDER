@@ -1,0 +1,85 @@
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px; /* Añadimos padding para compensar los márgenes negativos */
+}
+
+.image-container .row {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% + 20px); /* Compensamos los márgenes negativos */
+  margin: 0 -10px; /* Márgenes negativos para alinear con el borde */
+  justify-content: center;
+}
+
+.image-container .col {
+  flex-basis: calc(25% - 20px);
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: 0.5s ease;
+  border-radius: 8px;
+}
+
+.image-container img:hover {
+  cursor: crosshair;
+  opacity: 1;
+  filter: contrast(120%);
+  transform: scale(1.05);
+}
+
+/* Media queries para pantallas de escritorio */
+@media (max-width: 1366px) {
+  .image-container {
+    max-width: 1400px; /* Aumentamos el ancho máximo para pantallas más grandes */
+  }
+
+  .image-container .row {
+    justify-content: center; /* Aseguramos que las columnas estén centradas */
+  }
+
+  .image-container .col {
+    flex-basis: calc(25% - 30px); /* Aumentamos ligeramente el espacio entre columnas */
+    margin: 15px; /* Aumentamos el margen para dar más espacio */
+  }
+
+  .image-container img {
+    height: 443px; /* Aumentamos la altura de las imágenes para pantallas más grandes */
+  }
+}
+
+@media (min-width: 1367px) {
+  
+
+  .image-container {
+    padding: 0; /* Eliminamos padding para reducir el espacio interno */
+  }
+  
+  .image-container .row {
+    margin: 0; /* Eliminamos márgenes negativos */
+  }
+  
+  .image-container .col {
+    margin: 20px; /* Aumentamos el margen entre columnas */
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 80vh;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: 0.5s ease;
+  }
+  
+}

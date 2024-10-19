@@ -1,0 +1,419 @@
+main {
+    margin-top: 10%;
+    margin-left: 12%;
+    margin-right: 6%;
+  }
+  
+/* Navbar de contabilidad */
+.header-nav {
+  background-color: #333; /* Color de fondo del menú */
+  padding: 10px 20px; /* Espaciado interior */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.header-nav ul {
+  list-style-type: none; /* Elimina los puntos de lista */
+  margin: 0; /* Elimina el margen */
+  padding: 0; /* Elimina el padding */
+  display: flex; /* Usa flexbox para alinear los elementos en línea */
+  justify-content: center; /* Centra los elementos horizontalmente */
+}
+
+.header-nav li {
+  margin: 0 15px; /* Espaciado entre los elementos de la lista */
+}
+
+.header-nav a {
+  text-decoration: none; /* Elimina el subrayado */
+  color: #fff; /* Color del texto */
+  font-weight: bold; /* Fuente en negrita */
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+.header-nav a:hover {
+  color: #ff6347; /* Color del texto cuando se pasa el cursor */
+}
+
+.header-nav a:active {
+  color: #ff4500; /* Color del texto cuando se hace clic */
+}
+
+
+.header-nav ul {
+  display: flex; /* Utiliza flexbox para alinear los elementos de la lista horizontalmente */
+  list-style: none; /* Elimina los puntos de la lista */
+  padding: 0; /* Elimina el padding predeterminado del ul */
+  margin: 0; /* Elimina el margen predeterminado del ul */
+}
+
+.header-nav ul li {
+  margin-right: 20px; /* Espacio entre los elementos de la lista */
+  position: relative; /* Necesario para el efecto de línea */
+}
+
+.header-nav ul li a {
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  color: white; /* Color del texto de los enlaces */
+  position: relative; /* Necesario para la línea */
+  transition: color 0.3s ease; /* Suave transición de color */
+}
+
+.header-nav ul li::after {
+  content: ""; /* Contenido vacío para la pseudo-elemento */
+  display: block; /* Hace que sea un bloque y por lo tanto visible */
+  width: 0; /* Ancho inicial de la línea es 0 */
+  height: 2px; /* Altura de la línea */
+  background-color: white; /* Color de la línea */
+  position: absolute; /* Posicionamiento absoluto relativo a li */
+  bottom: 0; /* Posicionado en la parte inferior de li */
+  left: 0; /* Alineado a la izquierda */
+  transition: width 0.3s ease; /* Transición suave del ancho */
+}
+
+.header-nav ul li:hover::after {
+  width: 100%; /* Aumenta el ancho a 100% al hacer hover */
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.logo{
+  filter: drop-shadow(0px 0px 13px rgb(13, 148, 20));
+  height: 130px;
+  margin-left: 400px;
+}
+.section {
+  width: 160vh;
+  position: relative; /* Asegúrate de que position esté configurado */
+  left: -90px; /* Ajusta este valor según lo necesario para moverlo más a la izquierda */
+  background-color: rgba(211, 211, 211, 0.342);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Incremento de la sombra */
+  border-radius: 20px;
+  padding: 20px 20px 30px 20px; /* Margen de 30px en la parte inferior */
+  top:-10vh;
+}
+
+#balance {
+  width: 160vh;
+  position: relative; /* Asegúrate de que position esté configurado */
+  left: -90px; /* Ajusta este valor según lo necesario para moverlo más a la izquierda */
+  background-color: rgba(211, 211, 211, 0.342);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Incremento de la sombra */
+  border-radius: 20px;
+  padding: 20px 20px 30px 20px; /* Margen de 30px en la parte inferior */
+  top:-10vh;
+}
+
+h3 {
+  color: #020202;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 12px;
+}
+h2 {
+  font-family: 'Times New Roman', Times, serif;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+#balance{
+  margin-top: 10%;
+}
+.balance-info {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.balance-item {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background: linear-gradient(to bottom, #49ac67, #65e7b1);
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+.balance-item:hover {
+  transform: translateY(-5px);
+  background:linear-gradient(to bottom, #65e7b1,#49ac67);
+}
+
+.balance-item h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.balance-item .amount {
+  font-size: 24px;
+  font-weight: 700;
+}
+.transaction-types {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-bottom: 20px;
+}
+.type-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.type-btn {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background: linear-gradient(to bottom, #49ac67, #65e7b1);
+  color: black;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.type-btn.active {
+  background-color: maroon;
+}
+
+.type-btn:hover {
+  background-color: maroon;
+}
+.transaction-table {
+  overflow-x: auto;
+}
+
+#transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#transaction-table th,
+#transaction-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#transaction-table th {
+  background-color: #167a1d;
+  color: #fff;
+}
+#transaction-form {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.form-group select, 
+.form-group input {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.list-group-item {
+  background-color: rgba(0, 255, 255, 0);
+  border: none;
+}
+
+.list-group-item a {
+  border: none;
+}
+
+.profile-picture img {
+  border-radius: 90px;
+}
+
+.btn-success {
+  padding: 1em 1em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin-left: 35%;
+}
+
+.btn-success:hover {
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.btn-success:active {
+  transform: translateY(-1px);
+}
+
+
+.report-cards {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.report-card {
+  background-color: #167a1d;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+.report-card:hover {
+  transform: translateY(-5px);
+}
+
+.report-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.report-card a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 10px;
+}
+/* Registros Recientes */
+.recent-records {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.record-item {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background: linear-gradient(to bottom, #49ac67, #65e7b1);
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 32%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+.record-item:hover {
+  transform: translateY(-5px);
+  background:linear-gradient(to bottom, #65e7b1,#49ac67);
+}
+
+.record-item p {
+  margin: 0;
+}
+
+.record-item p:first-child {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+/* Registro por Fecha */
+.date-filter {
+  margin-bottom: 20px;
+}
+
+.date-filter label {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.date-filter input[type="date"] {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.transactions-by-date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.date-group {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 32%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.date-group:hover {
+  transform: translateY(-5px);
+}
+
+@keyframes palpitar {
+  0%, 100% {
+      opacity: 1;
+  }
+  50% {
+      opacity: 0;
+  }
+}
+
+.text {
+  display: inline-block;
+  background-color: rgba(255, 0, 0, 0.219);
+  padding: 10px 20px;
+  color: #0000004b;
+  font-size: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: fit-content;
+  max-width: 100%;
+  font-family: 'Times New Roman', Times, serif;
+  animation: palpitar 2s ease-in-out infinite;
+  border: 2px;
+  border-radius: 20px;
+}
+
+marquee {
+  width: 100%;
+}
+/* Estilos para pantallas de mesa */
+@media (min-width: 1367px) {
+  main {
+      height: 91.7vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      
+  }
+  .image-container img {
+    width: 80%;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    border-radius: 8%;
+  }
+}

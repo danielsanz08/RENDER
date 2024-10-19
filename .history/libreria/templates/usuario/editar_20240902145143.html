@@ -1,0 +1,75 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}  {% endblock %}
+{% block contenido %}
+<link href="{% static 'css/editar_pel.css' %}?v.1.9" rel="stylesheet" />
+
+<main>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Editar Usuario</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="cambiar">
+                        {% if form.instance.profile_picture %}
+                            <img src="{{ form.instance.profile_picture.url }}" alt="Foto de perfil" class="picture">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="No hay imagen de perfil disponible" class="picture">
+                        {% endif %}
+                        <div class="btn btn-success">
+                            <label for="profilePic" class="btn_cambiar_foto">
+                                Cambiar foto
+                                <input type="file" id="profilePic" name="profile_picture" class="d-none">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="name_user">
+                        <label for="name">Nombre:</label>
+                        {{ form.name }} 
+                    </div>
+                    <div class="email_user">
+                        <label for="email">Correo electrónico:</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="phone_user">
+                        <label for="phone">Teléfono:</label>
+                        {{ form.phone }}
+                    </div>
+                    <div class="rol_user">
+                        <label for="role">Rol:</label>
+                        {{ form.role }}
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-success" type="submit" value="Guardar cambios">Guardar cambios</button>
+                        <a class="btn btn-warning" href="{% url 'usuario' %}" role="button">Volver</a>
+                    </div>
+                     
+                </form><br>
+                
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_profile_picture');
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const userPic = document.getElementById('userPic');
+                userPic.src = reader.result;
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+    </script>
+    
+{% endblock%}

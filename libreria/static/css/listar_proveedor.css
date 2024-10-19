@@ -1,0 +1,390 @@
+main {
+    margin-top: 22vh;
+    margin-left: 19vh;
+    margin-right: 6%;
+    margin-bottom: 80px; /* Espacio adicional en la parte inferior */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+body{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 0;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Contenedor de la barra de herramientas */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    height: 90px; /* Ajuste la altura para que coincida con el filtro */
+}
+
+/* Filtro de busqueda*/
+#search-form{
+    height: 90px;
+    padding: 20px 20px;
+    display: flex;
+    gap: 10px; /* Espacio entre los elementos del formulario */
+}
+
+#search-select {
+    background-color: rgb(228, 228, 228);
+    height: 35px;
+    width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px; /* Hace que el elemento sea ovalado */
+    border: none; /* Sin bordes */
+    outline: none; /* Sin contorno al enfoque */
+    padding: 5px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+#search-select option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#search-select option:checked {
+    background-color: #01AB7B; /* Color de fondo para la opción seleccionada */
+    color: black; /* Color del texto para la opción seleccionada */
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 250px;
+    height: 35px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid lightgrey;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+input[type="text"]:hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+input[type="text"]:active {
+    transform: scale(0.95);
+}
+
+input[type="text"]:focus {
+    border: 2px solid rgb(116, 116, 116);
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive { 
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    padding: 20px;
+    font-size: 16px;
+    width: auto;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Estilo para centrar el botón usando flexbox */
+#search-results {
+    display: flex;
+    flex-direction: column; /* Organizar los elementos en columna */
+    align-items: center; /* Centrar horizontalmente */
+}
+
+.btn-success {
+    padding: 0.1em 0.8em; /* Reducción del padding para hacerlo más bajo */
+    font-size: 12px; /* Tamaño de fuente reducido */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 20px; /* Radio del borde más pequeño */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    height: 35px; /* Altura fija para que coincida con las otras opciones */
+}
+
+.btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+.btn-danger{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-danger:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-danger:active {
+    transform: translateY(-1px);
+}
+
+
+
+
+
+/* Contenedor para las opciones de acción */
+.opciones {
+    display: flex;
+    gap: 10px;
+    height: 50px; /* Altura reducida para las opciones de acción */
+}
+
+/* Estilo para cada botón de acción */
+.opc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px; /* Espacio interno reducido */
+    background-color: #01AB7B; /* Color principal */
+    color: white; /* Color del texto */
+    font-size: 14px; /* Tamaño de texto reducido */
+    border-radius: 6px; /* Bordes más pequeños */
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+    height: 50px; /* Ajustar altura para que sean más compactos */
+}
+
+/* Estilo para los íconos dentro de los botones */
+.opc i {
+    font-size: 1.5em; /* Tamaño del ícono */
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+    color: white; /* Color del ícono */
+}
+
+/* Efecto hover para los botones de acción */
+.opc:hover {
+    background-color: #009b5a; /* Cambia el color de fondo en hover a un tono más oscuro */
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño en hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Aumenta la sombra en hover */
+}
+
+
+
+
+
+@media print {
+    /* Estilos generales del header */
+    header {
+        display: flex !important;
+        justify-content: center;
+        align-items: center; /* Centrar horizontalmente */
+        padding: 15px 0;
+        margin: 0;
+        border-bottom: 2px solid #01AB7B; /* Color principal */
+        background-color: #e4f1f2 !important;
+        width: 100%;
+        position: relative;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+    }
+
+    .header-content img {
+        width: 80px;
+        height: auto;
+        margin-right: 12px;
+    }
+
+    .header-content b {
+        font-size: 26px;
+        color: #000000;
+        font-weight: 700;
+        margin: 0;
+        font-family: 'Georgia', serif;
+    }
+
+    /* Estilos de la tabla */
+    .table {
+        width: 100%; /* Asegura que la tabla ocupe el 100% del ancho */
+        border-collapse: collapse;
+        margin: 20px 0; /* Margen superior e inferior */
+        background-color: #f8f8f8; /* Fondo de la tabla */
+    }
+
+    .table th, .table td {
+        border: 1px solid #ddd;
+        padding: 12px 18px;
+        text-align: left;
+        color: #333;
+        font-size: 16px;
+        font-family: 'Arial', sans-serif;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }
+
+    .table th {
+        background-color: #01AB7B; /* Color principal */
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    /* Eliminar la última columna de la tabla */
+    .table td:last-child, .table th:last-child {
+        display: none; /* Ocultar última columna */
+    }
+
+    /* Evitar que las celdas se dividan entre páginas */
+    tr, td, th {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Ocultar elementos no deseados */
+    .navbar__menu, .btn, #search-form, #no-results, #search-warning, 
+    #toggle-accessibility-menu, .opciones, .toolbar, .header-icons, .user, footer {
+        display: none !important;
+    }
+
+    /* Marca de agua */
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        font-size: 80px;
+        opacity: 0.05;
+        pointer-events: none;
+        max-width: 70%;
+        width: 400px;
+        height: auto;
+    }
+}
+
+/* Estilos para la pantalla */
+@media screen {
+    .watermark {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos personalizados para SweetAlert2 */
+.swal2-border-radius {
+    width: 400px !important; /* Ajuste del ancho */
+    padding: 15px !important; /* Reducción del padding */
+    border-radius: 8px !important; /* Borde redondeado */
+}
+
+.swal2-title {
+    font-size: 22px !important; /* Tamaño de fuente reducido para el título */
+}
+
+.swal2-html-container {
+    font-size: 17px !important; /* Tamaño de fuente reducido para el contenido */
+}

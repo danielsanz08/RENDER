@@ -1,0 +1,179 @@
+
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+
+{% block contenido %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="{% static 'css/transacciones.css' %}" rel="stylesheet" />
+
+<a href="contabilidad" id="back-icon"><img src="{% static 'imagen/back-icon.png' %}" width="70" alt="Logo Hedybed"></a><br>
+
+<!-- Formulario de búsqueda -->
+<form id="search-form">
+    <select id="search-select">
+        <option value="todos">Todos</option>
+        <option value="compra">Compra</option>
+        <option value="venta">Venta</option>
+        <option value="gasto">Gasto</option>
+        <option value="ingreso">Ingreso</option>
+        <option value="fecha">Fecha</option>
+        <option value="descripcion">Descripción</option>
+    </select>
+    <input type="date" id="search-input" style="display: none;">
+<button type="button" id="search-button">Buscar</button>
+</form>
+<p id="search-warning" style="color: red; display: none;"></p>
+
+<!-- Resultados de la búsqueda -->
+<div id="search-results">
+    <table class="table_transaccion">
+        <thead>
+            <tr>
+                <th class="item1">Tipo de transacción</th>
+                <th class="item2">Descripción</th>
+                <th class="item3">Monto</th>
+                <th class="item4">Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="transactions-table-body">
+            {% for trans in Transacciones%}
+            <tr class="compra">
+                <td>Trans.tipo</td>
+                <td>Trans.descripcion</td>
+                <td>Transacciones.monto</td>
+                <td>Transacciones.fecha</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p id="no-results" style="display: none;">No se encontraron resultados.</p>
+</div>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-around">
+        <button type="button" class="btn btn-danger btn-lg px-4 py-3 fs-4 eliminar" disabled>
+            <i class="fas fa-trash fa-lg me-2"></i> Eliminar
+        </button>
+        <button type="button" class="btn btn-success btn-lg px-4 py-3 fs-4 exportar">
+            <i class="fas fa-file-export fa-lg me-2"></i> Exportar
+        </button>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var searchButton = document.getElementById('search-button');
+    var searchSelect = document.getElementById('search-select');
+    var searchInput = document.getElementById('search-input');
+    var searchWarning = document.getElementById('search-warning');
+    var transactionsTableBody = document.getElementById('transactions-table-body');
+    var noResultsMessage = document.getElementById('no-results');
+    var editButton = document.querySelector('.btn.btn-primary.editar');
+    var deleteButton = document.querySelector('.btn.btn-danger.eliminar');
+    var exportButton = document.querySelector('.btn.btn-success.exportar');
+
+    searchSelect.addEventListener('change', function() {
+        var selectedOption = this.value;
+        if (selectedOption === 'descripcion' || selectedOption === 'fecha') {
+            searchInput.style.display = 'inline-block';
+            searchInput.value = ''; // Limpiar el input al cambiar la opción
+            searchWarning.style.display = 'none';
+        } else {
+            searchInput.style.display = 'none';
+            searchWarning.style.display = 'none';
+            performSearch(); // Realizar búsqueda automática para otras opciones
+        }
+    });
+
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    function performSearch() {
+        var selectedOption = searchSelect.value;
+        var searchText = searchInput.value.toLowerCase().trim();
+
+        if ((selectedOption === 'descripcion' || selectedOption === 'fecha') && searchText === '') {
+            searchWarning.textContent = `Ingresa una ${selectedOption === 'descripcion' ? 'descripción' : 'fecha'}`;
+            searchWarning.style.display = 'block';
+            return;
+        }
+
+        searchWarning.style.display = 'none';
+        var rows = transactionsTableBody.getElementsByTagName('tr');
+        var found = false;
+
+        Array.from(rows).forEach(function(row) {
+            var shouldDisplay = false;
+            var cells = row.getElementsByTagName('td');
+
+            if (selectedOption === 'todos') {
+                shouldDisplay = true;
+            } else if (['compra', 'venta', 'gasto', 'ingreso'].includes(selectedOption)) {
+                shouldDisplay = cells[0].textContent.toLowerCase() === selectedOption;
+            } else if (selectedOption === 'fecha') {
+                shouldDisplay = cells[3].textContent.toLowerCase().includes(searchText);
+            } else if (selectedOption === 'descripcion') {
+                shouldDisplay = cells[1].textContent.toLowerCase().includes(searchText);
+            }
+
+            row.style.display = shouldDisplay ? '' : 'none';
+            found = found || shouldDisplay;
+        });
+
+        noResultsMessage.style.display = found ? 'none' : 'block';
+    }
+
+    // Funcionalidad para seleccionar filas
+    transactionsTableBody.addEventListener('click', function(e) {
+        if (e.target.tagName === 'TD') {
+            var row = e.target.closest('tr');
+            document.querySelectorAll('tr.selected').forEach(function(selectedRow) {
+                selectedRow.classList.remove('selected');
+            });
+            row.classList.add('selected');
+            updateButtonStates();
+        }
+    });
+
+    function updateButtonStates() {
+        var hasSelected = document.querySelector('tr.selected');
+        editButton.disabled = !hasSelected;
+        deleteButton.disabled = !hasSelected;
+    }
+
+    editButton.addEventListener('click', function() {
+        var selectedRow = document.querySelector('tr.selected');
+        if (selectedRow) {
+            alert('Editando la transacción: ' + selectedRow.getElementsByTagName('td')[1].textContent);
+        }
+    });
+
+    deleteButton.addEventListener('click', function() {
+        var selectedRow = document.querySelector('tr.selected');
+        if (selectedRow) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta transacción?')) {
+                selectedRow.remove();
+                updateButtonStates();
+            }
+        }
+    });
+
+    exportButton.addEventListener('click', function() {
+        alert('Exportando transacciones...');
+    });
+
+    updateButtonStates();
+});
+</script>
+
+<style>
+.selected {
+    background-color: #e0e0e0;
+}
+</style>
+
+{% endblock %}

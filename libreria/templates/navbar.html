@@ -1,0 +1,200 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Lácteos Hedybed{% endblock %}</title>
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'imagen/hedybed.png' %}" type="image/x-icon">
+  <!-- CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <!-- CSS de íconos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- CSS personalizado base -->
+  <link href="{% static 'css/navbar.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+</head>
+
+<body id="body">
+  <!-- Header -->
+  <header id="main-header">
+    <div class="header-content">
+        <div class="nombre">
+            <img src="{% static 'imagen/logo.png' %}" alt="Logo Hedybed" id="logo" title="Logo de Lácteos Hedybed">
+        </div>
+        <b title="Lácteos Hedybed">Lácteos Hedybed</b>
+    </div>
+
+    <div class="header-icons" title="Usuario">
+        {% if user.is_authenticated %}
+            <span class="name">Usuario: {{ user.name }}</span>
+        {% else %}
+            <span class="name">Usuario: Invitado</span>
+        {% endif %}
+    </div>
+
+    <!-- Perfil -->
+    <div class="user">
+        {% if user.is_authenticated %}
+            {% if usuario.profile_picture %}
+                <img src="{{ usuario.profile_picture.url }}" class="profile-photo" title="{{ usuario.name }}" width="50" height="50">
+            {% else %}
+                <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+            {% endif %}
+            <div class="user-menu">
+                <a href="{% url 'ver_perfil' %}" class="perfil" title="Ver perfil">Ver Perfil</a>
+                <a href="{% url 'logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
+            </div>
+        {% else %}
+            <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+            <div class="user-menu">
+                <a href="{% url 'logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+  <!-- Apartado para los breadcrumbs -->
+  <div class="breadcrumbs-container" title="Breadcrumb">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+                {% if breadcrumb.url %}
+                <li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+                {% else %}
+                <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </nav>
+  </div>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <ul class="navbar__menu">
+      {% if user.role == 'Administrador' %}
+      <li class="navbar__item">
+        <a href="{% url 'inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'backup' %}" class="navbar__link" title="Realizar copia de seguridad"><i data-feather="cloud"></i><span>Copia de Seguridad</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="manual/Manual de usuario.pdf" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+      </li>
+      {% else %}
+      <li class="navbar__item">
+        <a href="{% url 'inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="manual/Manual de usuario.pdf" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- Contenido de la página -->
+  <main>
+    {% block contenido %}
+    <!-- Contenido específico de cada página aquí -->
+    {% endblock %}
+  </main>
+
+  <button id="toggle-accessibility-menu" title="Botón de accesibilidad"><i class="bi bi-gear-fill"></i></button>
+
+  <!-- Menú para la accesibilidad -->
+  <div id="accessibility-menu" class="hidden">
+    <div id="zoom-controls" class="menu-option">
+      <button class="zoom-button" id="zoom-in" title="Aumentar zoom">+</button>
+      <button class="zoom-button" id="zoom-out" title="Disminuir zoom">-</button>
+      <button class="zoom-reset" id="zoom-reset" title="Restablecer zoom">⟳</button>
+      <span id="zoom-percentage">100%</span>
+    </div>
+    <div class="menu-option">
+      <button id="dark-mode-button" class="theme-button" title="Activar modo oscuro">
+        <span class="theme-icon">🌙</span> Modo Oscuro
+      </button>
+    </div>
+    <div class="menu-option">
+      <button id="monochrome-mode-button" class="theme-button" title="Activar modo monocromo">
+        <span class="theme-icon">🌑</span> Modo Monocromo
+      </button>
+    </div>
+    <div class="menu-option">
+      <button class="highlight-titles-button" onclick="toggleHighlightTitles()" title="Resaltar títulos">
+        <span class="theme-icon">🔆</span> Resaltar Títulos
+      </button>
+    </div>
+    <div class="menu-option">
+      <button id="highlight-links-button" class="highlight-links-button" title="Resaltar enlaces">
+          <span class="theme-icon">🔗</span> Resaltar Enlaces
+      </button>
+    </div>
+    <div class="menu-option">
+      <button id="readable-font-button" class="readable-font-button" title="Cambiar a fuente legible">
+          <span class="theme-icon">🔤</span> Fuente Legible
+      </button>
+    </div>
+  </div>
+
+  {% block footer %}
+  <footer>
+    <p title="Derechos reservados">&copy; 2024 Lácteos Hedybed. <span>Todos los derechos reservados.</span></p>
+  </footer>
+  {% endblock %}
+
+  <!-- Scripts de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz4fnFO9InLY0aPp6IRLz0zKZX0z5F02z4PAq0IIO4IYYgKp3kkbScw9i" crossorigin="anonymous"
+    defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-x5dB2aFhFzQK2qLlD4eij0qQOkeGpNSn5VZ8Kj5z/36pLJfC37/4y7C3WQ1ks6Nf" crossorigin="anonymous"
+    defer></script>
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      feather.replace();
+    });
+  </script>
+  <!-- Scripts personalizados -->
+  <script src="{% static 'js/navbar.js' %}?v={% now 'U' %}"></script>
+  <script src="{% static 'js/accesibilidad.js' %}?v={% now 'U' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{% extends "navbar.html" %}
+{% block titulo %}Proveedores y Insumos{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/insumo.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="gestion-container">
+    <h2 class="gestion-title" title="Gestión de proveedores y insumos">GESTIÓN DE PROVEEDORES Y INSUMOS</h2>
+    <div class="gestion-wrapper">
+        <!-- Gestión de Proveedores -->
+        <div class="gestion-card">
+            <div class="card-content">
+                <div class="card-icon" title="Icono de gestión de proveedores">
+                    <i class="bi bi-truck"></i> <!-- Icono de proveedores -->
+                </div>
+                <h3 title="Gestionar proveedores">GESTIONAR PROVEEDORES</h3>
+                <p title="Descripción para gestionar proveedores">Gestiona los proveedores para tu empresa.</p>
+                <a href="{% url 'crear_proveedor' %}" class="btn btn-agregar" title="Agregar proveedor">AGREGAR PROVEEDOR</a>
+                <a href="{% url 'listar_proveedor' %}" class="btn btn-consultar" title="Consultar proveedores">CONSULTAR PROVEEDORES</a>
+            </div>
+        </div>
+
+        <!-- Gestión de Insumos -->
+        <div class="gestion-card">
+            <div class="card-content">
+                <div class="card-icon" title="Icono de gestión de insumos">
+                    <i class="bi bi-box"></i> <!-- Icono de insumos -->
+                </div>
+                <h3 title="Gestionar insumos">GESTIONAR INSUMOS</h3>
+                <p title="Descripción para consultar insumos">Añade y consulta los insumos en el sistema.</p>
+                <a href="{% url 'agregar_insumo' %}" class="btn btn-agregar" title="Agregar insumo">AGREGAR INSUMO</a>
+                <a href="{% url 'consultar_insumo' %}" class="btn btn-consultar" title="Consultar insumos">CONSULTAR INSUMOS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

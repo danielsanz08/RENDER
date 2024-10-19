@@ -1,0 +1,78 @@
+{% extends "navbar.html" %}
+{% block titulo %}Usuarios Registrados{% endblock %}
+{% load static %}
+
+{% block contenido %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="{% static 'css/listar_usuarios.css' %}?v1.8" rel="stylesheet" />
+
+<section id="consultar" class="section">
+    <div class="container">  
+        <h2>Usuarios Registrados</h2>  
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Teléfono</th>
+                    <th>Foto de Perfil</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.name }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.role }}</td>
+                    <td>{{ usuario.phone }}</td>
+                    <td>
+                        {% if usuario.profile_picture %}
+                            <img src="{{ usuario.profile_picture.url }}" alt="Foto de perfil" style="width: 50px; height: 50px;">
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="estado-icon" data-estado="{{ usuario.estado }}" onclick="toggleEstado(this)">
+                            {% if usuario.estado == 'Activo' %}
+                                <i class="fas fa-check-circle" style="color: green;"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle" style="color: red;"></i>
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="{% url 'editar_perfil' %}" role="button">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger" role="button">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-warning" href="{% url 'usuario' %}">Volver</a>
+        <p id="no-results" style="display: none;">No se encontraron resultados.</p>
+    </div>
+</section>
+
+<script>
+function toggleEstado(element) {
+    // Toggle estado between 'Activo' and 'Inactivo'
+    const estado = element.getAttribute('data-estado');
+    if (estado === 'Activo') {
+        element.innerHTML = '<i class="fas fa-times-circle" style="color: red;"></i>';
+        element.setAttribute('data-estado', 'Inactivo');
+    } else {
+        element.innerHTML = '<i class="fas fa-check-circle" style="color: green;"></i>';
+        element.setAttribute('data-estado', 'Activo');
+    }
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "navbar.html" %} 
+{% load static %} 
+{% block titulo %}Copia de seguridad{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/backup.css' %}?v={% now "U" %}" rel="stylesheet" />
+<div class="background-image">
+    <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+  </div>
+  
+<main>
+    <section id="backup">
+        <div>
+            <p>Copias de Seguridad</p>
+            <form method="post" id="createBackupForm">
+                {% csrf_token %}
+                <button type="submit" name="create_backup" class="btn btn-primary" onclick="return confirm('¿Está seguro de que desea crear una nueva copia de seguridad?')">
+                    Crear Backup
+                </button>
+            </form>
+        
+        </div>
+    </section><br>
+    <section>
+        
+    {% if backups %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for backup in backups %}
+                <tr>
+                    <td>{{ backup.name }}</td>
+                    <td>{{ backup.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <form method="post" action="{% url 'backup' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="backup_id" value="{{ backup.id }}">
+                            <button type="submit" name="restore_backup" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro de que desea restaurar esta copia de seguridad? Esta acción sobrescribirá los datos actuales.')">
+                                Restaurar
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'backup' %}" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="backup_id" value="{{ backup.id }}">
+                            <button type="submit" name="delete_backup" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar esta copia de seguridad? Esta acción no se puede deshacer.')">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        No hay copias de seguridad disponibles.
+    </div>
+    {% endif %}
+</div>
+
+    </section>
+</main>
+{% endblock %}

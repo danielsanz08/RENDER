@@ -1,0 +1,150 @@
+
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #c9e4f7;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    margin-top: 20vh;
+    margin-bottom: 6%;
+}
+
+.card-header {
+    color: aliceblue;
+    background-color: #4984ac;
+}
+
+.name_user, .email_user, .phone_user, .rol_user {
+    background-color: #4984ac;
+    height: 50px;
+    margin: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+input.form-control {
+    justify-content: center;
+    align-items: center;
+}
+
+.list-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.card-footer .btn-success {
+    margin: 0;
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 30%;
+    margin-left: 35%;
+    text-align: center;
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.picture {
+    border-radius: 80px;
+    display: block;
+    margin: 0;
+    height: 150px;
+    margin-left: 20vh;
+}
+
+.cambiar {
+    display: flex;
+    gap: 5vh;
+    align-items: center;
+}
+
+/* Modo oscuro */
+body.dark main {
+    background-color: #000;
+}
+
+body.dark .card {
+    background-color: #93a9b9;
+}
+
+body.dark .card-header {
+    background-color: #366686;
+}
+
+body.dark .name_user,
+body.dark .email_user,
+body.dark .phone_user,
+body.dark .rol_user {
+    background-color: #366686;
+}
+body.dark .btn-success {
+    background-color: rgb(190, 189, 189);
+}
+@media (min-width: 1367px) {
+    .card {
+        width: 70vh;
+        
+    }
+    .name_user, .email_user, .phone_user, .rol_user{
+        margin-left: 7vh;
+        margin-right: 9vh;
+    }
+    .btn-success{
+        height: 20vh;
+        justify-content: center;
+        align-items: center;
+        
+    }
+}

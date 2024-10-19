@@ -1,0 +1,104 @@
+{% extends "navbar.html" %}
+{% block titulo %}Crear Transacción{% endblock %}
+{% load static %}
+{% block contenido %}
+<link href="{% static 'css/crear_transaccion.css' %}?v1.9" rel="stylesheet" />
+<main>
+    <div class="container">
+        <div class="login wrap">
+            <form id="transaction-form" method="post">
+                {% csrf_token %}
+                <h2>Registrar Nueva Transacción</h2><br>
+                
+                <div class="form-group">
+                    <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                    <select name="tipo" required id="op_create">
+                        <option value="" selected disabled>Selecciona una opción</option>
+                        <option value="Compra">Compra</option>
+                        <option value="Venta">Venta</option>
+                        <option value="Gasto">Gasto</option>
+                        <option value="Ingreso">Ingreso</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cliente"><h3>Cliente</h3></label>
+                    <select name="cliente" required id="cliente">
+                        <option value="" selected disabled>Selecciona un cliente</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.id }}">{{ cliente.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div id="productos-container">
+                    <div class="form-group producto">
+                        <label for="producto"><h3>Producto</h3></label>
+                        <select name="productos[]" required class="producto-select">
+                            <option value="" selected disabled>Selecciona un producto</option>
+                            {% for producto in productos %}
+                                <option value="{{ producto.id }}" data-precio="{{ producto.precio }}">{{ producto.nombre }} - {{ producto.presentacion }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="number" name="cantidades[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                    </div>
+                </div>
+                
+                <button type="button" id="agregar-producto">Agregar otro producto</button>
+                
+                <div class="form-group">
+                    <label for="monto"><h3>Monto Total ($ COP)</h3></label>
+                    <input type="number" name="monto" step="0.01" placeholder="Monto total" required id="monto-total" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descripcion"><h3>Descripción</h3></label>
+                    <textarea name="descripcion" placeholder="Ingresa una descripción" required id="op_create"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha"><h3>Fecha</h3></label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                
+                <div class="botones">
+                    <button type="submit" class="btn btn-success">Registrar Transacción</button>
+                    <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button">Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productosContainer = document.getElementById('productos-container');
+    const agregarProductoBtn = document.getElementById('agregar-producto');
+    const montoTotalInput = document.getElementById('monto-total');
+
+    agregarProductoBtn.addEventListener('click', function() {
+        const nuevoProducto = productosContainer.children[0].cloneNode(true);
+        nuevoProducto.querySelector('select').selectedIndex = 0;
+        nuevoProducto.querySelector('input').value = '';
+        productosContainer.appendChild(nuevoProducto);
+    });
+
+    productosContainer.addEventListener('change', calcularMontoTotal);
+
+    function calcularMontoTotal() {
+        let total = 0;
+        const productos = productosContainer.querySelectorAll('.producto');
+        productos.forEach(producto => {
+            const select = producto.querySelector('select');
+            const cantidad = producto.querySelector('input').value;
+            const precio = select.options[select.selectedIndex].dataset.precio;
+            if (precio && cantidad) {
+                total += parseFloat(precio) * parseInt(cantidad);
+            }
+        });
+        montoTotalInput.value = total.toFixed(2);
+    }
+});
+</script>
+
+{% endblock %}

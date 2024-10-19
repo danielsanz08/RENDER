@@ -1,0 +1,90 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Usuario{% endblock %}
+
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/usuario.css' %}?v1.8" rel="stylesheet" />
+
+<main>
+    <div class="contenedor">
+        <div class="container">
+            <div class="bienvenida text-center" id="bienvenida">
+                {% if user.is_authenticated %}
+                    <h2>¡Hola, {{ user.first_name }}!</h2>
+                    <div class="profile-picture">
+                        <img src="https://via.placeholder.com/150" alt="Foto de perfil">
+                    </div>
+                    <p>Bienvenido a tu panel de usuario.</p>
+                {% else %}
+                    <h2>¡Hola!</h2>
+                    <p>Por favor, <a href="{% url 'login' %}">inicia sesión</a> para acceder a las funcionalidades de tu cuenta.</p>
+                {% endif %}
+            </div>
+        
+            {% if user.is_authenticated %}
+            <!-- Sección de acciones disponibles -->
+            <section class="user-actions mt-4" id="user-actions">
+                <h2>Acciones Disponibles</h2>
+                <ul class="list-group">
+                    <a class="btn-success" href="{% url 'ver_perfil' %}">Ver perfil</a><br>
+                    <a class="btn-success" href="{% url 'editar_perfil' %}">Editar Perfil</a><br>
+                    <a class="btn-success" href="#" onclick="mostrarAlerta()">Cambiar Contraseña</a><br>
+                </ul>
+            </section>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card" id="cambiar_contraseña">
+        <div class="card-header">
+            <h3 class="text-center mb-0"><b>Cambiar Contraseña</b></h3>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="password_actual">
+                    <label for="currentPassword" class="form-label fw-bold">Contraseña actual:</label>
+                    <input type="password" class="form-control" id="currentPassword" required>
+                </div>
+                <div class="new_password">
+                    <label for="newPassword" class="form-label fw-bold">Nueva contraseña:</label>
+                    <input type="password" class="form-control" id="newPassword" required>
+                </div>
+                <div class="new_password">
+                    <label for="confirmPassword" class="form-label fw-bold">Confirmar nueva contraseña:</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+                <div class="mensaje">
+                    <div class="form-text">
+                        La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una minúscula, un número y un carácter especial.
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-success" href="#">Guardar cambios</a>
+            <a class="btn btn-success" href="{% url 'usuario' %}">Cancelar</a>
+        </div>
+    </div>
+    <footer>
+    <div class="c">
+        <p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+</main>
+<script>
+    function mostrarAlerta() {
+        document.getElementById("cambiar_contraseña").style.display = 'block';
+    }
+    
+    function confirmarEnvio() {
+        document.getElementById("cambiar_contraseña").style.display = 'none';
+        // Submit the form if the user confirms
+        document.getElementById('cambiar_contraseña').submit();
+    }
+    
+    function cerrarVentana() {
+        document.getElementById("cambiar_contraseña").style.display = 'none';
+    }
+</script>
+{% endblock %}

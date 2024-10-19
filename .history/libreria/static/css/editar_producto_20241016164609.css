@@ -1,0 +1,268 @@
+/* Ajustes para el layout principal */
+main {
+    margin-top: 22vh;
+    margin-left: 5%; /* Ajustado para ser más responsivo */
+    margin-right: 5%; /* Ajustado para ser más responsivo */
+    margin-bottom: 80px; /* Espacio adicional en la parte inferior */
+}
+
+/* Contenedor de la tarjeta de edición */
+.card {
+    width: 90%; /* Aumenté el ancho para pantallas pequeñas */
+    max-width: 700px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    margin: 30px auto;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: #01AB7B;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.8rem; /* Aumenté el tamaño de fuente */
+    font-weight: 700;
+    border-bottom: 3px solid #03c993;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+}
+
+.card-body {
+    padding: 25px 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    gap: 20px;
+    background: #ffffff;
+    border-radius: 0 0 20px 20px;
+}
+/* Estilos generales del formulario */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para las etiquetas */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilos para los campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilos para el select */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+}
+
+/* Estilos para los botones */
+button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #00a86b;
+}
+
+button[type="button"] {
+    background-color: #00a86b;
+}
+
+/* Diseño de dos columnas para los botones */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+/* Estilos para los campos de entrada */
+.form-group {
+    width: 100%; /* Asegúrate de que ocupa el 100% del ancho */
+}
+
+.card-body .form-control {
+    width: 100%; /* Ancho completo del contenedor */
+    max-width: 450px; /* Ancho máximo deseado */
+    height: 50px; /* Mantener la altura */
+    border: none;
+    border-radius: 15px; /* Bordes más suaves */
+    background: #f2f2f2;
+    padding: 12px; /* Aumenta el padding */
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    font-size: 1.1rem; /* Aumenta el tamaño de fuente */
+}
+
+.card-body .form-control:focus {
+    box-shadow: 0px 0px 8px rgba(1, 171, 123, 0.5);
+    background-color: #ffffff;
+}
+
+label {
+    font-size: 1.2rem; /* Aumentar tamaño de fuente */
+    font-weight: bold; /* Hacer texto más audaz */
+    color: #333; /* Color de texto más oscuro para un mejor contraste */
+}
+
+/* Estilos para los botones */
+.botones {
+    display: flex; /* Usar flexbox para centrar los botones */
+    justify-content: center; /* Centrar horizontalmente */
+    gap: 10px; /* Espacio entre los botones */
+}
+
+/* Botones */
+.btn-success, .btn-warning {
+    position: relative; /* Necesario para el efecto decorativo */
+    padding: 0.5em 1.2em; /* Espaciado más equilibrado */
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    text-transform: uppercase; 
+    letter-spacing: 1px; /* Espaciado entre letras */
+    font-weight: 600; /* Grosor de fuente */
+    color: #fff; /* Texto blanco */
+    background-color: #01AB7B; /* Verde sutil */
+    border: none; /* Sin borde */
+    border-radius: 30px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer;
+}
+
+/* Efectos hover */
+.btn-success:hover, .btn-warning:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+}
+
+/* Efecto al hacer clic */
+.btn-success:active, .btn-warning:active {
+    transform: translateY(1px); /* Efecto de presionar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+/* Efecto decorativo para los botones de acción */
+.btn-success::after, .btn-warning::after {
+    content: ""; /* Efecto decorativo */
+    position: absolute; /* Posicionamiento absoluto */
+    top: 0; /* Alineado en la parte superior */
+    left: 0; /* Alineado a la izquierda */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    background: rgba(255, 255, 255, 0.3); /* Fondo blanco con transparencia */
+    border-radius: 0; /* Sin bordes redondeados */
+    transform: scale(0); /* Escalar inicialmente */
+    transition: transform 0.3s ease; /* Efecto de transformación suave */
+}
+
+/* Efectos hover para el decorativo */
+.btn-success:hover::after, .btn-warning:hover::after {
+    transform: scale(1); /* Escalar al pasar el mouse */
+}
+
+/* Efecto hover para el botón de volver */
+.btn-warning:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    color: #fff; /* Asegúrate de que el texto sea blanco */
+}
+
+/* Estilos para el popup */
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 9999;
+}
+
+/* Estilos de alertas (éxito y error) */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.checkmark {
+    margin: 10px auto;
+}
+
+.checkmark-svg {
+    width: 50px;
+    height: 50px;
+    stroke: #4CAF50;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawCircle 0.6s ease-out forwards;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCheck 0.3s 0.6s ease-out forwards;
+}
+
+@keyframes drawCircle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

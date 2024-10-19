@@ -1,0 +1,163 @@
+{% extends "navbar.html" %}
+{% block titulo %}Movimientos Registrados{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<!-- Bibliotecas para generación de PDFs y Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Solo usa una versión de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- html2pdf debe estar al final después de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link href="{% static 'css/ver_transacciones.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<link href="{% static 'css/eliminar_movimiento.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="container">
+    <h2 title="Movimientos registrados">Movimientos Registrados</h2>
+    <div class="toolbar">
+        <form id="search-form">
+            <select id="search-select" title="Selecciona el criterio de búsqueda">
+                <option value="todos" title="Todos">Todos</option>
+                <option value="tipo_transaccion" title="Tipo de transacción">Tipo de transacción</option>
+                <option value="cliente" title="Cliente">Cliente</option>
+                <option value="descripcion" title="Descripción">Descripción</option>
+                <option value="monto" title="Monto">Monto</option>
+                <option value="fecha" title="Fecha">Fecha</option>
+                <option value="producto" title="Producto">Producto</option> <!-- Agregado producto -->
+            </select>
+            <input type="text" id="search-input" placeholder="Buscar..." style="display: inline-block;" title="Buscar">
+            <input type="date" id="search-date" class="date-input" style="display:none;" title="Buscar">
+            <input class="btn btn-success" type="submit" value="Buscar" title="Buscar"/>
+        </form>
+        <p id="search-warning" style="color: red; display: none;" title="Advertencia de búsqueda">No se encontraron resultados.</p>
+        
+        <div class="opciones" title="Opciones adicionales">
+            <a class="opc" onclick="printTable()" title="Imprimir la tabla de movimientos">
+                <i class="bi bi-printer"></i>
+                <span>Imprimir</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_excel_movimiento' %}" role="button" data-tooltip="Descargar tabla en excel">
+                <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
+            </a>
+            <a class="opc" href="{% url 'reporte_pdf_movimiento' %}" role="button" data-tooltip="Descargar tabla en pdf">
+                <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="search-results">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th title="Tipo de transacción">Tipo de movimiento</th>
+                    <th title="Cliente">Cliente</th>
+                    <th title="Producto">Producto</th> <!-- Agregado producto -->
+                    <th title="Descripción">Descripción</th>
+                    <th title="Monto">Monto</th>
+                    <th title="Fecha">Fecha</th>
+                    <th title="Acciones">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaccion in transacciones %}
+                <tr>
+                    <td title="Tipo de movimiento">{{ transaccion.tipo }}</td>
+                    <td title="Nombre del cliente">{{ transaccion.cliente.nombre }}</td>
+                    <td title="Producto">{{ transaccion.producto.nombre }}</td> <!-- Mostrar producto -->
+                    <td title="Descripcion del movimiento">{{ transaccion.descripcion }}</td>
+                    <td title="Monto del movimiento">{{ transaccion.monto }}</td>
+                    <td title="Fecha del movimiento">{{ transaccion.fecha|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="#" class="btn btn-danger" role="button" title="Eliminar transacción"
+                        onclick="showConfirmModal(event, '{{ transaccion.id }}', '{{ transaccion.tipo }}');">
+                            <i data-feather="trash" class="icon-small"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger" role="button" title="ver transaccion" 
+                        onclick="openViewTransactionModal('{{ transaccion.tipo }}', '{{ transaccion.cliente.nombre }}', '{{ transaccion.producto.nombre }}', '{{ transaccion.descripcion|default:"No disponible" }}', '{{ transaccion.monto }}', '{{ transaccion.fecha|date:"d/m/Y" }}');">
+                            <i data-feather="eye" class="icon-small"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
+        <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button" title="Volver">Volver</a>
+    </div><br>       
+</div>
+
+<!-- Modal de ver transacción -->
+<div id="viewTransactionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeViewTransactionModal()">&times;</span>
+        <h3>Detalles del movimiento</h3>
+        <p id="transaction-details"></p> <!-- Aquí se mostrarán los detalles -->
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay" style="display: none;"></div>
+
+<!-- Modal de confirmación -->
+<div class="card" id="confirmModal" style="display: none;">
+    <div class="card-header text-center">
+        <h3 class="mb-0" title="Eliminar movimiento"><b>ELIMINAR MOVIMIENTO</b></h3>
+    </div>
+    <div class="card-body">
+        <p class="confirmation-message" style="text-align: center;">
+            ¿Está seguro de que desea eliminar el movimiento "<span id="transaccion-nombre"></span>"?
+        </p>
+        <form method="post" id="delete-form-transaccion">
+            {% csrf_token %}
+            <input type="hidden" id="transaccion-id" name="transaccion-id" value=""/>
+            <div class="card-footer">
+                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar movimiento"/>
+                <a class="btn btn-warning" href="#" onclick="closeModal()" role="button" title="Cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Marca de agua -->
+<img src="{% static 'imagen/logo_hedybed.png' %}" class="watermark" alt="Marca de agua de la empresa">
+<div id="watermark-url" data-url="{% static 'imagen/logo_hedybed.png' %}"></div>
+<script>
+    const watermarkUrl = "{% static 'imagen/logo_hedybed.png' %}";
+</script>
+
+<script src="{% static 'js/consultar_ventas.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/eliminar_movimiento.js' %}?v={% now 'U' %}"></script>
+
+<script>
+    function openViewTransactionModal(tipo, cliente, producto, descripcion, monto, fecha) {
+        const transactionDetails = `
+            <strong>Tipo:</strong> ${tipo}<br>
+            <strong>Cliente:</strong> ${cliente}<br>
+            <strong>Producto:</strong> ${producto}<br> <!-- Agregado producto -->
+            <strong>Descripción:</strong> ${descripcion}<br>
+            <strong>Monto:</strong> ${monto}<br>
+            <strong>Fecha:</strong> ${fecha}<br>
+        `;
+        
+        // Mostrar los detalles en el modal
+        document.getElementById('transaction-details').innerHTML = transactionDetails;
+        document.getElementById('viewTransactionModal').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closeViewTransactionModal() {
+        document.getElementById('viewTransactionModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+{% endblock %}

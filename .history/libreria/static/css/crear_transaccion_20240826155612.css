@@ -1,0 +1,41 @@
+#transaction-form {
+    background-color: #c9e4f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 20px 20px;
+}
+h3 {
+    color: #000000; /* Color del texto */
+    font-size: 1.5rem; /* Tamaño de la fuente */
+    margin-bottom: 15px; /* Espacio debajo del elemento */
+    font-family: 'Times New Roman', Times, serif; /* Familia de la fuente */
+    font-weight: bold;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Espacio entre los botones */
+}
+.card-footer .btn-success {
+    margin: 0; /* Asegúrate de que no haya margen adicional */
+}

@@ -1,0 +1,128 @@
+main {
+    margin-top: 6%;
+    margin-left: 12%;
+    margin-right: 6%;
+  }
+  body{
+    padding: 0;
+}
+/* Estilos generales del contenedor */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    margin-top: 10vh;
+    height: 50vh;
+}
+/* Estilos de la tarjeta */
+.card {
+    background-color: #c9f7e8;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+    background-color: #49ac72;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #000000;
+    padding: 10px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.h3 {
+    text-align: center;
+    margin: 0;
+}
+.card-body {
+    padding: 20px;
+}
+/* Estilos de la imagen de perfil */
+img {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+/* Estilos de los detalles del usuario */
+.user-details {
+    text-align: center;
+}
+.user-details label {
+    font-weight: bold;
+}
+
+.user-details p {
+    margin-bottom: 1px;
+}
+/* Estilos del botón */
+.btn-warning {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 20%;
+    margin-left: 43%;
+    margin-bottom: 20vh; /* Reducido para subir el botón */
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+
+a {
+    text-decoration: none;
+}
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+    main {
+        height: 80vh;
+        top: 0%;
+    }
+
+    .card {
+        margin-top: 15px;
+        height: 78vh;
+        width: 70%;
+        margin-left: 20vh;
+    }
+    .list-group {
+        height: 7vh;
+        margin-left: 5%;
+    }
+
+    p, label {
+        font-size: 13px;
+    }
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+    main {
+        margin-top: 4vh;
+    }
+    .card {
+     margin-top: -4vh;
+     height: 60vh;
+    }
+}
+

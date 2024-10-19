@@ -1,0 +1,137 @@
+
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+
+{% block contenido %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="{% static 'css/ver_transacciones.css' %}?v1.2" rel="stylesheet" />
+
+<a href={% url "contabilidad' %} id="back-icon"><img src="{% static 'imagen/back-icon.png' %}" width="70" alt="Logo Hedybed"></a><br>
+
+<!-- Formulario de búsqueda -->
+<form id="search-form">
+    <select id="search-select">
+        <option value="todos">Todos</option>
+        <option value="compra">Compra</option>
+        <option value="venta">Venta</option>
+        <option value="gasto">Gasto</option>
+        <option value="ingreso">Ingreso</option>
+        <option value="fecha">Fecha</option>
+        <option value="descripcion">Descripción</option>
+    </select>
+    <input type="date" id="search-input" style="display: none;">
+    <button type="button" id="search-button">Buscar</button>
+</form><br>
+<p id="search-warning" style="color: red; display: none;"></p>
+
+<!-- Resultados de la búsqueda -->
+<div id="search-results">
+    <table class="table_transaccion">
+        <thead>
+            <tr>
+                <th class="item1">Tipo de transacción</th>
+                <th class="item2">Descripción</th>
+                <th class="item3">Monto</th>
+                <th class="item4">Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="transactions-table-body">
+            {% for transaccion in transacciones %}
+            <tr>
+                <td>{{ transaccion.tipo }}</td>
+                <td>{{ transaccion.descripcion }}</td>
+                <td>{{ transaccion.monto }}</td>
+                <td>{{ transaccion.fecha|date:"Y/m/d" }}</td>
+            </tr>
+            
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <p id="no-results" style="display: none;">No se encontraron resultados.</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos del DOM
+        var searchButton = document.getElementById('search-button');
+        var searchSelect = document.getElementById('search-select');
+        var searchInput = document.getElementById('search-input');
+        var searchWarning = document.getElementById('search-warning');
+        var transactionsTableBody = document.getElementById('transactions-table-body');
+        var noResultsMessage = document.getElementById('no-results');
+    
+        // Eventos del selector de búsqueda
+        searchSelect.addEventListener('change', function() {
+            var selectedOption = this.value;
+            if (selectedOption === 'descripcion' || selectedOption === 'fecha') {
+                searchInput.style.display = 'inline-block';
+                searchInput.value = ''; // Limpiar el input al cambiar la opción
+                searchWarning.style.display = 'none';
+            } else {
+                searchInput.style.display = 'none';
+                searchWarning.style.display = 'none';
+                performSearch(); // Realizar búsqueda automática para otras opciones
+            }
+        });
+    
+        // Eventos del botón de búsqueda
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    
+        // Función de búsqueda
+        function performSearch() {
+            var selectedOption = searchSelect.value;
+            var searchText = searchInput.value;
+
+            if (selectedOption === 'fecha' && searchText) {
+                // Convertir fecha al formato de la base de datos
+                var partesFecha = searchText.split('-');
+                searchText = partesFecha[0] + '/' + partesFecha[1] + '/' + partesFecha[2];
+            }
+
+            if ((selectedOption === 'descripcion' || selectedOption === 'fecha') && searchText === '') {
+                searchWarning.textContent = `Ingresa una ${selectedOption === 'descripcion' ? 'descripción' : 'fecha'}`;
+                searchWarning.style.display = 'block';
+                return;
+            }
+    
+            searchWarning.style.display = 'none';
+            var rows = transactionsTableBody.getElementsByTagName('tr');
+            var found = false;
+    
+            Array.from(rows).forEach(function(row) {
+                var shouldDisplay = false;
+                var cells = row.getElementsByTagName('td');
+    
+                if (selectedOption === 'todos') {
+                    shouldDisplay = true;
+                } else if (['compra', 'venta', 'gasto', 'ingreso'].includes(selectedOption)) {
+                    shouldDisplay = cells[0].textContent.toLowerCase() === selectedOption;
+                } else if (selectedOption === 'fecha') {
+                    shouldDisplay = cells[3].textContent.includes(searchText);
+                } else if (selectedOption === 'descripcion') {
+                    shouldDisplay = cells[1].textContent.toLowerCase().includes(searchText.toLowerCase());
+                }
+    
+                row.style.display = shouldDisplay ? '' : 'none';
+                found = found || shouldDisplay;
+            });
+    
+            noResultsMessage.style.display = found ? 'none' : 'block';
+        }
+    });
+</script>
+
+<style>
+.selected {
+    background-color: #e0e0e0;
+}
+</style>
+
+{% endblock %}

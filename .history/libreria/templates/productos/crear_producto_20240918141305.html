@@ -1,0 +1,58 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Crear Producto{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/crear_producto.css' %}?v1.0" rel="stylesheet" />
+<main>
+    <section>
+        <div class="container">
+            <div class="card_uno">
+                <div class="card_dos">
+                    <div class="card-header">Crear Producto</div>
+                    <form method="post" enctype="multipart/form-data" class="form create-product">
+                        {% csrf_token %}
+                        
+                        <!-- Nombre del producto -->
+                        <div class="input-group">
+                            <i class='bx bx-package'></i>
+                            {{ form.nombre|as_crispy_field }}
+                        </div>
+                        
+                        <!-- Presentación -->
+                        <div class="input-group">
+                            <i class='bx bx-cube'></i>
+                            {{ form.presentacion|as_crispy_field }}
+                        </div>
+    
+                        <!-- Unidad de medida -->
+                        <div class="input-group">
+                            <i class='bx bx-ruler'></i>
+                            {{ form.unidad_medida|as_crispy_field }}
+                        </div>
+    
+                        <!-- Cantidad -->
+                        <div class="input-group">
+                            <i class='bx bx-list-ol'></i>
+                            {{ form.cantidad|as_crispy_field }}
+                        </div>
+                        
+                        <!-- Precio -->
+                        <div class="input-group">
+                            <i class='bx bx-money'></i>
+                            {{ form.precio|as_crispy_field }}
+                        </div>
+    
+                        <!-- Imágenes -->
+    
+                        <!-- Botón de creación -->
+                        <div class="botones">
+                            <button type="submit" id="btn-success">Crear Producto</button>
+                            <a class="btn-warning" href="{% url 'productos' %}" role="button">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

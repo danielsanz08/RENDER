@@ -1,0 +1,190 @@
+body {
+  margin-top: 12vh;
+  margin-left: 19vh;
+  margin-right: 6%;
+  margin-bottom: 80px;
+  display: flex; /* Cambiado a flex para centrar contenido */
+  flex-direction: column; /* Organizar en columnas */
+  align-items: center; /* Centrar horizontalmente */
+  justify-content: center; /* Centrar verticalmente */
+}
+
+.gallery {
+  margin-top: 12vh;
+  margin-left: 19vh;
+  margin-right: 6%;
+  margin-bottom: 80px;
+  --size: 150px;  /* Increased from 100px */
+  display: grid;
+  grid-template-columns: repeat(6, var(--size));
+  grid-auto-rows: var(--size);
+  margin-bottom: var(--size);
+  place-items: start center;
+  gap: 10px;  /* Increased from 5px */
+
+  &:has(:hover) img:not(:hover),
+  &:has(:focus) img:not(:focus) {
+      filter: brightness(0.5) contrast(0.5);
+  }
+
+  & img {
+      object-fit: cover;
+      width: calc(var(--size) * 2);
+      height: calc(var(--size) * 2);
+      clip-path: path("M135,15 C150,0 150,0 165,15 285,135 285,135 285,135 300,150 300,150 285,165 285,165 165,285 165,285 150,300 150,300 135,285 135,285 15,165 15,165 0,150 0,150 15,135Z");
+      transition: clip-path 0.3s, filter 0.9s;  /* Slightly increased transition times */
+      grid-column: auto / span 2;
+      border-radius: 8px;  /* Increased from 5px */
+
+      &:nth-child(5n-1) {
+          grid-column: 2 / span 2;
+      }
+
+      &:hover,
+      &:focus {
+          clip-path: path("M0,0 C0,0 300,0 300,0 300,0 300,150 300,150 300,150 300,300 300,300 300,300 150,300 150,300 150,300 150,300 0,300 0,300 0,150 0,150 0,150 0,150 0,150Z");
+          z-index: 1;
+          transition: clip-path 0.3s, filter 0.3s;
+      }
+
+      &:focus {
+          outline: 2px dashed black;  /* Increased from 1px */
+          outline-offset: -8px;  /* Adjusted from -5px */
+      }
+  }
+}
+/* Contenedor de la imagen de fondo */
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+  background-repeat: no-repeat;
+  background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+  opacity: 0.2;
+}
+
+.background-image img {
+  width: 80%; /* Reducido de 100% a 80% */
+  height: 150%;
+  object-fit: contain;
+  opacity: 0.2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Estilos del contenido principal */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin-top: 34vh;
+}
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+  .gallery {
+    --size: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, var(--size));
+    grid-auto-rows: var(--size);
+    margin-bottom: var(--size);
+    place-items: start center;
+    gap: 5px;
+
+    & img {
+      object-fit: cover;
+      width: calc(var(--size) * 2);
+      height: calc(var(--size) * 2);
+      clip-path: path("M90,10 C100,0 100,0 110,10 190,90 190,90 190,90 200,100 200,100 190,110 190,110 110,190 110,190 100,200 100,200 90,190 90,190 10,110 10,110 0,100 0,100 10,90Z");
+      transition: clip-path 0.25s, filter 0.75s;
+      grid-column: auto / span 2;
+      border-radius: 5px;
+    }
+
+    &:has(:hover) img:not(:hover),
+    &:has(:focus) img:not(:focus) {
+      filter: brightness(0.5) contrast(0.5);
+    }
+
+    & img:nth-child(5n-1) {
+      grid-column: 2 / span 2;
+    }
+
+    & img:hover,
+    & img:focus {
+      clip-path: path("M0,0 C0,0 200,0 200,0 200,0 200,100 200,100 200,100 200,200 200,200 200,200 100,200 100,200 100,200 100,200 0,200 0,200 0,100 0,100 0,100 0,100 0,100Z");
+      z-index: 1;
+      transition: clip-path 0.25s, filter 0.25s;
+    }
+
+    & img:focus {
+      outline: 1px dashed black;
+      outline-offset: -5px;
+    }
+  }
+}
+
+
+/* Estilos para la sección de información de la empresa */
+.company-info {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 15px; /* Bordes redondeados */
+  padding: 30px; /* Espaciado interno */
+  max-width: 900px; /* Ancho máximo de la sección */
+  margin: 40px auto; /* Centramos la sección y separamos más del resto */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+  border: 1px solid #e0e0e0; /* Borde sutil */
+}
+
+/* Estilo para los encabezados de la sección */
+.company-info h2 {
+  color: #01AB7B; /* Color principal de la empresa */
+  font-size: 2em; /* Tamaño de fuente más grande para los encabezados */
+  margin-bottom: 15px; /* Margen inferior */
+  text-align: center; /* Centrar el texto */
+  text-transform: uppercase; /* Mayúsculas */
+  letter-spacing: 1px; /* Espaciado de letras */
+}
+
+/* Estilo para los párrafos de la sección */
+.company-info p {
+  color: #555; /* Color del texto más suave */
+  line-height: 1.8; /* Altura de línea para mejor legibilidad */
+  margin-bottom: 20px; /* Margen inferior */
+  text-align: justify; /* Justificar texto para un aspecto más limpio */
+}
+
+/* Estilo para la lista de productos o servicios */
+.company-info ul {
+  list-style-type: none; /* Sin viñetas */
+  padding: 0; /* Sin espaciado interno */
+}
+
+.company-info li {
+  background-color: #f9f9f9; /* Fondo gris claro */
+  padding: 15px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  margin-bottom: 12px; /* Margen inferior entre ítems */
+  transition: background-color 0.3s, transform 0.2s; /* Transición suave para el efecto hover */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.company-info li:hover {
+  background-color: #01AB7B; /* Cambia el fondo al pasar el cursor */
+  color: white; /* Cambia el color del texto al blanco */
+  transform: translateY(-3px); /* Efecto de elevación al pasar el cursor */
+}
+
+/* Estilo para el ícono en la lista (si deseas agregar íconos) */
+.company-info li::before {
+  content: "✔"; /* Puedes usar un ícono o una imagen */
+  color: #01AB7B; /* Color del ícono */
+  margin-right: 10px; /* Espaciado entre el ícono y el texto */
+}

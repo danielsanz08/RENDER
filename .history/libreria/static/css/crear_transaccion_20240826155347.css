@@ -1,0 +1,12 @@
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: purple;
+}
+h3 {
+    color: #020202;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 12px;
+}

@@ -1,0 +1,138 @@
+/* Estilos para el contenedor de la tabla */
+.table {
+    margin: 70px;
+    padding: 20px;
+    max-width: 10%;
+}
+
+  /* Estilos generales para la tabla */
+.table_transaccion {
+    width: 70%;
+    margin-left: 10%;
+    background-color: #f9f9f9; /* Color de fondo de la tabla */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.table_transaccion th,
+.table_transaccion td {
+    padding: 12px;
+    border: 1px solid #000000;
+    text-align: left;
+}
+  /* Estilos para los encabezados de la tabla */
+.table_transaccion th {
+    background-color: #4984ac;
+    color: rgb(0, 0, 0); /* Color del texto en los encabezados */
+}
+/*columnas*/
+.table_transaccion td{
+    background: rgb(235, 234, 234);
+    color: rgb(0, 0, 0);
+    font-family: 'Times New Roman', Times, serif;
+}
+  /* Estilos específicos para cada columna */
+.item1,.item4, .item5{
+    width: 2%;
+    
+}
+.item2, .item3{
+    width: 10%;
+}
+#back-icon{
+    padding-right: 100%;
+}
+/* Filtro de busqueda*/
+#search-form{
+    
+    height: 90px;
+    padding: 20px 20px;
+}
+#search-select {
+    background-color: rgb(228, 228, 228);
+    height: 40px;
+    width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px; /* Hace que el elemento sea ovalado */
+    border: none; /* Sin bordes */
+    outline: none; /* Sin contorno al enfoque */
+    padding: 5px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+
+#search-select option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#search-select option:checked {
+    background-color: #167a1d; /* Color de fondo para la opción seleccionada */
+    color: white; /* Color del texto para la opción seleccionada */
+}
+#search-button {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #ccc8c8;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.322);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 10%;
+   
+}
+
+#search-button:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+
+#search-button:active {
+    transform: translateY(-1px);
+}
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Espacio entre los botones */
+}
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 10%;
+    margin-left: 10vh;
+    margin-top: 20vh;
+}
+
+.btn-success:hover {
+    background-color: #1e90ff;
+    box-shadow: 0px 15px 20px rgba(46, 104, 229, 0.61);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+
+.btn-success:active {
+    transform: translateY(-1px);
+}

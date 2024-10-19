@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(255, 246, 246);
+}
+
+/* Estilos para pantallas de mesa */
+@media (min-width: 1367px) {
+
+  main {
+    margin-top: 4%;
+    margin-left: 3%;
+  }
+
+}

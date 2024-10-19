@@ -1,0 +1,281 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>{% block titulo %}Lácteos Hedybed{% endblock %}</title>
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'imagen/logoFooter.png' %}" type="image/x-icon">
+  <!-- CSS de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+  <!-- CSS de íconos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- CSS personalizado base -->
+  <link href="{% static 'css/navbar.css' %}?v={% now " U" %}" rel="stylesheet" />
+</head>
+<style>
+  /* Estilos para el header en modo oscuro */
+  body.dark-mode #main-header {
+    background-color: #037a58;
+    /* Un tono más oscuro que el negro puro */
+    color: white;
+    /* Un tono de blanco más suave para el texto */
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+    /* Sombra más suave en modo oscuro */
+  }
+
+  body.dark-mode .navbar {
+    background-color: #037a58;
+    /* Un tono más oscuro que el negro puro */
+    color: white;
+    /* Un tono de blanco más suave para el texto */
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+    /* Sombra más suave en modo oscuro */
+  }
+
+  body.dark-mode {
+    background-color: black;
+  }
+
+  /* Modo monocromo aplicado solo a elementos de contenido */
+  body.monochrome-mode *:not(#accessibility-menu) {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+  }
+
+  /* Estilos para resaltar títulos */
+  body.highlight-titles h1,
+  body.highlight-titles h2,
+  body.highlight-titles h3,
+  body.highlight-titles h4,
+  body.highlight-titles h5,
+  body.highlight-titles h6,
+  body.highlight-titles b {
+    background-color: yellow;
+    padding: 2px 5px;
+    display: inline-block;
+  }
+
+  /* Opción de resaltar enlaces */
+  .highlight-links-button {
+    display: flex;
+    align-items: center;
+    background: #005b96;
+    /* Color de fondo para el botón */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+  }
+
+  /* Efecto de hover para el botón de resaltar enlaces */
+  .highlight-links-button:hover {
+    background: #0077b6;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Estilo para los enlaces resaltados */
+  .highlighted-link {
+    background-color: yellow;
+    /* Fondo resaltado */
+    color: #000;
+    /* Color del texto */
+    padding: 2px 4px;
+    border-radius: 3px;
+    text-decoration: none;
+    /* Sin subrayado */
+    font-weight: bold;
+  }
+
+  /* Estilo para el botón de fuente legible */
+  .readable-font-button {
+    display: flex;
+    align-items: center;
+    background: #679B9B;
+    /* Color de fondo similar al tema */
+    color: #ffffff;
+    /* Color de texto */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+
+  .readable-font-button .theme-icon {
+    margin-right: 8px;
+    font-size: 1.2em;
+  }
+
+  .readable-font-button:hover {
+    background: #4a6d6d;
+    /* Color de hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Estilo para la fuente legible */
+  body.readable-font {
+    font-family: 'Arial', sans-serif;
+    /* Usa una fuente legible como Arial */
+    line-height: 1.6;
+    /* Aumenta el espaciado entre líneas para mejorar la legibilidad */
+    font-size: 20px;
+    /* Aumenta ligeramente el tamaño de la fuente */
+  }
+
+</style>
+
+<body id="body">
+
+  <!-- Header -->
+  <header id="main-header">
+    <div class="header-content">
+      <b>Lácteos Hedybed</b>
+      <div class="nombre">
+        <img src="{% static 'imagen/logo.png' %}" alt="Logo Hedybed" id="logo">
+      </div>
+    </div>
+    <!--breadcrumbs-->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        {% if breadcrumb.url %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+        {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.name }}</li>
+        {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    <div class="header-icons">
+      {% if user.is_authenticated %}
+      <span class="name">Usuario: {{ user_name }}</span>
+      {% else %}
+      <span class="name">Usuario: Invitado</span>
+      {% endif %}
+    </div>
+  </header>
+
+  <!--Perfil-->
+  <div class="prof">
+    {% if user.is_authenticated %}
+    <img src="{{ user_profile_picture }}" alt="Foto de perfil" title="{{ user_name }}" class="profile-photo" width="50"
+      height="50">
+    
+      <a href="{% url 'logout_view' %}" class="logout">Cerrar sesión</a>
+      <a href="#perfil">Ver Perfil</a>
+    </div>
+    {% else %}
+    <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+    <div class="user-menu">
+      <a href="{% url 'logout_view' %}" class="logout">Cerrar sesión</a>
+      <a href="#perfil">Ver Perfil</a>
+    </div>
+    {% endif %}
+    
+    
+</div>
+  
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <ul class="navbar__menu">
+      <li class="navbar__item">
+        <a href="{% url 'inicio' %}" class="navbar__link"><i data-feather="home"></i><span>Inicio</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'contabilidad' %}" class="navbar__link"><i
+            data-feather="dollar-sign"></i><span>Contabilidad</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'usuario' %}" class="navbar__link"><i data-feather="users"></i><span>Usuarios</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'insumos' %}" class="navbar__link"><i data-feather="coffee"></i><span>Insumos</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="{% url 'backup' %}" class="navbar__link"><i data-feather="cloud"></i><span>Copia de
+            seguridad</span></a>
+      </li>
+      <li class="navbar__item">
+        <a href="manual/Manual de ususario.pdf" class="navbar__link"><i data-feather="help-circle"></i><span>Manual de
+            usuario</span></a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Contenido de la página -->
+  <main>
+    {% block contenido %}
+    <!-- Contenido específico de cada página aquí -->
+    {% endblock %}
+  </main>
+
+  <!-- Circulo blanco para accesibilidad -->
+  <div class="acc_icon" id="acc-icon" title="accesibilidad">
+    <i data-feather="settings"></i>
+  </div>
+
+  <!-- Menú para la accesibilidad -->
+  <div class="accesibilidad" id="accesibilidad" title="accesibilidad" style=display="none">
+    <div id="zoom-controls" class="menu-option">
+      <button class="zoom-button" id="zoom-in">+</button>
+      <button class="zoom-button" id="zoom-out">-</button>
+      <button class="zoom-reset" id="zoom-reset">⟳</button>
+      <span id="zoom-percentage">100%</span>
+    </div>
+    <div class="menu-option">
+      <button id="dark-mode-button" class="theme-button">
+        <span class="theme-icon">🌙</span> Modo Oscuro
+      </button>
+    </div>
+    <div class="menu-option">
+      <button id="monochrome-mode-button" class="theme-button">
+        <span class="theme-icon">🌑</span>Modo Monocromo
+      </button>
+    </div>
+    <div class="menu-option">
+      <button class="highlight-titles-button">
+        <span class="theme-icon">🔆</span> Resaltar Títulos
+      </button>
+    </div>
+
+    <div class="menu-option">
+      <button id="highlight-links-button" class="highlight-links-button">
+        <span class="theme-icon">🔗</span> Resaltar Enlaces
+      </button>
+    </div>
+    <div class="menu-option">
+      <button id="readable-font-button" class="readable-font-button">
+        <span class="theme-icon">🔤</span> Fuente Legible
+      </button>
+    </div>
+  </div>
+
+  {% block footer %}
+  <footer>
+    <img src="{% static 'imagen/logoFooter.png' %}" alt="Logo Hedybed" class="logoFooter">
+    <p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+  </footer>
+  {% endblock %}
+<script>
+  
+  
+</body>
+
+</html>

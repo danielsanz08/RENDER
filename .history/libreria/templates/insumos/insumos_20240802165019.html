@@ -1,0 +1,40 @@
+{% extends "navbar.html" %}
+{% block titulo %}{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/insumo.css' %}?v1.1" rel="stylesheet" />
+
+<div class="nav_insumos">
+    <h2>Gestión de Insumos</h2>
+    <nav>
+        <ul>
+            <li><a href="{% url 'agregar_insumo' %}">Agregar Insumo</a></li>
+            <li><a href="{% url 'editar_insumo' %}">Editar Insumos</a></li>
+            <li><a href="{% url 'consultar_insumo' %}">Consultar Insumos</a></li>
+            <li><a href="#informes">Informes de Insumos</a></li>
+        </ul>
+    </nav>
+</div>
+
+<section id="informes" class="section section-dark">
+    <div class="container">
+        <h2>Informes de Insumos</h2>
+        <div class="report-cards">
+            <div class="report-card">
+                <h3>Informe de Existencias</h3>
+                <p><i class="fas fa-file-alt"></i> <a href="#">Ver Informe Completo</a></p>
+            </div>
+            <div class="report-card">
+                <h3>Informe de Movimientos</h3>
+                <p><i class="fas fa-file-alt"></i> <a href="#">Ver Informe Completo</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 hedybed. Todos los derechos reservados.</p>
+    </div>
+</footer>
+{% endblock %}

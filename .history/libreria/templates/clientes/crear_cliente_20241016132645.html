@@ -1,0 +1,86 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Crear Cliente{% endblock %}
+{% block contenido %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href="{% static 'css/crear_cliente.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="container">
+    <form method="POST" id="crear-cliente-form">
+        {% csrf_token %}
+        <h1 title="Agregar cliente">AGREGAR CLIENTE</h1>
+
+        <div class="form-group">
+            <label for="tipo_cliente" title="Tipo de cliente">Tipo de Cliente:</label>
+            <select name="tipo_cliente" required title="Selecione el tipo de cliente" class="form-control">
+                <option value="" title="Opción predeterminada">Seleccione un tipo de cliente</option>
+                <option value="minorista" title="Cliente minorista">Minorista</option>
+                <option value="mayorista" title="Cliente mayorista">Mayorista</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group-tipo">
+                <label for="tipo_documento" title="Tipo de documento"></label>
+                <select id="tipo_documento" name="tipo_documento" required title="Seleccione el tipo de documento" class="form-control">
+                    <option value="" disabled selected>Seleccione el tipo de documento</option>
+                    <option >Cédula de ciudadanía</option>
+                    <option >Tarjeta de identidad</option>
+                    <option >Cédula de extranjería</option>
+                    <option>Pasaporte</option>
+                    <option>Registro civil de nacimiento</option>
+                    <option>Número de Identificación Tributaria (NIT)</option>
+                    <option>Permiso especial de permanencia (PEP)</option>
+                </select>
+            </div>
+        
+            <div class="form-group-numero">
+                <label for="numero_documento" title="Número de documento"></label>
+                <input type="text" id="numero_documento" name="documento" placeholder="Número de documento" class="form-control" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="nombre" title="Nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required title="Ingrese el nombre" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="email" title="Correo Electrónico">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" placeholder="Correo Electrónico" required title="Ingrese el correo electrónico" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="telefono" title="Teléfono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required title="Ingrese el teléfono" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="direccion" title="Dirección">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Dirección" required title="Ingrese la dirección" class="form-control">
+        </div>
+
+        <div class="button-group" title="Botones de acción">
+            <button type="submit" class="btn btn-success" title="Guardar">GUARDAR</button>
+            <a href="{% url 'clientes' %}" class="btn btn-warning" title="Volver">VOLVER</a>
+        </div>
+    </form>
+    
+    <!-- Popup -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="checkmark">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+            </svg>
+        </div>
+        <p>Registro exitoso</p>
+    </div>
+</div>
+
+<script src="{% static 'js/crear_cliente.js' %}?v={% now 'U' %}"></script>
+
+{% endblock %}

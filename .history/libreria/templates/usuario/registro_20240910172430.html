@@ -1,0 +1,99 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Crear perfil{% endblock %}
+{% block contenido %}
+<link href="{% static 'css/registro.css' %}?v1.21" rel="stylesheet" />
+<main>
+    <section>
+        <div class="container">
+            <div class="card_uno">
+                <div class="card_dos">
+                    <div class="card-header">Crear perfil</div>
+                    <form method="post" enctype="multipart/form-data" class="form sign-up">
+                        {% csrf_token %}
+                        
+                        <!-- Foto de perfil -->
+                        <div class="input-group">
+                            <i class='bx bxs-camera'></i>
+                            <label for="imageUpload"></label>
+                            <input type="file" name="profile_picture" class="profile_picture">
+                            {% if form.profile_picture.errors %}
+                                <span class="error">{{ form.profile_picture.errors }}</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Nombre -->
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" name="name" placeholder="Nombre" value="{{ form.name.value|default_if_none:'' }}">
+                            {% if form.name.errors %}
+                                <span class="error">{{ form.name.errors }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="input-group">
+                            <i class='bx bx-mail-send'></i>
+                            <input type="email" name="email" placeholder="Email" value="{{ form.email.value|default_if_none:'' }}">
+                            {% if form.email.errors %}
+                                <span class="error">{{ form.email.errors }}</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Rol -->
+                        <div class="input-group">
+                            <i class='bx bx-briefcase'></i>
+                            <select name="role">
+                                <option value="">Selecciona un rol</option>
+                                {% for choice, label in form.role.field.choices %}
+                                    <option value="{{ choice }}" {% if form.role.value == choice %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.role.errors %}
+                                <span class="error">{{ form.role.errors }}</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Teléfono -->
+                        <div class="input-group">
+                            <i class='bx bxs-phone'></i>
+                            <input type="text" name="phone" placeholder="Teléfono" value="{{ form.phone.value|default_if_none:'' }}">
+                            {% if form.phone.errors %}
+                                <span class="error">{{ form.phone.errors }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Contraseña -->
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" name="password" placeholder="Contraseña">
+                            {% if form.password.errors %}
+                                <span class="error">{{ form.password.errors }}</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Confirmar Contraseña -->
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" name="confirm_password" placeholder="Confirmar Contraseña">
+                            {% if form.confirm_password.errors %}
+                                <span class="error">{{ form.confirm_password.errors }}</span>
+                            {% endif %}
+                        </div>
+                    
+                        <!-- Botón de registro -->
+                         <div class="botones">
+                             <button type="submit" id="btn-success">Registrarse</button>
+                             <a class="btn-warning" href="{% url 'usuario' %}" role="button">Volver</a>
+                         </div>
+                    </form>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+

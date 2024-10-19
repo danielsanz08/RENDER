@@ -1,0 +1,18 @@
+body {
+  background-color: rgb(255, 246, 246);
+}
+
+/* Efecto de oscurecimiento y cambio de cursor al pasar el cursor sobre la imagen */
+.image-container img:hover {
+  opacity: 0.7; /* Oscurece la imagen */
+  cursor: crosshair; /* Cambia el cursor a un puntero de mano */
+}
+/* Estilos para pantallas de mesa */
+@media (min-width: 1367px) {
+
+  main {
+    margin-top: 4%;
+    margin-left: 3%;
+  }
+
+}

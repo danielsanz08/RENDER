@@ -1,0 +1,225 @@
+main {
+    margin-top: 10%;
+    margin-left: 9%;
+    margin-right: 6%;
+    background-color: ;
+  }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: aquamarine;
+}
+
+.section {
+    margin: 20px;
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    background-color: #167a1d;
+}
+.section h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px; /* Tamaño de fuente */
+    font-weight: 800; /* Grosor de fuente */
+    margin-top: 0;
+    text-align: center;
+    color: black; /* Color de texto */
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Espaciado de letras */
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Filtro de busqueda*/
+#search-form{
+    height: 90px;
+    padding: 20px 20px;
+    background-color: #167a1d;
+}
+
+#search-select {
+    background-color: rgb(228, 228, 228);
+    height: 40px;
+    width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px; /* Hace que el elemento sea ovalado */
+    border: none; /* Sin bordes */
+    outline: none; /* Sin contorno al enfoque */
+    padding: 5px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+#search-select option {
+    background-color: #fff; /* Color de fondo de las opciones */
+    color: #000; /* Color del texto de las opciones */
+    padding: 10px; /* Espaciado interno de las opciones */
+}
+
+/* Estilo adicional para cuando se selecciona una opción */
+#search-select option:checked {
+    background-color: #167a1d; /* Color de fondo para la opción seleccionada */
+    color: white; /* Color del texto para la opción seleccionada */
+}
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}
+
+.btn-danger{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-danger:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-danger:active {
+    transform: translateY(-1px);
+}
+
+.btn-warning{
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+.table {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 100%; /* Asegura que no sobrepase el contenedor */
+    border-collapse: collapse; /* Evita espacios entre las celdas */
+}
+
+.table-responsive { 
+    width: 100%; /* Asegura que el contenedor ocupa todo el ancho disponible */
+    overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+}
+
+.table th, .table td {
+    padding: 20px;
+    font-size: 16px;
+    width: auto; /* Permite que las celdas se expandan */
+    text-align: left;
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .table, .table * {
+        visibility: visible;
+    }
+    .table {
+        position: static; 
+        width: 100%; 
+        margin: 0; 
+        padding: 0;
+    }
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+
+    main {
+        margin-top: 3vh;
+      }
+  }
+  /* Contenedor de la imagen de fondo */
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('ruta_a_tu_imagen.jpg'); /* Reemplaza con la ruta correcta de tu imagen */
+    background-repeat: no-repeat;
+    background-size: 25% 25%; /* Reducido en altura y anchura al 25% */
+    opacity: 0.2;
+  }
+  
+  .background-image img {
+    width: 80%; /* Reducido de 100% a 80% */
+    height: 150%;
+    object-fit: contain;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Estilos del contenido principal */
+  .content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    margin-top: 34vh;
+  }
+  
+  body {
+    background-color: rgb(255, 255, 255);
+  }
+  

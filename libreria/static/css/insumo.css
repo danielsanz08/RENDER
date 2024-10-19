@@ -1,0 +1,107 @@
+main {
+    margin-top: 10.9vh;
+    margin-left: 19vh;
+    margin-right: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gestion-container {
+    text-align: center;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    max-width: 1000px;
+    border: 2px solid #01AB7B;
+}
+
+.gestion-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.gestion-wrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.gestion-card {
+    background-color: #e4eaf1; /* Fondo con degradado suave */
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 360px; /* Aumentar el ancho de la tarjeta */
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+.gestion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+    font-size: 45px;
+    color: #01AB7B;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+}
+
+.card-icon:hover {
+    transform: scale(1.1);
+}
+
+.card-content h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin: 10px 0;
+}
+
+.card-content p {
+    color: #555;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+/* Añadir margen entre los botones */
+.btn {
+    padding: 0.5em 1.2em; /* Espaciado más equilibrado */
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    text-transform: uppercase; 
+    letter-spacing: 1px; /* Espaciado entre letras */
+    font-weight: 600; /* Grosor de fuente */
+    color: #fff; /* Texto blanco */
+    background-color: #01AB7B; /* Verde sutil */
+    border: none; /* Sin borde */
+    border-radius: 30px 0px 30px 0px; /* Bordes redondeados solo en los lados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Transiciones suaves */
+    cursor: pointer;
+    margin: 2px 5px; /* Margen entre los botones */
+}
+
+.btn:hover {
+    background-color: rgba(1, 171, 123, 0.95); /* Fondo más oscuro al pasar el mouse */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* Sombra más intensa al pasar el mouse */
+    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+}

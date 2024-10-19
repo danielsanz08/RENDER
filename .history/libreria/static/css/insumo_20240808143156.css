@@ -1,0 +1,261 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.nav_insumos{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    color: rgb(0, 0, 0); /* Texto blanco */
+    padding: 20px; /* Espaciado */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0; /* Ajuste para coincidir con el diseño */
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+.nav_insumos::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 600% 600%;
+    animation: gradientAnimation 15s ease infinite;
+    z-index: 0;
+}
+
+.nav_insumos nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav_insumos nav ul li {
+    display: inline-block;
+    margin: 0 20px; /* Espaciado ajustado */
+    position: relative;
+}
+
+.nav_insumos nav ul li a {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 10px 0; /* Ajuste de espaciado */
+}
+
+.nav_insumos nav ul li a::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: maroon; /* Color de la línea */
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.nav_insumos nav ul li a:hover::before {
+    width: 100%; /* Ajuste de la animación al hover */
+}
+
+.section {
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+.section h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 30px; /* Tamaño de fuente */
+    font-weight: 800; /* Grosor de fuente */
+    margin-top: 0;
+    text-align: center;
+    color: black; /* Color de texto */
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Espaciado de letras */
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+form label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700; /* Grosor de fuente */
+    color: black; /* Color de texto */
+}
+form input[type="text"],
+form input[type="number"],
+form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+    outline: none;
+    border-color: #4d4d4d; /* Color de borde al enfocar */
+}
+
+form button {
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    border: none;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    width: 170px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: skew(-21deg);
+}
+span {
+    display: inline-block;
+    transform: skew(21deg);
+}
+
+form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    left: 0;
+    background: rgb(20, 20, 20);
+    opacity: 0;
+    z-index: -1;
+    transition: all 0.5s;
+}
+
+form button:hover {
+    color: #fff;
+}
+
+form button:hover::before {
+    left: 0;
+    right: 0;
+    opacity: 1;
+}
+
+.insumo-item{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.report-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.report-card {
+    background: linear-gradient(to bottom, #2392be, #6fa2b8);
+    color: white; /* Texto blanco */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 30%; /* Ancho ajustado */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.report-card:hover {
+    transform: translateY(-5px);
+}
+
+.report-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.report-card a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.report-card a:hover {
+    color: black;
+}
+
+
+
+
+.seleccionar_insumo {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem; /* Tamaño de fuente */
+    border: 1px solid rgb(113, 192, 113); /* Borde de la lista */
+    border-radius: 4px; /* Esquinas redondeadas */
+    background-color: #f8f9fa; /* Color de fondo */
+    color: black; /* Color del texto */
+}
+
+.seleccionar_insumo:hover {
+    border-color: black; /* Borde azul al pasar el ratón */
+}
+
+.seleccionar_insumo:focus{
+    border-color: rgb(113, 192, 113); /* Borde azul oscuro al enfocar */
+    box-shadow: 0 0 0 0.2rem rgb(113, 192, 113); /* Sombra del borde al enfocar */
+}
+
+
+
+
+.btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-success:hover {
+    background-color: #23c483;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.btn-success:active {
+    transform: translateY(-1px);
+}

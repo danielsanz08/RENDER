@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.card_uno {
+    width: 50%;
+    padding: 20px;
+    
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 0.8s ease-in-out;
+}
+
+.card_dos {
+    width: 550px;
+    height: 720px;
+    background: #679B9B;
+    padding: 20px 20px 50px 20px;
+    color: #fff;
+    border-radius: 17px;
+    animation: popIn 1s ease-in-out;
+}

@@ -1,0 +1,64 @@
+{% extends "navbar.html" %}
+
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+<link href="{% static 'css/crear_transaccion.css' %}?v1.2" rel="stylesheet" />
+<main>
+    <section>
+        <div class="container">
+            <form id="transaction-form" method="post">
+                {% csrf_token %}
+                <h3>Registrar Nueva Transacción</h3><br>
+                <div class="form-group">
+                    <label for="tipo"><h3>Tipo de Transacción</h3></label>
+                    <select name="tipo" required id="op_create">
+                        <option value="" selected disabled>Selecciona una opción</option>
+                        <option value="Compra">Compra</option>
+                        <option value="Venta">Venta</option>
+                        <option value="Gasto">Gasto</option>
+                        <option value="Ingreso">Ingreso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion"><h3>Descripción</h3></label>
+                    <input type="text" name="descripcion" placeholder="Ingresa una descripción" required>
+                </div>
+                <div class="form-group">
+                    <label for="monto"><h3>Monto ($ COP)</h3></label>
+                    <input type="number" name="monto" step="0.01" placeholder="Ingresa el monto" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha"><h3>Fecha</h3></label>
+                    <input type="date" name="fecha" required>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-success" onclick="mostrarAlerta()">Registrar Transacción</button>
+                    <a class="btn btn-success" href="{% url 'contabilidad' %}">Cancelar</a>
+                </div>
+                <div id="alert" class="alert" style="display: none;">
+                    <i class="fas fa-exclamation-triangle" id="alerta-icono"></i>
+                    <p><h4>¿Estás seguro de que quieres registrar esta transacción?</h4></p>
+                    <button onclick="confirmarEnvio()"><h3>Aceptar</h3></button>
+                    <button onclick="cerrarVentana()"><h3>Cancelar</h3></button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+<script>
+    function mostrarAlerta() {
+        document.getElementById("alert").style.display = 'block';
+    }
+    
+    function confirmarEnvio() {
+        document.getElementById("alert").style.display = 'none';
+        // Submit the form if the user confirms
+        document.getElementById("transaction-form").submit();
+    }
+    
+    function cerrarVentana() {
+        document.getElementById("alert").style.display = 'none';
+    }
+</script>
+{% endblock %}

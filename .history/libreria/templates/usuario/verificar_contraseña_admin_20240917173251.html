@@ -1,0 +1,20 @@
+{% extends "navbar.html" %}
+{% block titulo %}Verificar Contraseña{% endblock %}
+{% block contenido %}
+<div class="container mt-4">
+    <h2>Verificación de Contraseña del Administrador</h2>
+    <form method="post" action="{% url 'verificar_contraseña_admin' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="admin_password">Contraseña del Administrador:</label>
+            <input type="password" id="admin_password" name="admin_password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verificar y Crear Perfil</button>
+    </form>
+    <div id="messageAlert" class="alert alert-danger mt-3 {% if messages %} show {% else %} hide {% endif %}">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

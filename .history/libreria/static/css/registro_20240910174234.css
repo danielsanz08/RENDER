@@ -1,0 +1,308 @@
+/* Ajustes generales para el main */
+main {
+    margin-top: 8%;
+    margin-left: 9%;
+    margin-right: 6%;
+    
+}
+
+/* Centrado y animación de contenedor */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Estilo para las tarjetas */
+.card_uno {
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: slideIn 0.8s ease-in-out;
+}
+.card-header {
+    color: #000000;
+    padding: 10px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: none;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+.card_dos {
+    width: 550px;
+    height: 575px;
+    background-color: #30c99d;
+    padding: 20px 20px 50px 20px;
+    color: #000000;
+    border-radius: 17px;
+    animation: popIn 1s ease-in-out;
+}
+
+/* Estilo para el grupo de inputs */
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 40px;
+    padding: 5px; /* Reducido el padding para disminuir la altura */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Estilo para el input de tipo file */
+.input-group input[type="file"] {
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+    width: 100%;
+    padding: 5px 10px; /* Reducido el padding para disminuir la altura */
+    color: #333;
+    cursor: pointer;
+}
+
+/* Placeholder visible cuando se selecciona un archivo */
+.input-group input[type="file"]::file-selector-button {
+    padding: 5px 10px; /* Reducido el padding del botón de selección */
+    border: none;
+    border-radius: 4px;
+    background-color: #096931;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-group input[type="file"]::file-selector-button:hover {
+    background-color: #0b7938;
+}
+
+/* Estilo para select */
+.input-group select {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 5px 10px; /* Reducido el padding para disminuir la altura */
+    border-radius: 50px;
+    background-color: white;
+}
+
+/* Iconos dentro de los inputs */
+.input-group i {
+    margin-right: 10px;
+    color: #333;
+}
+
+/* Inputs generales */
+.input-group input:not([type="file"]) {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 5px 10px; /* Reducido el padding para disminuir la altura */
+    border-radius: 50px;
+    margin-left: 5px; /* Espacio adicional entre los inputs */
+}
+
+/* Estilo para mensajes de error */
+.input-group .error {
+    color: red;
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+/* Botones de éxito */
+#btn-success {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Botón éxito hover */
+#btn-success:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    background-color: #096931;
+    transform: translateY(-7px);
+    color: white;
+}
+
+/* Botón éxito activo */
+#btn-success:active {
+    transform: translateY(-1px);
+}
+
+/* Botones de advertencia */
+.btn-warning {
+    padding: 1em 1em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    width: 20%;
+    margin-left: 20%;
+}
+
+.btn-warning:hover {
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+    background-color: #fab039;
+}
+
+.btn-warning:active {
+    transform: translateY(-1px);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Ajusta el tamaño del espacio como desees */
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+    main {
+        margin-top: 6vh;
+    }
+    
+    .card_dos {
+        width: 550px;
+        height: 705px;
+    }
+
+    /* Aumentar más el espacio entre los inputs */
+    .input-group {
+        margin: 2rem 0; /* Incrementa aún más el margen entre los grupos de input */
+    }
+
+    .input-group input:not([type="file"]) {
+        margin-left: 20px; /* Aumenta más el espacio adicional entre los inputs */
+    }
+}
+/* Estilo general para los mensajes de error */
+.error {
+    color: red;  /* Color del texto del mensaje de error */
+    font-size: 0.875em;  /* Tamaño de fuente ligeramente más pequeño */
+    margin-top: 0.5em;  /* Espaciado arriba del mensaje de error */
+    display: block;  /* Asegura que el mensaje de error se muestre en una nueva línea */
+}
+
+/* Estilo específico para los campos de entrada con errores */
+.input-group input.error {
+    border-color: red;  /* Borde rojo para campos con errores */
+}
+
+/* Estilo para el contenedor de mensajes de error */
+.input-group {
+    position: relative;  /* Asegura que los elementos hijos se posicionen correctamente */
+    margin-bottom: 1em;  /* Espaciado inferior para cada grupo de entrada */
+}
+
+/* Ajuste para íconos dentro de los grupos de entrada */
+.input-group i {
+    position: absolute;  /* Posición absoluta para colocar los íconos */
+    left: 10px;  /* Espaciado desde el borde izquierdo */
+    top: 50%;  /* Centrar verticalmente */
+    transform: translateY(-50%);  /* Ajuste para centrar el ícono */
+    color: #999;  /* Color del ícono */
+}
+
+/* Estilo para los campos de entrada */
+.input-group input,
+.input-group select {
+    padding-left: 30px;  /* Espaciado adicional para evitar que el texto se superponga con el ícono */
+    border: 1px solid #ccc;  /* Borde gris claro */
+    border-radius: 4px;  /* Bordes redondeados */
+    width: 100%;  /* Ancho completo del contenedor */
+}
+
+/* Estilo para el botón de registro */
+.botones button {
+    background-color: #28a745;  /* Color de fondo verde para el botón */
+    color: white;  /* Color del texto del botón */
+    border: none;  /* Eliminar borde predeterminado */
+    padding: 0.5em 1em;  /* Espaciado interno */
+    border-radius: 4px;  /* Bordes redondeados */
+    cursor: pointer;  /* Cambiar el cursor al pasar sobre el botón */
+}
+
+.botones a {
+    background-color: #ffc107;  /* Color de fondo amarillo para el enlace */
+    color: black;  /* Color del texto del enlace */
+    padding: 0.5em 1em;  /* Espaciado interno */
+    border-radius: 4px;  /* Bordes redondeados */
+    text-decoration: none;  /* Eliminar subrayado */
+    margin-left: 1em;  /* Espaciado entre botones */
+    display: inline-block;  /* Asegura que el enlace se comporte como un botón */
+}
+
+.botones button:hover,
+.botones a:hover {
+    opacity: 0.9;  /* Efecto de opacidad al pasar sobre los botones */
+}
+/*Pantalla de escritorio*/
+@media (min-width: 1367px) {
+
+    main {
+        margin-top: 15vh;
+        margin-left: 15vh;
+      }
+  }

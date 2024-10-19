@@ -1,0 +1,96 @@
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.90); /* Fondo oscuro */
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+    transition: opacity 0.5s ease-in-out; /* Efecto de desvanecimiento suave */
+}
+
+/* Modal */
+.card {
+    border-radius: 25px; /* Bordes redondeados */
+    width: 480px; /* Ancho ajustado */
+    background-color: #ffffff; /* Fondo blanco */
+    border: none;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    position: fixed; /* Asegúrate de que esté fijo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrado */
+    z-index: 1000; /* Este debe ser más alto que el overlay */
+    display: none; /* Oculto por defecto */
+    padding: 20px;
+}
+
+/* Encabezado de la tarjeta */
+.card-header {
+    background-color: #01AB7B; /* Color principal */
+    color: #ffffff; /* Texto blanco */
+    font-family: 'Times New Roman', Times, serif;
+    border-radius: 25px 25px 0 0; /* Bordes redondeados superiores */
+    padding: 20px; /* Relleno del encabezado */
+    text-align: center; /* Centrar el texto */
+    font-size: 1.6em; /* Tamaño de fuente mayor */
+}
+
+/* Pie de la tarjeta */
+.card-footer {
+    display: flex;
+    justify-content: space-between; /* Espacio entre botones */
+    padding: 15px; /* Relleno del pie */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo suave en el pie */
+    border-radius: 0 0 25px 25px; /* Bordes redondeados en la parte inferior */
+}
+
+/* Botones */
+.card-footer .btn-danger, .card-footer .btn-warning {
+    flex: 1; /* Botones ocupan el mismo espacio */
+    margin: 0 5px; /* Margen horizontal */
+    padding: 12px; /* Relleno */
+    border: none;
+    border-radius: 15px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en mano */
+    transition: transform 0.2s, background-color 0.3s; /* Transición para el fondo y la escala */
+}
+
+/* Botón rojo */
+.card-footer .btn-danger {
+    background-color: #FF5656; /* Rojo */
+    color: white; /* Texto blanco */
+}
+
+.card-footer .btn-danger:hover {
+    background-color: #FF4444; /* Rojo oscuro al pasar el ratón */
+}
+
+/* Botón amarillo */
+.card-footer .btn-warning {
+    background-color: #ffc107; /* Amarillo */
+    color: white; /* Texto blanco */
+}
+
+.card-footer .btn-warning:hover {
+    background-color: #e0a800; /* Amarillo oscuro al pasar el ratón */
+}
+
+/* Animación de entrada suave */
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.fade-out {
+    opacity: 0; /* Cambiar a 0 para ocultar */
+    transition: opacity 0.5s ease; /* Transición suave */
+}

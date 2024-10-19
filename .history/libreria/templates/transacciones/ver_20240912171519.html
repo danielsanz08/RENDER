@@ -1,0 +1,99 @@
+{% extends "navbar.html" %}
+{% block titulo %}Index{% endblock %}
+{% load static %}
+{% block contenido %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="background-image">
+    <img src="{% static 'imagen/-1_orig.jpeg' %}" alt="Imagen de fondo">
+  </div>
+<link href="{% static 'css/ver_transacciones.css' %}?v={% now "U" %}" rel="stylesheet" />
+<main>
+    <section id="consultar" class="section">
+    <div class="container">
+        <h2>Transacciones</h2>
+        <form id="search-form">
+            <select id="search-select">
+                <option value="todos">Todos</option>
+                <option value="compra">Compra</option>
+                <option value="venta">Venta</option>
+                <option value="gasto">Gasto</option>
+                <option value="ingreso">Ingreso</option>
+                <option value="fecha">Fecha</option>
+                
+            </select>
+            <input type="date" id="search-input" style="display: none;">
+            <input class="btn btn-success" type="submit" value="Buscar"/>
+        </form>
+        <p id="search-warning" style="color: red; display: none;"></p>
+
+        <!-- Resultados de la búsqueda -->
+        <div id="search-results">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Tipo de transacción</th>
+                        <th>Descripción</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-table-body">
+                    {% for transaccion in transacciones %}
+                    <tr>
+                        <td>{{ transaccion.tipo }}</td>
+                        <td>{{ transaccion.descripcion }}</td>
+                        <td>{{ transaccion.monto }}</td>
+                        <td>{{ transaccion.fecha|date:"Y/m/d" }}</td>
+                        <td>
+                            <a href="{% url 'eliminar' transaccion.id %}" class="btn btn-danger" role="button"><i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="btn btn-success" role="button" onclick="printTable()">Imprimir Tabla</a>
+            <a class="btn btn-success" role="button" onclick="exportToExcel()">Descargar Excel</a>
+            <a class="btn btn-success" role="button" onclick="exportToPDF()">Descargar PDF</a>
+            <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button">Volver</a>
+        </div>
+        <p id="no-results" style="display: none;">No se encontraron resultados.</p>
+    </div>
+</section>
+</main>
+<script src="{% static 'js/ver_transaccion.js' %}?v1.2"></script>
+
+<script>
+    function printTable() {
+        window.print();
+    }
+    
+    function exportToExcel() {
+        let table = document.querySelector(".table");
+        let wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+        XLSX.writeFile(wb, "tabla_transacciones.xlsx");
+    }
+    
+    function exportToPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.autoTable({ html: '.table' });
+        doc.save('tabla_transacciones.pdf');
+    }    
+</script>
+
+<style>
+.selected {
+    background-color: #e0e0e0;
+}
+</style>
+
+
+{% endblock %}

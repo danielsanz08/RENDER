@@ -1,0 +1,39 @@
+{% extends "navbar.html" %}
+{% block titulo %}
+    <title>Login y Registro</title>
+{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<div id="container" class="container">
+    <div class="row">
+        <div class="col align-items-center flex-col sign-in">
+            <div class="form-wrapper align-items-center">
+                <form method="post" class="form sign-in">
+                    cs
+                    <h2>Welcome</h2>
+                    <div class="input-group">
+                        <i class='bx bxs-user'></i>
+                        <input type="text" placeholder="Username">
+                    </div>
+                    <div class="input-group">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" placeholder="Password">
+                    </div>
+                    <button type="submit">
+                        Sign in
+                    </button>
+                    <p>
+                        <b>
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                        </b>
+                    </p>
+                    <div class="img sign-in">
+                        <!-- Aquí puedes agregar una imagen si lo deseas -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

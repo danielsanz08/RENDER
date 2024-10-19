@@ -1,0 +1,36 @@
+{% extends "navbar.html" %}
+{% block titulo %}Movimientos{% endblock %}
+{% load static %}
+{% block contenido %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link href="{% static 'css/movimientos.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<div class="movimientos-container">
+    <h2 class="movimientos-title" title="Movimientos">MOVIMIENTOS</h2>
+    <div class="movimientos-wrapper">
+        <div class="movimientos-card">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="bi bi-arrow-up-circle-fill" title="Icono para agregar movimiento"></i></i> <!-- Icono de agregar movimiento -->
+                </div>
+                <h3 title="Agregar movimiento">AGREGAR MOVIMIENTO</h3>
+                <p title="Descripción para registrar movimientos">Registra un nuevo movimiento en el sistema.</p> <!-- Texto adicional -->
+                <a href="{% url 'crear_transacciones' %}" class="btn btn-agregar" title="Agregar movimiento">AGREGAR MOVIMIENTO</a>
+            </div>
+        </div>
+
+        <div class="movimientos-card">
+            <div class="card-content">
+                <div class="card-icon">
+                    <i class="bi bi-arrow-down-circle-fill" title="Icono para consultar movimientos"></i> <!-- Icono de consultar movimientos -->
+                </div>
+                <h3 title="Consultar movimientos">CONSULTAR MOVIMIENTOS</h3>
+                <p title="Descripción para vizualizar los movimientos">Visualiza todos los movimientos registrados.</p> <!-- Texto adicional -->
+                <a href="{% url 'ver_transacciones' %}" class="btn btn-consultar" title="Consultar movimientos">CONSULTAR MOVIMIENTOS</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

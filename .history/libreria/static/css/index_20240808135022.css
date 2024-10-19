@@ -1,0 +1,36 @@
+/*Pantallas de porta*/
+@media (max-width: 1366px){}
+
+@media (min-width: 1367px){
+ 
+  .image-container {
+    display: flex; /* Aplica un contenedor flexible a los elementos hijos */
+    flex-wrap: wrap; /* Permite que los elementos hijos se envuelvan en varias líneas */
+    width: auto; /* El ancho se ajusta automáticamente al contenido */
+    margin: 0; /* Elimina cualquier margen alrededor del contenedor */
+  }
+  
+  .image-container .row {
+    display: flex; /* Aplica un contenedor flexible a los elementos dentro de la fila */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos en la fila */
+  }
+  
+  .image-container .col {
+    flex-basis: 25%; /* Cada columna ocupa el 25% del ancho del contenedor */
+    margin: 5px; /* Agrega un margen de 5px alrededor de cada columna */
+  }
+  
+  .image-container img {
+    width: 90%; /* Las imágenes ocupan el 100% del ancho de su contenedor */
+    object-fit: cover; /* Ajusta la imagen para cubrir su contenedor sin distorsión */
+    opacity: 0.8; /* Establece la opacidad inicial de las imágenes en 80% */
+    transition: 0.5s ease; /* Añade una transición suave para cambios de estado */
+  }
+  
+  .image-container img:hover {
+    cursor: crosshair; /* Cambia el cursor al pasar sobre la imagen */
+    opacity: 1; /* La opacidad aumenta al 100% cuando el mouse pasa sobre la imagen */
+    filter: contrast(120%); /* Aumenta el contraste de la imagen en un 20% al hacer hover */
+  }
+
+}

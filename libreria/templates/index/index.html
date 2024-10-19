@@ -1,0 +1,46 @@
+{% extends "navbar.html" %} 
+{% load static %} 
+{% block titulo %}Inicio{% endblock %}
+<link rel="icon" type="image/x-icon" href="{% static 'imagen/logol.png' %}">
+
+{% block contenido %}
+<link href="{% static 'css/index.css' %}?v={% now 'U' %}" rel="stylesheet" />
+
+<body>
+  <article class="gallery">
+      <img src="{% static 'imagen/inicio01.jpg' %}" alt="deadpool & marvel" title="Imagen 01">
+      <img src="{% static 'imagen/inicio02.jpg' %}" alt="deadpool & marvel" title="Imagen 02">
+      <img src="{% static 'imagen/inicio03.jpg' %}" alt="deadpool & marvel" title="Imagen 03">
+      <img src="{% static 'imagen/inicio04.png' %}" alt="deadpool & marvel" title="Imagen 04">
+      <img src="{% static 'imagen/inicio05.jpg' %}" alt="deadpool & marvel" title="Imagen 05">
+      <img src="{% static 'index_imagenes/gal_06.jpg' %}" alt="deadpool & marvel" title="Imagen 06">
+      <img src="{% static 'index_imagenes/gal_07.jpg' %}" alt="deadpool & marvel" title="Imagen 07">
+      <img src="{% static 'index_imagenes/gal_08.jpg' %}" alt="deadpool & marvel" title="Imagen 08">
+  </article>
+
+  <br><br>
+
+  <section class="company-info">
+    <h2>Misión</h2>
+    <p>Nuestra misión es ofrecer productos lácteos de alta calidad, frescos y nutritivos, contribuyendo al bienestar de nuestras comunidades. 
+      Trabajamos con ganaderos locales para garantizar que nuestros productos sean elaborados con los mejores ingredientes, promoviendo la sostenibilidad y el desarrollo local.</p>
+  
+    <h2>Visión</h2>
+    <p>Ser reconocidos como líderes en la producción y distribución de lácteos en la región, innovando constantemente en nuestros procesos y productos 
+      para satisfacer las necesidades de nuestros clientes, mientras fomentamos prácticas responsables y sostenibles.</p>
+  
+    <h2>Quiénes somos</h2>
+    <p>Somos una empresa de lácteos ubicada en el municipio de Belén, Boyacá, comprometida con la calidad y la frescura. 
+      Contamos con un equipo apasionado y experimentado que trabaja en armonía con los productores locales, 
+      asegurando que cada producto que ofrecemos sea un reflejo de nuestra dedicación al sabor y la nutrición.</p>
+  
+    <h2>Algunos de nuestros productos</h2>
+    <ul>
+        <li>Leche pasteurizada</li>
+        <li>Quesos crema, doble crema, pera, mozzarella</li>
+        <li>Mantequilla y crema</li>
+    </ul>
+  </section>
+</body>
+
+{% endblock %}

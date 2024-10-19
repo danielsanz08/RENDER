@@ -1,0 +1,40 @@
+{% extends "navbar.html" %}
+{% block titulo %}Insumos{% endblock %}
+{% block contenido %}
+{% load static %}
+<link href="{% static 'css/insumo.css' %}?v={% now "U" %}" rel="stylesheet" />
+<main>
+    <div class="background-image">
+        <img src="{% static 'imagen/logol.png' %}" alt="Imagen de fondo">
+    </div>
+    <section class="insumos">
+        <div class="nav">
+            <h2>Gestión de Insumos <i data-feather="coffee"></i></h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'agregar_insumo' %}" class="insumo">Agregar Insumo</a></li>
+                    
+                    <li><a href="{% url 'consultar_insumo' %}" class="insumo">Consultar Insumos</a></li>
+                    <li><a href="#informes" class="insumo">Informes de Insumos</a></li>
+                </ul>
+            </nav>
+        
+        </div>
+    </section><br>
+    <section class="proveedores">
+        <div class="nav">
+            <h2>Gestión de proveedores <i data-feather="truck"></i></h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'agregar_insumo' %}" class="insumo">Agregar Insumo</a></li>
+                    
+                    <li><a href="{% url 'consultar_insumo' %}" class="insumo">Consultar Insumos</a></li>
+                    <li><a href="#informes" class="insumo">Informes de Insumos</a></li>
+                </ul>
+            </nav>
+        </div>
+        
+    </section>
+</main>
+
+{% endblock %}
