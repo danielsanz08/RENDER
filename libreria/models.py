@@ -229,15 +229,16 @@ class Transaccion(models.Model):
 
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    productos = models.ManyToManyField(Producto)  # Relación muchos a muchos
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
 
     descripcion = models.CharField(max_length=50, null=False, default="Descripción")
     monto = models.DecimalField(max_digits=10, decimal_places=3, default=100.00, verbose_name="Monto")
     fecha = models.DateField()
 
     def __str__(self):
-        productos_nombres = ", ".join([producto.nombre for producto in self.productos.all()])
-        return f"{self.tipo} - {self.descripcion} - ${self.monto} - Productos: {productos_nombres}"
+        # Mostrar "un producto"
+        return f"{self.tipo} - {self.descripcion} - ${self.monto} - Producto: un producto"
+
 
 class LineaTransaccion(models.Model):
     transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)

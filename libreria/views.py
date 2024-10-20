@@ -190,7 +190,6 @@ def login_view(request):
             if user is not None:
                 if user.is_active:  # Verificar si el usuario está activo
                     auth_login(request, user)
-                    
                     return redirect('inicio')  # Redirige a la página principal o a otra página
                 else:
                     messages.error(request, 'Tu cuenta está inactiva. Contacta al administrador.')
@@ -199,8 +198,10 @@ def login_view(request):
     else:
         form = LoginForm()
 
-    return render(request, 'registration/login.html', {'form': form})
+    # Verificar si existe al menos un administrador en la base de datos
+    admin_exists = CustomUser.objects.filter(role='Administrador').exists()
 
+    return render(request, 'registration/login.html', {'form': form, 'admin_exists': admin_exists})
 def logout_view(request):
     logout(request)
     messages.success(request, 'Has cerrado sesión exitosamente.')
@@ -275,6 +276,7 @@ def crear_perfil(request):
 
     return render(request, 'usuario/registro.html', {'usuario': usuario, 'form': form, 'breadcrumbs': breadcrumbs, 'user_role': user_role})
 @login_required
+
 def crear_transacciones(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
 
@@ -282,45 +284,44 @@ def crear_transacciones(request):
         form = TransaccionForm(request.POST)
         
         if form.is_valid():
-            # Crear la transacción sin guardar aún en la base de datos
             nueva_transaccion = form.save(commit=False)
-            nueva_transaccion.cliente = form.cleaned_data['cliente']
-            nueva_transaccion.registrado_por = usuario
-            nueva_transaccion.save()  # Guardar la transacción para obtener el ID
+            nueva_transaccion.registrado_por = usuario  # Asignar el usuario actual
+            
+            # Asegúrate de obtener el ID del producto desde el formulario
+            producto_id = request.POST.get('producto')  # Suponiendo que tienes un campo de producto
+            producto = get_object_or_404(Producto, pk=producto_id)
+            nueva_transaccion.producto = producto  # Asignar el producto a la transacción
+            
+            nueva_transaccion.save()  # Guardar la transacción
 
-            # Guardar los productos seleccionados con sus respectivas cantidades
-            productos_ids = request.POST.getlist('productos[]')
-            cantidades = request.POST.getlist('cantidades[]')
+            # Guardar las líneas de transacción, si es necesario
+            cantidades = request.POST.getlist('cantidades[]')  # Ajusta si necesitas manejar múltiples cantidades
 
-            # Recorrer los productos y crear las líneas de transacción
-            for producto_id, cantidad in zip(productos_ids, cantidades):
-                producto = get_object_or_404(Producto, pk=producto_id)
+            for cantidad in cantidades:
                 LineaTransaccion.objects.create(
                     transaccion=nueva_transaccion,
                     producto=producto,
-                    cantidad=cantidad
+                    cantidad=cantidad  # Si solo hay un producto, esta cantidad debe ser la misma
                 )
 
             messages.success(request, 'Transacción creada exitosamente.')
-            return redirect('ver_transacciones')  # Cambia esto al nombre adecuado de la vista
+            return redirect('ver_transacciones')
         else:
             messages.error(request, 'Por favor corrige los errores a continuación.')
             print(form.errors)  # Mostrar errores de validación
+
     else:
         form = TransaccionForm()
 
-    # Obtén la lista de clientes y productos
     clientes = Cliente.objects.all()
     productos = Producto.objects.all()
 
-    # Breadcrumbs para la navegación
     breadcrumbs = [
         {'name': 'Inicio', 'url': '/'},
         {'name': 'Movimientos', 'url': '/contabilidad'},
         {'name': 'Agregar Movimiento', 'url': '/crear_transacciones'},
     ]
 
-    # Pasa los clientes y productos al contexto de la plantilla
     return render(request, 'movimientos/crear_movimiento.html', {
         'usuario': usuario,
         'form': form,
@@ -328,20 +329,25 @@ def crear_transacciones(request):
         'productos': productos,
         'breadcrumbs': breadcrumbs,
     })
-@login_required
+
 def ver_transacciones(request):
     usuario = request.user
-    transacciones = Transaccion.objects.prefetch_related('productos').all()  # Optimizar la consulta
+    transacciones = Transaccion.objects.select_related('producto', 'cliente').all()
+
     breadcrumbs = [
         {'name': 'Inicio', 'url': '/'},
         {'name': 'Movimientos', 'url': '/contabilidad'},
         {'name': 'Movimientos Registrados', 'url': '/ver_transacciones'},
     ]
+
     return render(request, 'movimientos/ver_movimientos.html', {
         'usuario': usuario,
         'transacciones': transacciones,
         'breadcrumbs': breadcrumbs
     })
+
+
+
 @login_required
 def registros_recientes(request):
     recientes = Transaccion.objects.all().order_by('-fecha')[:3]
@@ -491,7 +497,7 @@ def download_backup(request, id):
 
 def cambiar_estado_usuario(request, user_id):
     if request.method == 'POST':
-        user = get_object_or_404(User, id=user_id)
+        user = get_object_or_404(CustomUser, id=user_id)
         user.is_active = 'is_active' in request.POST
         user.save()
         return redirect('login')  # Redirige a la página que quiera
@@ -573,24 +579,29 @@ def verificar_cliente(request):
 def editar_cliente(request, pk):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     cliente = get_object_or_404(Cliente, pk=pk)
+
     if request.method == 'POST':
-        form = ClienteForm(request.POST, instance=cliente)
+        form = ClienteForm(request.POST, request.FILES, instance=cliente)  # Mantén el instance para la actualización
         if form.is_valid():
-            form.save()
+            form.save()  # Solo se guardarán los campos que han sido modificados
             messages.success(request, 'Cliente actualizado exitosamente.')
             return redirect('consultar_clientes')
+        else:
+            messages.error(request, 'Error al actualizar el cliente. Por favor, revisa los datos ingresados.')
+
     else:
-        form = ClienteForm(instance=cliente)
+        form = ClienteForm(instance=cliente)  # Muestra el formulario con los datos existentes
 
     breadcrumbs = [
         {'name': 'Inicio', 'url': '/inicio/'},
         {'name': 'Clientes', 'url': '/clientes/'},
         {'name': 'Clientes Registrados', 'url': '/consultar_clientes/'},
-        {'name': 'Editar Cliente', 'url': '/'}
+        {'name': 'Editar Cliente', 'url': '/'}  # Aquí puedes cambiar la URL si es necesario
     ]
 
-    return render(request, 'clientes/editar_cliente.html', {'usuario': usuario, 'form': form, 'cliente': cliente, 'breadcrumbs': breadcrumbs})
+    return render(request, 'clientes/editar_cliente.html', {'form': form, 'cliente': cliente, 'breadcrumbs': breadcrumbs})
 
+    return render(request, 'clientes/editar_cliente.html', {'usuario': usuario, 'form': form, 'cliente': cliente, 'breadcrumbs': breadcrumbs})
 def eliminar_cliente(request, pk):
     usuario = request.user
     cliente = get_object_or_404(Cliente, pk=pk)

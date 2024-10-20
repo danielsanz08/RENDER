@@ -6,6 +6,111 @@
 {% block css %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="{% static 'css/login.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<style>
+    .error-message {
+        position: absolute; /* Cambiar a absolute */
+        top: 20px; /* Colocado 20px desde la parte superior */
+        left: 50%; /* Centrando horizontalmente */
+        transform: translateX(-50%); /* Ajusta para centrar */
+        z-index: 10;
+        color: white;
+        background-color: red;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        display: none; /* Se mostrará solo cuando haya un error */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        
+    }
+
+    .error-message::before {
+        content: '❌ '; /* Icono opcional */
+    }
+
+    .timer-bar {
+        position: absolute;
+        bottom: -5px; /* Justo debajo del mensaje */
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: rgb(170, 8, 8);
+        animation: countdown 5s linear forwards;
+    }
+
+    @keyframes countdown {
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0%;
+        }
+    }
+
+    .input-group, .input-group-password {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    .login-container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .icon-title-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .icon-title-container i {
+        font-size: 50px;
+        color: #007bff;
+    }
+
+    h2 {
+        margin-top: 10px;
+    }
+
+    button {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .options {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .options a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .options a:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}
 
 {% block contenido %}
@@ -15,7 +120,14 @@
             <i class="bi bi-person-fill"></i>
             <h2>INICIAR SESION</h2>
         </div>        
-        <form method="post" class="form sign-in">
+
+        <!-- Mensaje de error -->
+        <div id="error-message" class="error-message">
+            <span id="error-text">Error, nombre o contraseña incorrectos.</span>
+            <div class="timer-bar"></div> <!-- Barra de tiempo -->
+        </div>
+
+        <form method="post" class="form sign-in" onsubmit="return validateForm()">
             {% csrf_token %}
 
             <!-- Input de Nombre con Ícono -->
@@ -47,7 +159,13 @@
             </div>
             
             <button type="submit">Iniciar Sesión</button>
+
+            <!-- Opciones de registro o recuperar contraseña -->
             <div class="options">
+                {% if not admin_exists %}
+                    <!-- Si no hay administrador, mostrar opción de registro -->
+                    <a href="{% url 'crear_perfil' %}">Regístrate</a>
+                {% endif %}
                 <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
             </div>
         </form>
@@ -57,4 +175,64 @@
 
 {% block js %}
 <script src="{% static 'js/login.js' %}?v={% now 'U' %}"></script>
+
+<!-- Lógica para mostrar/ocultar contraseña -->
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('id_password');
+        const toggleIcon = document.getElementById('togglePassword');
+        if (passwordInput.value.length > 0) {
+            toggleIcon.style.display = 'inline-block';
+        } else {
+            toggleIcon.style.display = 'none';
+        }
+    }
+
+    function togglePassword() {
+        const passwordInput = document.getElementById('id_password');
+        const toggleIcon = document.querySelector('#togglePassword i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bi-eye-slash-fill');
+            toggleIcon.classList.add('bi-eye-fill');  // Cambia al ícono de ojo abierto
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bi-eye-fill');
+            toggleIcon.classList.add('bi-eye-slash-fill');  // Cambia al ícono de ojo cerrado
+        }
+    }
+
+    // Lógica para validar el formulario y mostrar el mensaje de error
+    function validateForm() {
+        const nameInput = document.getElementById('id_name');
+        const passwordInput = document.getElementById('id_password');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+
+        if (nameInput.value === '' && passwordInput.value === '') {
+            errorText.textContent = 'Debes llenar los campos para iniciar sesión.';
+            errorMessage.style.display = 'block';
+
+            // Ocultar el mensaje de error después de 5 segundos
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 5000);
+
+            return false; // Evita el envío del formulario
+        } else if (nameInput.value === '' || passwordInput.value === '') {
+            errorText.textContent = 'Error, nombre o contraseña incorrectos.';
+            errorMessage.style.display = 'block';
+
+            // Ocultar el mensaje de error después de 5 segundos
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 5000);
+
+            return false; // Evita el envío del formulario
+        } else {
+            errorMessage.style.display = 'none';
+            return true; // Permite el envío del formulario
+        }
+    }
+</script>
 {% endblock %}

@@ -37,13 +37,13 @@
         <div id="productos-container">
             <label for="producto"><h3 title="Producto">Producto</h3></label>
             <div class="form-group producto">
-                <select name="productos[]" required class="producto-select">
+                <select name="producto" required class="producto-select">
                     <option value="" selected disabled>Selecciona un producto</option>
                     {% for producto in productos %}
                         <option value="{{ producto.id }}" data-precio="{{ producto.precio }}">{{ producto.nombre }}</option>
                     {% endfor %}
                 </select>                
-                <input type="number" name="cantidades[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                <input type="number" name="cantidad" placeholder="Cantidad" required min="1" class="cantidad-input">
             </div>
         </div>
         <button type="button" id="agregar-producto" title="Agregar otro producto">Agregar otro producto</button>    
@@ -83,6 +83,23 @@
 </div>
 
 <script src="{% static 'js/crear_transaccion.js' %}?v={% now 'U' %}"></script>
+<script>
+    $(document).ready(function() {
+    function actualizarMontoTotal() {
+        let total = 0;
+        $('.producto-select').each(function() {
+            const productoPrecio = parseFloat($(this).find(':selected').data('precio')) || 0;
+            const cantidad = parseInt($(this).closest('.producto').find('.cantidad-input').val()) || 0;
+            total += productoPrecio * cantidad;
+        });
+        $('#monto-total').val(total.toFixed(2));
+    }
+
+    // Evento para cambiar el precio y actualizar el monto total
+    $(document).on('change', '.producto-select, .cantidad-input', function() {
+        actualizarMontoTotal();
+    });
+});
+
+</script>
 {% endblock %}
-
-

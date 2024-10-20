@@ -236,8 +236,6 @@ class ClienteForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
         self.fields['telefono'].widget.attrs.update({'class': 'form-control'})
         self.fields['direccion'].widget.attrs.update({'class': 'form-control'})
-
-
 class ProveedorForm(forms.ModelForm):
     class Meta:
         model = Proveedor

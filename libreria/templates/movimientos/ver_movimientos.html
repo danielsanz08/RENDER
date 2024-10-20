@@ -45,6 +45,9 @@
             <a class="opc" href="{% url 'reporte_excel_movimiento' %}" role="button" data-tooltip="Descargar tabla en excel">
                 <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
             </a>
+            <a class="opc" href="{% url 'crear_transacciones' %}" role="button">
+                <i class="fas fa-chart-line text-white"></i> <span>Crear movimiento</span>
+            </a>
         </div>
     </div>
 
@@ -54,10 +57,11 @@
                 <tr>
                     <th>Tipo</th>
                     <th>Cliente</th>
+                    <th>Productos</th>
                     <th>Descripción</th>
                     <th>Monto</th>
                     <th>Fecha</th>
-                    <th>Productos</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,14 +69,13 @@
                 <tr>
                     <td>{{ transaccion.tipo }}</td>
                     <td>{{ transaccion.cliente.nombre }}</td>
+                    <td>{{ transaccion.producto.nombre }}</td>
                     <td>{{ transaccion.descripcion }}</td>
                     <td>{{ transaccion.monto }}</td>
                     <td>{{ transaccion.fecha }}</td>
-                    <td>
-                        {% for producto in transaccion.productos.all %}
-                            {{ producto.nombre }} (Cantidad: {{ producto.cantidad }})<br>
-                        {% endfor %}
-                    </td>
+                    <td><a href="#" class="btn btn-danger" role="button" title="eliminar" onclick="showConfirmModal(event, '{{ transaccion.pk }}', '{{ transaccion.nombre }}');">
+                        <i data-feather="trash" class="icon-small"></i>
+                    </a></td>
                 </tr>
                 {% endfor %}
             </tbody>
