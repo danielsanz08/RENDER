@@ -1,8 +1,8 @@
 {% extends "navbar.html" %}
 {% block titulo %}Crear Movimiento{% endblock %}
 {% load static %}
-{% block contenido %}
 
+{% block contenido %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -15,7 +15,7 @@
 
         <div class="form-group">
             <label for="tipo"><h3 title="Tipo de movimiento">Tipo de Movimiento</h3></label>
-            <select name="tipo" required id="op_create" >
+            <select name="tipo" required id="op_create">
                 <option value="" selected disabled>Selecciona una opción</option>
                 <option value="Compra" title="Compra">Compra</option>
                 <option value="Venta" title="Venta">Venta</option>
@@ -85,21 +85,62 @@
 <script src="{% static 'js/crear_transaccion.js' %}?v={% now 'U' %}"></script>
 <script>
     $(document).ready(function() {
-    function actualizarMontoTotal() {
-        let total = 0;
-        $('.producto-select').each(function() {
-            const productoPrecio = parseFloat($(this).find(':selected').data('precio')) || 0;
-            const cantidad = parseInt($(this).closest('.producto').find('.cantidad-input').val()) || 0;
-            total += productoPrecio * cantidad;
+        // Función para actualizar el monto total
+        function actualizarMontoTotal() {
+            let total = 0;
+            $('.producto-select').each(function() {
+                const productoPrecio = parseFloat($(this).find(':selected').data('precio')) || 0;
+                const cantidad = parseInt($(this).closest('.producto').find('.cantidad-input').val()) || 0;
+                total += productoPrecio * cantidad;
+            });
+            $('#monto-total').val(total.toFixed(2));
+        }
+
+        // Evento para cambiar el precio y actualizar el monto total
+        $(document).on('change', '.producto-select, .cantidad-input', function() {
+            actualizarMontoTotal();
         });
-        $('#monto-total').val(total.toFixed(2));
-    }
 
-    // Evento para cambiar el precio y actualizar el monto total
-    $(document).on('change', '.producto-select, .cantidad-input', function() {
-        actualizarMontoTotal();
+        // Validaciones en tiempo real
+        function validateField(field, regex, errorMessage) {
+            if (!regex.test(field.val())) {
+                toastr.error(errorMessage);
+                return false;
+            }
+            return true;
+        }
+
+        // Validaciones al escribir
+        $('#transaction-form input, #transaction-form select').on('input change', function() {
+            const field = $(this);
+            switch (field.attr('name')) {
+                case 'tipo':
+                    if (field.val() === "") {
+                        toastr.error('Debes seleccionar un tipo de movimiento.');
+                    }
+                    break;
+                case 'cliente':
+                    if (field.val() === "") {
+                        toastr.error('Debes seleccionar un cliente.');
+                    }
+                    break;
+                case 'cantidad':
+                    validateField(field, /^[0-9]+$/, 'La cantidad debe ser un número.');
+                    break;
+                case 'descripcion':
+                    validateField(field, /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/, 'La descripción solo puede contener letras y espacios.');
+                    // Nueva validación para números en la descripción
+                    if (/\d/.test(field.val())) {
+                        toastr.error('La descripción no puede contener números.');
+                    }
+                    break;
+                case 'fecha':
+                    validateField(field, /^\d{4}-\d{2}-\d{2}$/, 'La fecha debe estar en formato YYYY-MM-DD.');
+                    break;
+                default:
+                    break;
+            }
+        });
     });
-});
-
 </script>
 {% endblock %}

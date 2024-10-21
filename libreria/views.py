@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login as auth_login
 from .utils import create_backup, restore_backup
 import os
+from django.http import FileResponse
 from .forms import CustomPasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import check_password
@@ -57,12 +58,13 @@ def usuario(request):
     return render(request, 'usuario/usuario.html', {'usuario': usuario,'breadcrumbs': breadcrumbs})
 
 @login_required
-def manual(request):
-    # Path to the PDF file
-    pdf_path = os.path.join('path/to/your/manual', 'Manual de ususario.pdf')
+def manual_usuario(request):
+    return render(request, 'manual/manual.html')
 
-    # Serve the PDF file
-    return FileResponse(open(pdf_path, 'rb'), content_type='application/pdf')
+def abrir_pdf(request):
+    # Asegúrate de que esta ruta sea correcta para tu proyecto
+    filepath = os.path.join('static', 'pdfs', 'manual_usuario.pdf')
+    return FileResponse(open(filepath, 'rb'), content_type='application/pdf')
 
 @login_required
 def contabilidad(request):
@@ -724,31 +726,43 @@ def listar_proveedor(request):
     return render(request, 'proveedores/listar_proveedor.html', {'usuario': usuario, 'proveedores': proveedores,'breadcrumbs': breadcrumbs})
 
 @never_cache
-def editar_proveedor(request, proveedor_id):
+
+def editar_proveedor(request, proveedor_id, campo=None):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
-    
+
+    # Inicializa el formulario con los datos actuales del proveedor
+    form = ProveedorForm(instance=proveedor)
+
     if request.method == 'POST':
-        form = ProveedorForm(request.POST, instance=proveedor)
+        # Maneja la actualización del campo específico
+        if campo in form.fields:
+            form = ProveedorForm(request.POST, instance=proveedor)
+
+            if form.is_valid():
+                # Actualiza solo el campo específico
+                setattr(proveedor, campo, form.cleaned_data[campo])
+                proveedor.save()
+                messages.success(request, f'{campo.capitalize()} editado exitosamente.')
+                return redirect('listar_proveedor')
         
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Proveedor editado exitosamente.')
-            return redirect('listar_proveedor')
-        else:
-            messages.error(request, 'Error al editar el proveedor. Por favor, revisa los errores.')
-    else:
-        form = ProveedorForm(instance=proveedor)
-    
+        # Si no es válido, muestra error
+        messages.error(request, 'Error al editar el proveedor. Por favor, revisa los errores.')
+
     breadcrumbs = [
         {'name': 'Inicio', 'url': '/'},
         {'name': 'Gestión de Proveedores', 'url': '/insumos/'},
         {'name': 'Proveedores Registrados', 'url': '/listar_proveedor/'},
-        {'name': 'Editar Proveedor', 'url': '/editar_proveedor/'}  # No se requiere URL en la página actual
+        {'name': 'Editar Proveedor', 'url': '#'}
     ]
 
-    return render(request, 'proveedores/editar_proveedor.html', {'usuario': usuario, 'form': form, 'proveedor': proveedor, 'breadcrumbs': breadcrumbs})
-
+    return render(request, 'proveedores/editar_proveedor.html', {
+        'usuario': usuario,
+        'form': form,
+        'proveedor': proveedor,
+        'breadcrumbs': breadcrumbs,
+        'campo': campo  # Envía el campo actual que se está editando
+    })
 @never_cache
 def eliminar_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)

@@ -5,19 +5,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 <link href="{% static 'css/agregar_insumo.css' %}?v={% now 'U' %}" rel="stylesheet"/>
 
 <div class="container">
     <div class="login wrap">
         <h1 title="Agregar insumo">AGREGAR INSUMO</h1>
 
-        <form id="add-insumo-form" method="POST" onsubmit="return validateForm()">
+        <form id="add-insumo-form" method="POST">
             {% csrf_token %}
-
             <div class="form-group">
                 <label for="nombre" title="Nombre">Nombre</label>
                 <input placeholder="Nombre" type="text" id="nombre" name="nombre" required>
+                <div id="nombre-error" class="error-message" style="color: red;"></div>
             </div>
             <div class="form-group">
                 <label for="unidad_medida" title="Unidad de medida">Unidad de medida:</label>
@@ -29,15 +28,13 @@
                     <option value="Litro">Litro</option>
                     <option value="Unidad">Unidad</option>
                 </select>
+                <div id="unidad-error" class="error-message" style="color: red;"></div>
             </div>
-            
-            
-
             <div class="form-group">
                 <label for="descripcion" title="Descripción">Descripción</label>
                 <input placeholder="Descripción" type="text" id="descripcion" name="descripcion" required>
+                <div id="descripcion-error" class="error-message" style="color: red;"></div>
             </div>
-
             <div class="form-group">
                 <label for="proveedor" title="Proveedor">Proveedor</label>
                 <select id="proveedor" name="proveedor" required>
@@ -46,13 +43,13 @@
                         <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
                     {% endfor %}
                 </select>
+                <div id="proveedor-error" class="error-message" style="color: red;"></div>
             </div>
-
             <div class="form-group">
                 <label for="cantidad" title="Cantidad">Cantidad</label>
                 <input placeholder="Cantidad" type="number" id="cantidad" name="cantidad" required>
+                <div id="cantidad-error" class="error-message" style="color: red;"></div>
             </div>
-
             <div class="button-group" title="Botones para agregar insumo o volver">
                 <input class="btn btn-success" type="submit" value="Agregar Insumo" title="Agregar insumo"/>
                 <a class="btn btn-warning" href="{% url 'insumos' %}" role="button" title="Volver">Volver</a>
@@ -60,7 +57,7 @@
         </form>
 
         <!-- Popup -->
-        <div id="popup" class="popup">
+        <div id="popup" class="popup" style="display:none;">
             <div class="checkmark">
                 <svg class="checkmark-svg" viewBox="0 0 52 52">
                     <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
@@ -73,4 +70,96 @@
 </div>
 
 <script src="{% static 'js/agregar_insumo.js' %}?v={% now 'U' %}"></script>
+
+<script>
+function validateNombre() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const nombreError = document.getElementById('nombre-error');
+    nombreError.innerText = ''; // Limpiar mensaje de error
+
+    const nombreRegex = /^[a-zA-Z\s]+$/;
+    if (!nombreRegex.test(nombre) && nombre) {
+        nombreError.innerText = 'El nombre solo puede contener letras y espacios.';
+    }
+}
+
+function validateDescripcion() {
+    const descripcion = document.getElementById("descripcion").value;
+    const descripcionError = document.getElementById('descripcion-error');
+    descripcionError.innerText = ''; // Limpiar mensaje de error
+
+    const descripcionRegex = /^[a-zA-Z\s]*$/; // Permitir solo letras y espacios
+    if (!descripcionRegex.test(descripcion) && descripcion) {
+        descripcionError.innerText = 'La descripción solo puede contener letras y espacios.';
+    } else if (descripcion.length > 20) {
+        descripcionError.innerText = 'La descripción no puede contener más de 20 caracteres.';
+    }
+}
+
+function validateCantidad() {
+    const cantidad = document.getElementById("cantidad").value;
+    const cantidadError = document.getElementById('cantidad-error');
+    cantidadError.innerText = ''; // Limpiar mensaje de error
+
+    if (cantidad < 0 || isNaN(cantidad)) {
+        cantidadError.innerText = 'No se pueden ingresar números negativos.';
+    }
+}
+
+function checkIfInsumoExists(nombre) {
+    return $.ajax({
+        url: '/verificar_nombre_insumo/',
+        type: 'GET',
+        data: { 'nombre': nombre },
+        dataType: 'json'
+    });
+}
+
+document.getElementById("nombre").addEventListener('input', validateNombre);
+document.getElementById("descripcion").addEventListener('input', validateDescripcion);
+document.getElementById("cantidad").addEventListener('input', validateCantidad);
+
+document.getElementById("add-insumo-form").addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombre").value.trim();
+
+    checkIfInsumoExists(nombre).done(function(response) {
+        let errorMessages = [];
+
+        if (response.exists) {
+            document.getElementById('nombre-error').innerText = 'Ya existe un insumo con este nombre.';
+            errorMessages.push('nombre');
+        }
+
+        // Realiza la validación final de los campos antes de enviar el formulario
+        validateNombre();
+        validateDescripcion();
+        validateCantidad();
+
+        if (errorMessages.length > 0) {
+            return; // No enviar el formulario si hay errores
+        } else {
+            $('#popup').fadeIn();
+            setTimeout(function() {
+                $('html, body').animate({
+                    scrollTop: $('#popup').offset().top - 300
+                }, 300);
+
+                setTimeout(() => {
+                    $('#popup').fadeOut();
+                    document.getElementById("add-insumo-form").submit();
+                }, 2000);
+            });
+        }
+    }).fail(function() {
+        toastr.error('Ocurrió un error al verificar el nombre del insumo.', 'Error', {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 5000,
+            positionClass: 'toast-bottom-right'
+        });
+    });
+});
+</script>
 {% endblock %}

@@ -1,3 +1,4 @@
+/* Estilos generales */
 body {
     margin-top: 11vh;
     font-family: 'Times New Roman', Times, serif; 
@@ -10,7 +11,7 @@ body {
     max-width: 600px;
     margin: 50px auto;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end; /* Alinear el contenido a la derecha */
     align-items: center;
 }
 
@@ -38,9 +39,9 @@ body {
 }
 
 .card-header h3 {
-    margin: 0; /* Quitar margen para centrado */
-    font-size: 24px; /* Tamaño del título más grande */
-    text-transform: uppercase; /* Hacer el texto mayúscula */
+    margin: 0;
+    font-size: 24px; 
+    text-transform: uppercase; 
 }
 
 .card-body {
@@ -86,14 +87,64 @@ body {
     margin-top: 20px;
     transition: all 0.3s ease;
     cursor: pointer; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra en el botón */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 .btn-warning:hover {
     background-color: #019B69; 
-    transform: scale(1.05); /* Aumento sutil al pasar el ratón */
+    transform: scale(1.05); 
 }
 
 a {
     text-decoration: none;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 668px) {
+    body {
+        margin-top: 5vh; /* Ajustar margen superior */
+        font-size: 16px; /* Disminuir tamaño de fuente */
+        padding: 10px; /* Reducir padding */
+    }
+
+    .container {
+        margin: 30px auto; /* Reducir margen */
+        width: 70%;
+        margin-top: 17%;
+    }
+
+    .card {
+        padding: 20px; /* Reducir padding de la tarjeta */
+    }
+
+    .card-header {
+        padding: 15px; /* Reducir padding del encabezado */
+    }
+
+    .card-header h3 {
+        font-size: 20px; /* Reducir tamaño del título */
+    }
+
+    .profile_picture img {
+        width: 120px; /* Reducir tamaño de la imagen */
+        height: 120px; /* Reducir tamaño de la imagen */
+        margin-bottom: 10px; /* Reducir margen inferior */
+    }
+
+    .user-details {
+        gap: 8px; /* Reducir espacio entre detalles */
+    }
+
+    .detail {
+        padding: 8px 12px; /* Reducir padding */
+    }
+
+    .btn-warning {
+        padding: 0.4em 1.2em; /* Reducir padding del botón */
+        font-size: 12px; /* Reducir tamaño de fuente del botón */
+    }
+
+    .btn-warning:hover {
+        transform: scale(1.03); /* Ajustar efecto de hover */
+    }
 }

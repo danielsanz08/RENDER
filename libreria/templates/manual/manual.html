@@ -1,0 +1,114 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block titulo %}Manual{% endblock %}
+{% block contenido %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #b2e0d4, #85c1b0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    #openManualBtn {
+        background: #3eb489;
+        border: none;
+        color: white;
+        padding: 12px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 25px;
+        transition: background 0.3s ease;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #openManualBtn:hover {
+        background: #36a77a;
+    }
+
+    #openManualBtn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .floating-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        opacity: 0.5;
+        animation: float 15s infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-50px) rotate(90deg); }
+        100% { transform: translateY(0) rotate(0deg); }
+    }
+</style>
+</head>
+<body>
+<div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<div class="container">
+    <h1>Manual de Usuario</h1>
+    <button id="openManualBtn">Abrir Manual PDF</button>
+</div>
+
+<script>
+    document.getElementById('openManualBtn').addEventListener('click', function() {
+        // Replace 'ruta_al_manual.pdf' with the actual path to your PDF file
+        window.open('ruta_al_manual.pdf', '_blank');
+    });
+
+    // Create floating shapes
+    const floatingShapes = document.querySelector('.floating-shapes');
+    for (let i = 0; i < 5; i++) {
+        const shape = document.createElement('div');
+        shape.classList.add('shape');
+        shape.style.left = `${Math.random() * 100}%`;
+        shape.style.top = `${Math.random() * 100}%`;
+        shape.style.width = `${Math.random() * 50 + 30}px`;
+        shape.style.height = shape.style.width;
+        shape.style.animationDelay = `${Math.random() * 10}s`;
+        floatingShapes.appendChild(shape);
+    }
+</script>
+{% endblock %}

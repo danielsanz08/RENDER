@@ -28,8 +28,12 @@ $(document).ready(function() {
             errorMessages.push('Por favor, ingresa un correo electrónico válido.');
         }
 
+        // Nueva validación para verificar que no se ingresen letras en el teléfono
         const telefonoRegex = /^\d{10}$/; 
-        if (!telefonoRegex.test(telefono)) {
+        const letrasEnTelefono = /[a-zA-Z]/; // Expresión regular para detectar letras
+        if (letrasEnTelefono.test(telefono)) {
+            errorMessages.push('No se puede digitar letras en el teléfono.');
+        } else if (!telefonoRegex.test(telefono)) {
             errorMessages.push('El teléfono debe tener 10 dígitos.');
         }
 
@@ -104,5 +108,20 @@ $(document).ready(function() {
                 });
             }
         });
+    });
+});
+$(document).ready(function() {
+    $('#numero_documento').on('input', function() {
+        // Filtrar la entrada para que solo permita números
+        this.value = this.value.replace(/[^0-9]/g, '');
+        // Si se ingresan letras, mostrar un mensaje de error
+        if (/[a-zA-Z]/.test(this.value)) {
+            toastr.error('No se puede digitar letras en el número de documento.', 'Error', {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 5000,
+                positionClass: 'toast-bottom-right'
+            });
+        }
     });
 });

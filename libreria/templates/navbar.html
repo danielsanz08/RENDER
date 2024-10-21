@@ -99,7 +99,7 @@
         <a href="{% url 'backup' %}" class="navbar__link" title="Realizar copia de seguridad"><i data-feather="cloud"></i><span>Copia de Seguridad</span></a>
       </li>
       <li class="navbar__item">
-        <a href="manual/Manual de usuario.pdf" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+        <a href="{% url 'manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
       </li>
       {% else %}
       <li class="navbar__item">
@@ -121,7 +121,7 @@
         <a href="{% url 'contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="manual/Manual de usuario.pdf" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+        <a href="{% url 'manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
       </li>
       {% endif %}
     </ul>

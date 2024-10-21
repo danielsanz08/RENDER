@@ -16,7 +16,7 @@
             {% csrf_token %}
         
             <div class="nit_input">
-                <label for="{{ form.nit.id_for_label }}"  title="NIT">NIT</label>
+                <label for="{{ form.nit.id_for_label }}" title="NIT">NIT</label>
                 {{ form.nit }}  <!-- Campo prellenado -->
             </div>
             <div class="tipo_persona_input">
@@ -25,22 +25,22 @@
             </div>
             
             <div class="name_input">
-                <label for="{{ form.nombre.id_for_label }}"  title="Nombre del proveedor">Nombre del Proveedor</label>
+                <label for="{{ form.nombre.id_for_label }}" title="Nombre del proveedor">Nombre del Proveedor</label>
                 {{ form.nombre }}  <!-- Campo prellenado -->
             </div>
         
             <div class="direccion_input">
-                <label for="{{ form.direccion.id_for_label }}"  title="Dirección">Dirección</label>
+                <label for="{{ form.direccion.id_for_label }}" title="Dirección">Dirección</label>
                 {{ form.direccion }}  <!-- Campo prellenado -->
             </div>
         
             <div class="email_input">
-                <label for="{{ form.email.id_for_label }}"  title="Correo electrónico">Correo Electrónico</label>
+                <label for="{{ form.email.id_for_label }}" title="Correo electrónico">Correo Electrónico</label>
                 {{ form.email }}  <!-- Campo prellenado -->
             </div>
         
             <div class="form-group">
-                <label for="{{ form.telefono.id_for_label }}"  title="Teléfono">Teléfono</label>
+                <label for="{{ form.telefono.id_for_label }}" title="Teléfono">Teléfono</label>
                 {{ form.telefono }}  <!-- Campo prellenado -->
             </div>    
         
@@ -51,7 +51,7 @@
         </form>        
 
         <!-- Popup -->
-        <div id="popup" class="popup">
+        <div id="popup" class="popup" style="display:none;">
             <div class="checkmark">
                 <svg class="checkmark-svg" viewBox="0 0 52 52">
                     <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
@@ -63,5 +63,127 @@
     </div>
 </div>
 
-<script src="{% static 'js/crear_proveedor.js' %}?v={% now 'U' %}"></script>
+<script>
+    const nitInput = document.querySelector('input[name="nit"]');
+    const nombreInput = document.querySelector('input[name="nombre"]');
+    const emailInput = document.querySelector('input[name="email"]');
+    const telefonoInput = document.querySelector('input[name="telefono"]');
+
+    // Agrega eventos de entrada para validación en tiempo real
+    nitInput.addEventListener('input', validateNIT);
+    nombreInput.addEventListener('input', validateNombre);
+    emailInput.addEventListener('input', validateEmail);
+    telefonoInput.addEventListener('input', validateTelefono);
+
+    // Validaciones
+    function validateNIT() {
+        clearErrors(nitInput);
+        const nitValue = nitInput.value;
+        // Verifica que solo contenga 10 dígitos
+        if (!/^\d{10}$/.test(nitValue)) {
+            showError(nitInput, "El NIT debe tener exactamente 10 dígitos.");
+        }
+    }
+
+    function validateNombre() {
+        clearErrors(nombreInput);
+        if (/\d/.test(nombreInput.value)) {
+            showError(nombreInput, "El nombre no puede contener números.");
+        }
+    }
+
+    function validateEmail() {
+        clearErrors(emailInput);
+        const emailValue = emailInput.value;
+        // Simulación de validación de correo electrónico ya registrado
+        const existingEmails = ['example@example.com', 'test@test.com']; // Ejemplo de correos existentes
+        if (existingEmails.includes(emailValue)) {
+            showError(emailInput, "El correo electrónico ya está registrado.");
+        }
+    }
+
+    function validateTelefono() {
+        clearErrors(telefonoInput);
+        const telefonoValue = telefonoInput.value;
+        
+        // Verifica que solo contenga números
+        if (/[^\d]/.test(telefonoValue)) {
+            showError(telefonoInput, "El teléfono solo puede contener dígitos.");
+        }
+        
+        // Verifica que tenga exactamente 10 dígitos
+        if (telefonoValue.length !== 10) {
+            showError(telefonoInput, "El teléfono debe tener 10 dígitos.");
+        }
+    }
+
+    // Función para mostrar mensajes de error
+    function showError(input, message) {
+        const error = document.createElement('div');
+        error.className = 'error-message';
+        error.style.color = 'red'; // Estilo del mensaje de error
+        error.textContent = message;
+        input.parentNode.insertBefore(error, input.nextSibling); // Inserta el mensaje de error después del input
+    }
+
+    // Función para limpiar mensajes de error
+    function clearErrors(input) {
+        const errorMessages = input.parentNode.querySelectorAll('.error-message');
+        errorMessages.forEach((message) => message.remove());
+    }
+
+    document.getElementById('crear-proveedor-form').addEventListener('submit', function(event) {
+        const isValid = validateForm(); // Validar el formulario antes de enviar
+        if (!isValid) {
+            event.preventDefault(); // Previene el envío del formulario si no es válido
+        } else {
+            // Muestra el popup de registro exitoso (opcional)
+            document.getElementById('popup').style.display = 'block';
+        }
+    });
+
+    function validateForm() {
+        clearErrors(nitInput);
+        clearErrors(nombreInput);
+        clearErrors(emailInput);
+        clearErrors(telefonoInput);
+
+        let valid = true; // Inicializa la validez del formulario
+
+        // Validación del campo NIT
+        const nitValue = nitInput.value;
+        if (!/^\d{10}$/.test(nitValue)) {
+            showError(nitInput, "El NIT debe tener exactamente 10 dígitos.");
+            valid = false;
+        }
+
+        // Validación del campo nombre
+        if (/\d/.test(nombreInput.value)) {
+            showError(nombreInput, "El nombre no puede contener números.");
+            valid = false;
+        }
+
+        // Validación del campo email
+        const emailValue = emailInput.value;
+        const existingEmails = ['example@example.com', 'test@test.com'];
+        if (existingEmails.includes(emailValue)) {
+            showError(emailInput, "El correo electrónico ya está registrado.");
+            valid = false;
+        }
+
+        // Validación del campo teléfono
+        const telefonoValue = telefonoInput.value;
+        if (/[^\d]/.test(telefonoValue)) {
+            showError(telefonoInput, "El teléfono solo puede contener dígitos.");
+            valid = false;
+        }
+        if (telefonoValue.length !== 10) {
+            showError(telefonoInput, "El teléfono debe tener 10 dígitos.");
+            valid = false;
+        }
+
+        return valid; // Retorna el estado de validación del formulario
+    }
+</script>
+
 {% endblock %}

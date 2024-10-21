@@ -1,41 +1,28 @@
 {% extends "navbar.html" %}
-{% load static %}
-{% block titulo %}Editar Cliente{% endblock %}
+{% block titulo %}Editar Proveedor{% endblock %}
 {% block contenido %}
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<link href="{% static 'css/editar_cliente.css' %}?v={% now 'U' %}" rel="stylesheet" />
-
 <div class="card edit-user-card">
     <div class="card-header">
-        <h3 class="text-center" title="Editar cliente">EDITAR CLIENTE</h3>
+        <h3 class="text-center" title="Editar proveedor">EDITAR PROVEEDOR: {{ proveedor.nombre }}</h3>
     </div>
-
     <div class="card-body">
-        <form method="post" id="editar-cliente-form" enctype="multipart/form-data">
+        <form method="POST" id="form-editar" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}  <!-- Esto renderizará los campos del formulario con sus etiquetas -->
+            {{ form.as_p }}  <!-- Renderiza todos los campos del formulario como párrafos -->
+
             <div class="botones">
                 <button class="btn btn-success" type="submit" title="Guardar cambios">Guardar Cambios</button>
-                <a class="btn btn-warning" href="{% url 'consultar_clientes' %}" role="button" title="Cancelar">Cancelar</a>
+                <a class="btn btn-warning" href="{% url 'listar_proveedor' %}" role="button" title="Cancelar">Cancelar</a>
             </div>
         </form>
 
-        <!-- Popup -->
-        <div id="popup" class="popup">
-            <div class="checkmark">
-                <svg class="checkmark-svg" viewBox="0 0 52 52">
-                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                    <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
-                </svg>
+        {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
             </div>
-            <p>Registro exitoso</p>
-        </div>
+        {% endif %}
     </div>
 </div>
-
-
-
 {% endblock %}

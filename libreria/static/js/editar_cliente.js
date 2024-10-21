@@ -106,3 +106,34 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $('#editar-cliente-form').on('submit', function(e) {
+        var nombre = $('#nombre').val(); // Cambia el selector si es necesario
+        var telefono = $('#telefono').val();
+        var errorMessage = '';
+
+        // Verificar si el nombre contiene números
+        if (/\d/.test(nombre)) {
+            errorMessage += 'El nombre no debe contener números.<br>';
+        }
+
+        // Verificar si el teléfono contiene letras
+        if (/[a-zA-Z]/.test(telefono)) {
+            errorMessage += 'El teléfono no debe contener letras.';
+        }
+
+        // Si hay errores, mostrar el mensaje de error
+        if (errorMessage) {
+            e.preventDefault(); // Previene el envío del formulario
+            $('#popup').hide(); // Oculta el popup si estaba visible
+            $('#error-message').html(errorMessage).show();
+        } else {
+            $('#error-message').hide(); // Oculta el mensaje de error si no hay errores
+        }
+    });
+
+    // Ocultar el mensaje de error al escribir
+    $('input[name="nombre"], input[name="telefono"]').on('input', function() {
+        $('#error-message').hide();
+    });
+});

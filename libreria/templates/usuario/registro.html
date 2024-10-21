@@ -7,7 +7,30 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link href="{% static 'css/registro.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+<style>
+    .error-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(182, 5, 5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it appears above other elements */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s, fadeOut 0.5s 4.5s; /* Fade in and out animations */
+    width: 300px; /* Set a fixed width for the message box */
+}
 
+.progress-bar {
+    height: 5px;
+    background-color: white; /* Color of the progress bar */
+    margin-top: 5px;
+    border-radius: 3px;
+    width: 100%;
+    animation: progress 5s forwards;
+}
+</style>
 <div class="container">
     <form id="register-form" method="post" enctype="multipart/form-data" class="form sign-up">
         {% csrf_token %}
@@ -31,7 +54,7 @@
         <div class="form-group">
             <label for="name" title="Nombre">Nombre:</label>
             <div class="input-group">
-                <input type="text" name="name" id="name" placeholder="Nombre" required title="Ingresa tu nombre">
+                <input type="text" name="name" id="name" placeholder="Nombre" required title="Ingresa tu nombre" onkeypress="return soloLetras(event)">
             </div>
         </div>
         
@@ -58,7 +81,7 @@
         <div class="form-group">
             <label for="phone" title="Teléfono">Teléfono:</label>
             <div class="input-group">
-                <input type="text" name="phone" id="phone" placeholder="Teléfono" required title="Ingresa tu número de teléfono">
+                <input type="text" name="phone" id="phone" placeholder="Teléfono" required title="Ingresa tu número de teléfono" onkeypress="return soloNumeros(event)">
             </div>
         </div>
         
@@ -102,5 +125,109 @@
 </div>
 
 <script src="{% static 'js/registro.js' %}?v={% now 'U' %}"></script>
+
+<script>
+function soloLetras(e) {
+    const key = e.keyCode || e.which;
+    const tecla = String.fromCharCode(key).toLowerCase();
+    const letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+    const especiales = [8, 37, 39, 46]; // Permitir retroceso, flechas, y otras teclas especiales
+
+    if (letras.indexOf(tecla) === -1 && !especiales.includes(key)) {
+        return false; // Solo permite letras y caracteres especiales
+    }
+}
+
+function soloNumeros(e) {
+    const key = e.keyCode || e.which;
+    const tecla = String.fromCharCode(key);
+    const numeros = "0123456789";
+    const especiales = [8, 37, 39, 46]; // Permitir retroceso, flechas, y otras teclas especiales
+
+    if (numeros.indexOf(tecla) === -1 && !especiales.includes(key)) {
+        return false; // Solo permite números
+    }
+}
+
+$(document).ready(function () {
+    $('#register-form').on('submit', function (event) {
+        event.preventDefault(); // Evitar el envío del formulario hasta que se validen los campos
+
+        // Limpiar mensajes de error previos
+        $('#error-message-container').hide();
+        $('#error-message').text('');
+
+        // Obtener los valores de los campos
+        const name = $('#name').val().trim();
+        const phone = $('#phone').val().trim();
+        const email = $('#email').val().trim();
+        const role = $('#role').val();
+        const registeredNames = ['Juan', 'Ana']; // Nombres registrados (ejemplo)
+        const registeredPhones = ['1234567890']; // Teléfonos registrados (ejemplo)
+        const registeredEmails = ['test@example.com']; // Correos registrados (ejemplo)
+        const registeredRoles = ['Administrador']; // Roles registrados (ejemplo)
+
+        let hasError = false;
+
+        // Validaciones
+        if (name === '') {
+            $('#error-message-container').show();
+            $('#error-message').text('El nombre es obligatorio.');
+            hasError = true;
+        }
+
+        if (phone === '') {
+            $('#error-message-container').show();
+            $('#error-message').text('El teléfono es obligatorio.');
+            hasError = true;
+        }
+
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+            $('#error-message-container').show();
+            $('#error-message').text('El nombre solo debe contener letras.');
+            hasError = true;
+        }
+
+        if (!/^\d+$/.test(phone)) {
+            $('#error-message-container').show();
+            $('#error-message').text('El teléfono solo debe contener números.');
+            hasError = true;
+        }
+
+        if (registeredNames.includes(name)) {
+            $('#error-message-container').show();
+            $('#error-message').text('Este nombre ya está registrado.');
+            hasError = true;
+        }
+
+        if (registeredPhones.includes(phone)) {
+            $('#error-message-container').show();
+            $('#error-message').text('Este teléfono ya está registrado.');
+            hasError = true;
+        }
+
+        if (registeredEmails.includes(email)) {
+            $('#error-message-container').show();
+            $('#error-message').text('Este correo ya está registrado.');
+            hasError = true;
+        }
+
+        if (role === 'Administrador' && registeredRoles.includes(role)) {
+            $('#error-message-container').show();
+            $('#error-message').text('Ya existe un rol de Administrador registrado.');
+            hasError = true;
+        }
+
+        if (!hasError) {
+            // Si no hay errores, puedes enviar el formulario
+            $('#popup').fadeIn();
+            setTimeout(() => {
+                $('#popup').fadeOut();
+                this.submit(); // Aquí envías el formulario si no hay errores
+            }, 2000);
+        }
+    });
+});
+</script>
 
 {% endblock %}

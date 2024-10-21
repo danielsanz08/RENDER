@@ -65,7 +65,7 @@
             </div>
         
             <div class="form-group">
-                <label for="fecha_vencimiento"  title="Fecha de vencimiento">Fecha de Vencimiento</label>
+                <label for="fecha_vencimiento" title="Fecha de vencimiento">Fecha de Vencimiento</label>
                 <input type="date" placeholder="Fecha de Vencimiento" id="fecha_vencimiento" name="fecha_vencimiento" required title="Selecciona la fecha de vencimiento del producto">
             </div>
         
@@ -75,7 +75,7 @@
             </div>            
         
             <div class="form-group">
-                <label for="lote"  title="Número de lote">Número de Lote</label>
+                <label for="lote" title="Número de lote">Número de Lote</label>
                 <input type="text" placeholder="Número de Lote" id="lote" name="lote" required pattern="[A-Za-z0-9]+" title="Ingresa el número de lote del producto">
             </div>
         
@@ -103,5 +103,114 @@
     </div>
 </div>
 
-<script src="{% static 'js/crear_producto.js' %}?v={% now 'U' %}"></script>
+<script>
+$(document).ready(function() {
+    const showError = (element, message) => {
+        $(element).next('.error-message').remove(); // Elimina mensajes de error previos
+        $(element).after(`<span class="error-message" style="color:red;">${message}</span>`); // Muestra el nuevo mensaje de error
+    };
+
+    const clearError = (element) => {
+        $(element).next('.error-message').remove(); // Elimina el mensaje de error
+    };
+
+    const validateField = (field, regex, errorMessage) => {
+        if (!regex.test(field.val().trim())) {
+            showError(field, errorMessage);
+            return false;
+        }
+        clearError(field);
+        return true;
+    };
+
+    // Validaciones al escribir
+    $('#nombre').on('input', function() {
+        const nombreRegex = /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/;
+        validateField($(this), nombreRegex, 'El nombre solo puede contener letras y espacios.');
+    });
+
+    $('#presentacion').on('input', function() {
+        const nombreRegex = /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/;
+        if (!validateField($(this), nombreRegex, 'La presentación solo puede contener letras y espacios.')) {
+            return;
+        }
+        if ($(this).val().length < 3 || $(this).val().length > 10) {
+            showError($(this), 'La presentación debe tener entre 3 y 10 caracteres.');
+        } else {
+            clearError($(this));
+        }
+    });
+
+    $('#lote').on('input', function() {
+        const numericRegex = /^[0-9]+$/;
+        validateField($(this), numericRegex, 'El lote debe contener solo números.');
+    });
+
+    $('#codigo').on('input', function() {
+        const numericRegex = /^[0-9]+$/;
+        validateField($(this), numericRegex, 'El código debe contener solo números.');
+    });
+
+    $('#productoForm').on('submit', function(event) {
+        event.preventDefault(); // Evita el envío inmediato del formulario
+
+        let errorMessages = [];
+        const nombre = $('#nombre').val().trim();
+        const categoria = $('#categoria').val();
+        const presentacion = $('#presentacion').val().trim();
+        const unidadMedida = $('#unidad_medida').val();
+        const cantidad = $('#cantidad').val();
+        const precio = $('#precio').val();
+        const fechaElaboracion = $('#fecha_elaboracion').val();
+        const fechaVencimiento = $('#fecha_vencimiento').val();
+        const temperaturaConservacion = $('#temperatura_conservacion').val();
+
+        // Validaciones generales
+        if (!validateField($('#nombre'), /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/, 'El nombre solo puede contener letras y espacios.')) {
+            errorMessages.push('Error en el nombre.');
+        }
+
+        if (categoria === "") {
+            errorMessages.push('Debes seleccionar una categoría.');
+        }
+
+        if (!validateField($('#presentacion'), /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/, 'La presentación solo puede contener letras y espacios.')) {
+            errorMessages.push('Error en la presentación.');
+        }
+
+        if (unidadMedida === "") {
+            errorMessages.push('Debes seleccionar una unidad de medida.');
+        }
+
+        if (!validateField($('#cantidad'), /^[0-9]+$/, 'La cantidad debe ser un número.')) {
+            errorMessages.push('Error en la cantidad.');
+        }
+
+        if (!validateField($('#precio'), /^[0-9]+$/, 'El precio debe ser un número.')) {
+            errorMessages.push('Error en el precio.');
+        }
+
+        if (!validateField($('#fecha_elaboracion'), /^\d{4}-\d{2}-\d{2}$/, 'Introduce una fecha válida.')) {
+            errorMessages.push('Error en la fecha de elaboración.');
+        }
+
+        if (!validateField($('#fecha_vencimiento'), /^\d{4}-\d{2}-\d{2}$/, 'Introduce una fecha válida.')) {
+            errorMessages.push('Error en la fecha de vencimiento.');
+        }
+
+        if (!validateField($('#temperatura_conservacion'), /^-?\d+(\.\d+)?$/, 'La temperatura debe ser un número.')) {
+            errorMessages.push('Error en la temperatura de conservación.');
+        }
+
+        // Mostrar errores o enviar formulario
+        if (errorMessages.length > 0) {
+            toastr.error(errorMessages.join('\n')); // Mostrar errores con toastr
+        } else {
+            $(this).off('submit'); // Elimina el evento para evitar bucles
+            this.submit(); // Envía el formulario
+        }
+    });
+});
+</script>
+
 {% endblock %}
