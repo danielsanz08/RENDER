@@ -43,7 +43,7 @@
             {% if usuario.profile_picture %}
                 <img src="{{ usuario.profile_picture.url }}" class="profile-photo" title="{{ usuario.name }}" width="50" height="50">
             {% else %}
-                <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
+                   
             {% endif %}
             <div class="user-menu">
                 <a href="{% url 'ver_perfil' %}" class="perfil" title="Ver perfil">Ver Perfil</a>

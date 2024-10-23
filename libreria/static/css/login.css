@@ -12,227 +12,360 @@
     --insta-color: #E1306C;
 }
 
-/* Ajustes globales */
-html, body {
-    height: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 
+html,
 body {
-    background-image: url("/static/imagen/Inicio.jpg");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     overflow: hidden;
+    background: black;
 }
 
-/* Contenedor del formulario */
-#container {
-    background: rgba(255, 255, 255, 0.5); /* Fondo transparente */
-    padding: 30px 40px;
-    border-radius: 15px;
-    width: 350px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Sombra con efecto de vidrio */
-    backdrop-filter: blur(10px); /* Efecto de desenfoque en el fondo */
-    border: 1px solid rgba(255, 255, 255, 0.18); /* Borde suave */
-    text-align: center;
+.container {
     position: relative;
+    min-height: 100vh;
     overflow: hidden;
 }
 
-/* Efecto gráfico flotante */
-#container::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    z-index: 0;
-    animation: floating 6s ease-in-out infinite;
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
 }
 
-@keyframes floating {
-    0%, 100% {
+
+.align-items-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}*/
+
+.form-wrapper {
+    width: 100%;
+    max-width: 28rem;
+}
+
+.form {
+    padding: 1rem;
+    background-color: var(--white);
+    border-radius: 1.5rem;
+    width: 100%;
+    height: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transform: scale(0);
+    transition: .5s ease-in-out;
+    transition-delay: 1s;
+    margin-left: 130vh;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.input-group i {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    color: var(--gray-2);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    background-color: var(--gray);
+    border-radius: .5rem;
+    border: 0.125rem solid var(--white);
+    outline: none;
+}
+
+.input-group input:focus {
+    border: 0.125rem solid var(--primary-color);
+}
+
+.form button {
+    cursor: pointer;
+    width: 100%;
+    padding: .6rem 0;
+    border-radius: .5rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 1.2rem;
+    outline: none;
+}
+
+.form p {
+    margin: 1rem 0;
+    font-size: .7rem;
+}
+
+.flex-col {
+    flex-direction: column;
+}*/
+
+.social-list {
+    margin: 2rem 0;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transform: scale(0);
+    transition: .5s ease-in-out;
+    transition-delay: 1.2s;
+}
+
+.social-list>div {
+    color: var(--white);
+    margin: 0 .5rem;
+    padding: .7rem;
+    cursor: pointer;
+    border-radius: .5rem;
+    cursor: pointer;
+    transform: scale(0);
+    transition: .5s ease-in-out;
+}
+
+.social-list>div:nth-child(1) {
+    transition-delay: 1.4s;
+}
+
+.social-list>div:nth-child(2) {
+    transition-delay: 1.6s;
+}
+
+.social-list>div:nth-child(3) {
+    transition-delay: 1.8s;
+}
+
+.social-list>div:nth-child(4) {
+    transition-delay: 2s;
+}
+
+.social-list>div>i {
+    font-size: 1.5rem;
+    transition: .4s ease-in-out;
+}
+
+.social-list>div:hover i {
+    transform: scale(1.5);
+}
+
+.facebook-bg {
+    background-color: var(--facebook-color);
+}
+
+.google-bg {
+    background-color: var(--google-color);
+}
+
+.twitter-bg {
+    background-color: var(--twitter-color);
+}
+
+.insta-bg {
+    background-color: var(--insta-color);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.container.sign-in .form.sign-in,
+.container.sign-in .social-list.sign-in,
+.container.sign-in .social-list.sign-in>div,
+.container.sign-up .form.sign-up,
+.container.sign-up .social-list.sign-up,
+.container.sign-up .social-list.sign-up>div {
+    transform: scale(1);
+}
+
+.content-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 6;
+    width: 100%;
+}
+
+.text {
+    margin: 4rem;
+    color: var(--white);
+}
+
+.text h2 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 2rem 0;
+    transition: 1s ease-in-out;
+}
+
+.text p {
+    font-weight: 600;
+    transition: 1s ease-in-out;
+    transition-delay: .2s;
+}
+
+.img img {
+    width: 30vw;
+    transition: 1s ease-in-out;
+    transition-delay: .4s;
+}
+
+.text.sign-in h2,
+.text.sign-in p,
+.img.sign-in img {
+    transform: translateX(-250%);
+}
+
+.text.sign-up h2,
+.text.sign-up p,
+.img.sign-up img {
+    transform: translateX(250%);
+}
+
+.container.sign-in .text.sign-in h2,
+.container.sign-in .text.sign-in p,
+.container.sign-in .img.sign-in img,
+.container.sign-up .text.sign-up h2,
+.container.sign-up .text.sign-up p,
+.container.sign-up .img.sign-up img {
+    transform: translateX(0);
+}
+
+/* BACKGROUND */
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 300vw;
+    transform: translate(35%, 0);
+    background-image: linear-gradient(-45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transition: 1s ease-in-out;
+    z-index: 6;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-bottom-right-radius: max(50vw, 50vh);
+    border-top-left-radius: max(50vw, 50vh);
+}
+
+.container.sign-in::before {
+    transform: translate(0, 0);
+    right: 50%;
+}
+
+.container.sign-up::before {
+    transform: translate(100%, 0);
+    right: 50%;
+}
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 425px) {
+
+    .container::before,
+    .container.sign-in::before,
+    .container.sign-up::before {
+        height: 100vh;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 0;
+        z-index: 0;
+        transform: none;
+        right: 0;
+    }
+
+    /* .container.sign-in .col.sign-up {
+        transform: translateY(100%);
+    } */
+
+    .container.sign-in .col.sign-in,
+    .container.sign-up .col.sign-up {
         transform: translateY(0);
     }
-    50% {
-        transform: translateY(-20px);
+
+    .content-row {
+        align-items: flex-start !important;
+    }
+
+    .content-row .col {
+        transform: translateY(0);
+        background-color: unset;
+    }
+
+    .col {
+        width: 100%;
+        position: absolute;
+        padding: 2rem;
+        background-color: var(--white);
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        transform: translateY(100%);
+        transition: 1s ease-in-out;
+    }
+
+    .row {
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+    .form,
+    .social-list {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .text {
+        margin: 0;
+    }
+
+    .text p {
+        display: none;
+    }
+
+    .text h2 {
+        margin: .5rem;
+        font-size: 2rem;
+    }
+
+}
+/* Estilos para pantallas de laptop */
+@media (max-width: 1366px) {
+    .form {
+        padding: 1rem;
+        background-color: var(--white);
+        border-radius: 1.5rem;
+        width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transform: scale(0);
+        transition: .5s ease-in-out;
+        transition-delay: 1s;
+        margin-left: 150vh;
     }
 }
-
-/* Títulos */
-h1 {
-    font-size: 28px;
-    color: #fff;
-    margin-bottom: 20px;
-    font-weight: bold;
+.opciones{
+    margin-bottom: 10%;
+    margin: 20px;
+    
 }
-
-/* Inputs */
-input[type="text"], input[type="password"] {
-    appearance: none; /* Evita los íconos nativos del navegador */
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: none;
-    border-radius: 25px;
-    background: rgba(240, 245, 245, 0.26); /* Usando el color principal */
-    color: black; /* Letras en negro */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-input[type="text"]::placeholder, input[type="password"]::placeholder {
-    color: rgba(0, 0, 0, 0.5); /* Placeholder en negro con transparencia */
-}
-
-input[type="text"]:focus, input[type="password"]:focus {
-    background: rgba(103, 155, 155, 0.4); /* Efecto de enfoque con color más fuerte */
-    outline: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Efecto de profundidad al enfocar */
-}
-
-/* Botón de inicio de sesión */
-button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 25px;
-    background: linear-gradient(45deg, #01AB7B, #4a6d6d); /* Gradiente con el color principal */
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(103, 155, 155, 0.5); /* Sombra con efecto de resplandor */
-}
-
-button:hover {
-    background: linear-gradient(45deg, #01AB7B, #679B9B); /* Cambio de gradiente al hover */
-    box-shadow: 0 4px 20px rgba(103, 155, 155, 0.7);
-    transform: scale(1.05); /* Ligera ampliación al hover */
-}
-
-/* Estilo para enlaces */
-a {
-    color: #679B9B; /* Usando el color principal */
+ a{
     text-decoration: none;
-    font-size: 14px;
 }
-
-a:hover {
-    text-decoration: underline;
-    color: #4a6d6d; /* Oscurecer al hover */
-}
-
-/* Ajuste del checkbox */
-input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-label {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-/* Enlace de recuperación de contraseña */
-.options a{
-    display: block;
-    margin-top: 15px;
-    font-size: 16px; /* Tamaño más grande */
-    color: #333; /* Color más oscuro */
-    font-weight: bold;
-}
-
-.options a:hover {
-    color: #000;
-    text-decoration: underline;
-}
-
-/* Contenedor del ícono y el título */
-.icon-title-container {
-    text-align: center; /* Centra el ícono y el título */
-    margin-bottom: 20px; /* Espacio entre el título y el resto del formulario */
-}
-
-/* Estilo del ícono encima del título */
-.bi-person-fill {
-    font-size: 30px; /* Tamaño moderado del ícono */
-    color: black; /* Color del ícono, usando el color principal */
-    margin-bottom: 10px; /* Espaciado entre el ícono y el título */
-}
-
-/* Contenedor del grupo de inputs */
-.input-group, .input-group-password {
-    display: flex; /* Usa flexbox para alinear los elementos horizontalmente */
-    align-items: stretch; /* Alinea verticalmente los íconos y los inputs sin centrar el contenido del input */
-}
-
-/* Estilos del ícono dentro del contenedor */
-.input-group-text {
-    display: flex;
-    align-items: center; /* Centra el ícono verticalmente */
-    justify-content: center; /* Centra el ícono horizontalmente */
-    height: 45px; /* Ajusta la altura del ícono para que coincida con la del input */
-    width: 45px; /* Ajusta el ancho del ícono */
-    font-size: 20px; /* Tamaño del ícono */
-    background-color: transparent; /* Fondo transparente */
-    border: none; /* Sin borde */
-    border-radius: 0; /* Sin bordes redondeados */
-    margin-right: 5px; /* Espacio entre el ícono y el input */
-    padding: 0; /* Elimina padding */
-}
-
-/* Estilos del input */
-.form-control {
-    flex: 1; /* Ocupa el espacio restante en el contenedor */
-    height: 45px; /* Altura del input debe coincidir con la del ícono */
-    padding: 0 10px; /* Espacio dentro del input */
-    border: 1px solid #ccc; /* Borde del input */
-    border-radius: 5px; /* Bordes redondeados del input */
-    box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
-    font-size: 16px; /* Tamaño de la fuente en el input */
-}
-
-/* Contenedor específico para el input de contraseña */
-.input-group-password {
-    position: relative; /* Permite que el botón de mostrar/ocultar contraseña esté posicionado absolutamente */
-}
-
-/* Estilo para el ícono de mostrar/ocultar contraseña */
-.toggle-password {
-    position: absolute;
-    right: 10px; /* Ajustado para que se vea mejor */
-    top: 50%; /* Centrado verticalmente */
-    transform: translateY(-50%); /* Ajustado para centrar verticalmente el ícono */
-    cursor: pointer;
-    font-size: 20px; /* Tamaño del ícono */
-}
-
-/* Ajuste del ícono de mostrar/ocultar contraseña */
-.toggle-password i {
-    font-size: 20px; /* Tamaño del ícono */
-}
-
-/* Ocultar el ícono de visibilidad por defecto en los campos de contraseña */
-input[type="password"]::-ms-reveal, 
-input[type="password"]::-ms-clear {
-    display: none;
-}
-
-input[type="password"]::-webkit-inner-spin-button,
-input[type="password"]::-webkit-outer-spin-button,
-input[type="password"]::-webkit-clear-button,
-input[type="password"]::-webkit-reveal-button {
-    display: none;
+a:hover{
+    color: #01AB7B;
 }

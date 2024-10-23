@@ -180,7 +180,7 @@ def listar_usuario(request):
         {'name': 'Usuarios Registrados', 'url': '/'},
     ]
     return render(request, 'usuario/listar.html', {'usuario': usuario, 'usuarios': usuarios, 'breadcrumbs': breadcrumbs})
-
+@never_cache
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
