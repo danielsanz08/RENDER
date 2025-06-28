@@ -1,19 +1,15 @@
-from pathlib import Path
 import os
+from pathlib import Path
+import dj_database_url  # Asegúrate de instalarlo: pip install dj-database-url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Media files settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Seguridad
+SECRET_KEY = os.environ.get('SECRET_KEY', 'clave-insegura-para-desarrollo')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
-# Security settings
-SECRET_KEY = 'django-insecure-d*b&8-c-9gq(by4&e&+i!tx&h88ccq6k7k*n8%n6%f_0qehgq*'
-DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-# Application definition
+# Aplicaciones instaladas
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,14 +17,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'libreria',  # Custom app
-    'backup_restore',  # Custom app
-    'django_extensions', 
-      'widget_tweaks',
+
+    # Apps propias
+    'libreria',
+    'backup_restore',
+
+    # Terceros
+    'django_extensions',
+    'widget_tweaks',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Importante para producción
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,87 +59,72 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema.wsgi.application'
 
-# Database settings
+# Base de datos (Render recomienda PostgreSQL)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hedynet',
-        'USER': 'root',
-        'PASSWORD': '',  # Cambia esto a tu contraseña de base de datos
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        }
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')  # Render define DATABASE_URL automáticamente
+    )
 }
 
-# Password validation
+# Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# Internacionalización
 LANGUAGE_CODE = 'es'
 TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Archivos estáticos
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key field type
+# Archivos media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Tipo de clave primaria por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Authentication settings
+# Autenticación
 AUTHENTICATION_BACKENDS = [
-    'libreria.backends.NameBackend',  # Custom authentication backend
+    'libreria.backends.NameBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
-
 AUTH_USER_MODEL = 'libreria.CustomUser'
-# Login and logout URLs
+
+# Redirecciones de login/logout
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login_view'
 LOGIN_URL = 'login'
 
-# Email settings
-# Configuración de correo
+# Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mateochaparroburgos189@gmail.com'  # Usuario de Mailtrap
-EMAIL_HOST_PASSWORD = 'wyit bebx eenb iydy'  # Contraseña de Mailtrap
-EMAIL_PORT = '587'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
+PASSWORD_RESET_TIMEOUT = 3600
 
-# Additional settings for production
-# Uncomment and adjust for production settings
+# Seguridad extra para producción (puedes activar si tienes SSL configurado)
 # SECURE_SSL_REDIRECT = True
-# CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
-# X_FRAME_OPTIONS = 'DENY'
+# CSRF_COOKIE_SECURE = True
 
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
+        'console': {'class': 'logging.StreamHandler'},
     },
     'root': {
         'handlers': ['console'],
@@ -145,7 +132,6 @@ LOGGING = {
     },
 }
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La configuración por defecto
-
-# Additional site settings
+# Otras configuraciones
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SITE_NAME = 'hedybed'
