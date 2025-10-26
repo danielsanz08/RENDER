@@ -1,15 +1,15 @@
 import os
 from pathlib import Path
-import dj_database_url  # Asegúrate de instalarlo: pip install dj-database-url
 
+# BASE DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Seguridad
+# 🔹 Clave secreta y modo debug
 SECRET_KEY = os.environ.get('SECRET_KEY', 'clave-insegura-para-desarrollo')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+DEBUG = True
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-# Aplicaciones instaladas
+# 🔹 Aplicaciones instaladas
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,10 +27,10 @@ INSTALLED_APPS = [
     'widget_tweaks',
 ]
 
-# Middleware
+# 🔹 Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Importante para producción
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # útil si luego haces deploy
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -39,6 +39,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 🔹 Configuración principal
 ROOT_URLCONF = 'sistema.urls'
 
 TEMPLATES = [
@@ -59,14 +60,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema.wsgi.application'
 
-# Base de datos (Render recomienda PostgreSQL)
+# 🔹 Base de datos local (MySQL)
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')  # Render define DATABASE_URL automáticamente
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'render',  # nombre de tu BD local
+        'USER': 'root',
+        'PASSWORD': '', 
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        },
+    }
 }
 
-# Validación de contraseñas
+# 🔹 Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -74,38 +83,37 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internacionalización
+# 🔹 Internacionalización
 LANGUAGE_CODE = 'es'
 TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Archivos estáticos
+# 🔹 Archivos estáticos y media
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Archivos media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Tipo de clave primaria por defecto
+# 🔹 Tipo de clave primaria por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Autenticación
+# 🔹 Autenticación personalizada
 AUTHENTICATION_BACKENDS = [
     'libreria.backends.NameBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 AUTH_USER_MODEL = 'libreria.CustomUser'
 
-# Redirecciones de login/logout
+# 🔹 Redirecciones login/logout
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login_view'
 LOGIN_URL = 'login'
 
-# Email
+# 🔹 Configuración de correo
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
@@ -114,12 +122,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 PASSWORD_RESET_TIMEOUT = 3600
 
-# Seguridad extra para producción (puedes activar si tienes SSL configurado)
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-
-# Logging
+# 🔹 Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -132,6 +135,6 @@ LOGGING = {
     },
 }
 
-# Otras configuraciones
+# 🔹 Sesiones y sitio
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SITE_NAME = 'hedybed'
