@@ -1,226 +1,141 @@
-{% extends 'navbar.html' %}
+{% extends "navbar.html" %}
 {% load static %}
-{% block titulo %}Listar copias de seguridad{% endblock %}
+{% block titulo %}Insumos Registrados{% endblock %}
 {% block contenido %}
-<link rel="stylesheet" href="{% static 'css/lista_backup.css' %}?v={% now 'U' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pY1y+...etc" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<section id="section">
+<!-- Bibliotecas para generación de PDFs y Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
-    <h1 class="mb-4"><i class="fas fa-database"></i> Copias de Seguridad</h1>
+<!-- Solo usa una versión de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <a href="{% url 'backup:crear_backup' %}">
-                <button class="crear" title="Crear copia de seguridad"><i class="fas fa-plus-circle me-2"></i></button>
-            </a>
+<!-- html2pdf debe estar al final después de html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <a href="{% url 'backup:exportar_backup' %}">
-        <button class="exportar" title="Exportar backup"><i class="fas fa-file-export me-2"></i></button>
-    </a>
-    <a href="{% url 'backup:importar' %}">
-                <button class="importar" title="Importar base de datos"><i class="fas fa-file-import me-2"></i></button>
-            </a>
-    <a href="{% url 'backup:crear_backup' %}">
-        <button class="crear" title="Crear copia de seguridad"><i class="fas fa-plus-circle me-2"></i></button>
-    </a>
+<link href="{% static 'css/consultar_insumo.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<link href="{% static 'css/eliminar_insumo.css' %}?v={% now 'U' %}" rel="stylesheet" />
 
-    <form method="GET" action="{% url 'backup:lista_backups' %}">
-        <div>
-            <input type="text" name="q" id="buscador" placeholder="Buscar ..." class="buscador"
-                value="{{ request.GET.q }}">
-            <button type="submit" class="btn-search" title="Buscar texto">
-                <i class="fas fa-search text-white"></i>
-            </button>
-
-            <div id="filtro-fechas">
-                <label for="fecha_inicio" class="desde">Desde:</label>
-                <input type="date" name="fecha_inicio" class="fecha_inicio" value="{{ request.GET.fecha_inicio }}">
-                <label for="fecha_fin" class="hasta">Hasta:</label>
-                <input type="date" class="fecha_fin" name="fecha_fin" value="{{ request.GET.fecha_fin }}">
-                <button type="submit" class="search-date" title="Buscar por rango de fecha">
+<div class="container">
+    <h2 title="Insumos registrados">Insumos Registrados</h2>
+    <div class="toolbar">
+        <form method="GET" action="{% url 'backup:lista_backups' %}" id="search-form">
+            <div>
+                <input type="text" name="q" id="buscador" placeholder="Buscar ..." class="buscador"
+                    value="{{ request.GET.q }}">
+                <button type="submit" class="btn-search" title="Buscar texto">
                     <i class="fas fa-search text-white"></i>
                 </button>
-            </div>
 
-            <a href="{% url 'backup:lista_backups' %}">
-                <button type="button" class="clean" title="Limpiar búsqueda">
-                    <i class="fas fa-trash text-white"></i>
-                </button>
-            </a>
+                <a href="{% url 'backup:lista_backups' %}">
+                    <button type="button" class="clean" title="Limpiar búsqueda">
+                        <i class="fas fa-trash text-white"></i>
+                    </button>
+                </a>
+            </div>
+        </form>
+        <p id="search-warning" style="color: red; display: none;"></p>
+
+        <div class="opciones">
+
+            <a class="opc" href="{% url 'backup:crear_backup' %}" role="button">
+               <i class="fas fa-plus-circle me-2"></i>
+                <span>Crear backup</span>
+                            </a>
+                 <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
+               <i class="fas fa-file-export me-2"></i>
+                <span>Exportar backup</span>
+                            </a>
+                <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
+               <i class="fas fa-file-export me-2"></i>
+                <span>Exportar backup</span>
+                            </a>
         </div>
-    </form>
-    <div class="tabla-scroll">
-        <table>
+    </div>
+
+    <div id="search-results">
+        <table class="table table-responsive">
             <thead>
                 <tr>
-                    <th id="id">ID</th>
-                    <th id="nombre">Nombre</th>
-                    <th id="fecha">Fecha</th>
-                    <th id="Tamaño">Tamaño</th>
-                    <th id="modelos" style="width: 300px;">Modulos</th>
-                    <th id="descargar" style="width: 90px;">Descargar</th>
-                    <th id="restaurar" style="width: 90px;">Restaurar</th>
-                    <th id="borrar">Borrar</th>
+                    <th title="ID">ID</th>
+                    <th title="Nombre">Nombre</th>
+                    <th title="Unidad de medida">Fecha</th>
+                    <th title="Descripción">Tamaño</th>
+                    <th title="Proveedor">Modelos</th>
+                    <th title="Cantidad">Descargar</th>
+                    <th>Restaurar</th>
+                    <th title="Acciones">Borrar</th>
                 </tr>
             </thead>
             <tbody>
                 {% for backup in backups %}
                 <tr>
-                    <td class="td_id">{{ backup.id }}</td>
-                    <td class="td_nombre">{{ backup.nombre }}</td>
-                    <td class="td_fecha">{{ backup.fecha_creacion|date:"d/m/Y" }}</td>
-                    <td class="td_tamaño">{{ backup.tamano }}</td>
-                    <td class="td_modelos">
-                        Papeleria, Cafeteria y Centro de eventos
-                    </td>
-                    <td class="td_descargar">
-                       <a href="{% url 'backup:descargar_backup' backup.id %}" class="descargar" title="Descargar">
-                                <i class="fas fa-download"></i>
-                            </a>
-                    </td>
-                    <td class="td_restaurar">
-                        <a href="{% url 'backup:restaurar_backup' backup.id %}" class="restaurar" title="Restaurar"
+                    <td title="Id del insumo">{{ backup.id }}</td>
+                    <td title="Nombre del insumo">{{ backup.nombre }}</td>
+                    <td title="Unidad de medida">{{ backup.fecha_creacion|date:"d/m/Y" }}</td>
+                    <td title="Descripción del insumo">{{ backup.tamano }}</td>
+                    <td title="Nombre del proveedor">{{ insumo.proveedor.nombre }}</td>
+                    <td><a type="" href="{% url 'backup:descargar_backup' backup.id %}" class="descargar"
+                            title="Descargar">
+                            <button><i class="fas fa-download"></i></button>
+                        </a></td>
+                    <td><a href="{% url 'backup:restaurar_backup' backup.id %}" class="restaurar" title="Restaurar"
                             onclick="return confirm('¿Restaurar esta copia? Se sobrescribirán los datos actuales.')">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </td>
-                    <td class="td_eliminar">
-                        <a href="{% url 'backup:eliminar_backup' backup.id %}" class="eliminar" title="Eliminar"
+                           <button> <i class="fas fa-undo"></i></button>
+                        </a></td>
+                        <td>
+                            <a href="{% url 'backup:eliminar_backup' backup.id %}" class="eliminar" title="Eliminar"
                             onclick="return confirm('¿Eliminar permanentemente esta copia?')">
-                            <i class="fas fa-trash"></i>
+                            <button><i class="fas fa-trash"></i></button>
                         </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="8">No se encontraron resultados</td>
+                        </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
+        <a class="btn btn-warning" href="{% url 'libreria:insumos' %}" role="button" title="Volver">Volver</a>
+    </div><br>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay" style="display: none;"></div>
+
+<!-- Modal para eliminar insumo -->
+<div class="card" id="eliminar_insumo" style="display: none;">
+    <div class="card-header text-center">
+        <h3 class="mb-0" title="Eliminar insumo"><b>ELIMINAR INSUMO</b></h3>
     </div>
-
-     <div class="paginacion" id="pag" title="Paginación">
-            {% if backups.has_previous %}
-            <a href="?page={{ backups.previous_page_number }}{{ query_params }}">Anterior</a>
-            {% else %}
-            <span class="disabled">Anterior</span>
-            {% endif %}
-
-            <span class="current-page">Página {{ backups.number }} de {{ backups.paginator.num_pages }}</span>
-
-            {% if backups.has_next %}
-            <a href="?page={{ backups.next_page_number }}{{ query_params }}">Siguiente</a>
-            {% else %}
-            <span class="disabled">Siguiente</span>
-            {% endif %}
-        </div>
-
-
-    
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        feather.replace();
-    });
-
-    function mostrarDetalles(id) {
-        var contenido = document.getElementById("detalles-" + id).innerHTML;
-        document.getElementById("modal-detalles-content").innerHTML = contenido;
-        document.getElementById("modal-detalles").style.display = "block";
-        document.getElementById("modal-detalles-backdrop").style.display = "block";
-    }
-
-    function cerrarModalDetalles() {
-        document.getElementById("modal-detalles").style.display = "none";
-        document.getElementById("modal-detalles-backdrop").style.display = "none";
-    }
-
-    function mostrarModalEliminar(id) {
-        var form = document.getElementById("formEliminar");
-        form.action = form.action.replace('/0', '/' + id);
-        document.getElementById("modoEliminar").style.display = "block";
-    }
-
-    function cerrarModalEliminar() {
-        document.getElementById("modoEliminar").style.display = "none";
-    }
-
-    document.querySelector('.print').addEventListener('click', function () {
-        const contenidoOriginal = document.body.innerHTML;
-        const titulo = document.querySelector('h1').outerHTML;
-        const tabla = document.querySelector('table').outerHTML;
-
-        const fondo = `
-            <div class="fondo">
-                <img src="{% static 'imagen/LOGO.png' %}" alt="Logo CCD">
+    <div class="card-body">
+        <p class="confirmation-message" style="text-align: center;">
+            ¿Estás seguro de que quieres eliminar el insumo <span id="insumo-nombre"></span>?
+        </p>
+        <form method="post" id="delete-insumo-form">
+            {% csrf_token %}
+            <div class="card-footer">
+                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar insumo" />
+                <a class="btn btn-warning" href="{% url 'libreria:consultar_insumo' %}" onclick="closeInsumoModal()"
+                    role="button" title="Cancelar">Cancelar</a>
             </div>
-        `;
+        </form>
+    </div>
+</div>
 
-        const estiloImpresion = `
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    text-align: center;
-                    position: relative;
-                }
-                h1 {
-                    margin-bottom: 20px;
-                    position: relative;
-                    z-index: 2;
-                }
-                table {
-                    margin: auto;
-                    width: 90%;
-                    border-collapse: collapse;
-                    position: relative;
-                    z-index: 2;
-                }
-                th, td {
-                    border: 1px solid black;
-                    padding: 8px;
-                    text-align: center;
-                }
-                thead {
-                    background-color: rgba(61, 43, 226, 0.411);
-                }
-                .fondo {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 1;
-                    opacity: 0.1;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-                .fondo img {
-                    max-width: 80%;
-                    max-height: 80%;
-                    object-fit: contain;
-                }
-                th:nth-child(n+6),
-                td:nth-child(n+6) {
-                    display: none !important;
-                }
-            </style>
-        `;
 
-        const ventanaImpresion = window.open('', '', 'height=700,width=900');
-        ventanaImpresion.document.write('<html><head><title>Listado de artículos</title>');
-        ventanaImpresion.document.write(estiloImpresion);
-        ventanaImpresion.document.write('</head><body>');
-        ventanaImpresion.document.write(fondo);
-        ventanaImpresion.document.write(titulo);
-        ventanaImpresion.document.write(tabla);
-        ventanaImpresion.document.write('</body></html>');
-        ventanaImpresion.document.close();
-        ventanaImpresion.focus();
-        ventanaImpresion.print();
-        ventanaImpresion.close();
-    });
+<!-- Marca de agua -->
+<img src="{% static 'imagen/logo_hedybed.png' %}" class="watermark" alt="Marca de agua de la empresa">
+<div id="watermark-url" data-url="{% static 'imagen/logo_hedybed.png' %}"></div>
+<script>
+    const watermarkUrl = "{% static 'imagen/logo_hedybed.png' %}";
 </script>
+
+<script src="{% static 'js/consultar_insumo.js' %}?v={% now 'U' %}"></script>
+<script src="{% static 'js/eliminar_insumo.js' %}?v={% now 'U' %}"></script>
+
 {% endblock %}

@@ -43,6 +43,8 @@ import openpyxl
 import reportlab
 import google.auth
 User = get_user_model()
+def acceso_denegado(request):
+    return render(request, 'acceso_denegado.html')
 @never_cache
 def inicio(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
