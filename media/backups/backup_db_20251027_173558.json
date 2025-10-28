@@ -1,0 +1,155 @@
+[
+{
+    "model": "libreria.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$LBV4pAeU9RKfIZN81hftBW$GdYZvXWadbG2T/ry4q0GgfFssF15bMs/x1oLrnomSuE=",
+        "last_login": "2025-10-27T22:23:22.289Z",
+        "is_superuser": false,
+        "email": "jonnathansz73@gmail.com",
+        "name": "Daniel Sanchez",
+        "phone": "3218922093",
+        "role": "Administrador",
+        "profile_picture": "profile_pictures/cedula_2.PNG",
+        "estado": 2,
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 1,
+    "fields": {
+        "tipo_cliente": "minorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 1007142318,
+        "nombre": "Daniel john",
+        "email": "danieljohn@gmail.com",
+        "telefono": "3218922093",
+        "direccion": "cra 10b1 #45-54",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 1,
+    "fields": {
+        "codigo": "676767",
+        "nombre": "leche",
+        "categoria": "leche",
+        "presentacion": "caja",
+        "unidad_medida": "litro",
+        "cantidad": "5.00",
+        "precio": "3400.00",
+        "fecha_elaboracion": "2025-10-20",
+        "fecha_vencimiento": "2025-10-26",
+        "temperatura_conservacion": "2.20",
+        "lote": "6767676",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 2,
+    "fields": {
+        "codigo": "56565",
+        "nombre": "queso",
+        "categoria": "leche",
+        "presentacion": "hghgh",
+        "unidad_medida": "mililitro",
+        "cantidad": "3.00",
+        "precio": "5800.00",
+        "fecha_elaboracion": "2025-10-20",
+        "fecha_vencimiento": "2025-10-22",
+        "temperatura_conservacion": "6.00",
+        "lote": "5656",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.proveedor",
+    "pk": 1,
+    "fields": {
+        "nit": "1234567895",
+        "nombre": "daniel john",
+        "direccion": "cra 10b1 #36-43",
+        "email": "daneljohn@gmail.com",
+        "telefono": "3218922093",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "tipo_persona": "Persona Jurídica"
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 1,
+    "fields": {
+        "tipo": "Venta",
+        "cliente": 1,
+        "descripcion": "ghghgh",
+        "monto_total": "15000.00",
+        "fecha": "2025-10-28",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "productos_json": {
+            "productos": [
+                {
+                    "cantidad": 1,
+                    "subtotal": 3400.0,
+                    "producto_id": 1,
+                    "producto_nombre": "leche",
+                    "producto_precio": 3400.0
+                },
+                {
+                    "cantidad": 2,
+                    "subtotal": 11600.0,
+                    "producto_id": 2,
+                    "producto_nombre": "queso",
+                    "producto_precio": 5800.0
+                }
+            ]
+        }
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 2,
+    "fields": {
+        "tipo": "Gasto",
+        "cliente": 1,
+        "descripcion": "ghghg",
+        "monto_total": "9200.00",
+        "fecha": "2025-10-27",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "productos_json": {
+            "productos": [
+                {
+                    "cantidad": 1,
+                    "subtotal": 3400.0,
+                    "producto_id": 1,
+                    "producto_nombre": "leche",
+                    "producto_precio": 3400.0
+                },
+                {
+                    "cantidad": 1,
+                    "subtotal": 5800.0,
+                    "producto_id": 2,
+                    "producto_nombre": "queso",
+                    "producto_precio": 5800.0
+                }
+            ]
+        }
+    }
+}
+]

@@ -44,15 +44,15 @@
                 <i class="bi bi-printer" aria-hidden="true"></i>
                 <span>Imprimir</span>
             </a>
-            <a class="opc" href="{% url 'reporte_excel_cliente' %}" role="button" title="Descargar tabla en Excel" aria-label="Descargar tabla en Excel">
+            <a class="opc" href="{% url 'libreria:reporte_excel_cliente' %}" role="button" title="Descargar tabla en Excel" aria-label="Descargar tabla en Excel">
                 <i class="fas fa-file-excel text-white" aria-hidden="true"></i> 
                 <span>Descargar Excel</span>
             </a>
-            <a class="opc" href="{% url 'reporte_pdf_cliente' %}" role="button" title="Descargar tabla en PDF" aria-label="Descargar tabla en PDF">
+            <a class="opc" href="{% url 'libreria:reporte_pdf_cliente' %}" role="button" title="Descargar tabla en PDF" aria-label="Descargar tabla en PDF">
                 <i class="fas fa-file-pdf text-white" aria-hidden="true"></i> 
                 <span>Descargar PDF</span>
             </a>
-            <a class="opc" href="{% url 'crear_cliente' %}" role="button" title="Crear clientes" aria-label="Crear clientes">
+            <a class="opc" href="{% url 'libreria:crear_cliente' %}" role="button" title="Crear clientes" aria-label="Crear clientes">
                 <i class="fas fa-users" aria-hidden="true"></i> 
                 <span>Crear clientes</span>
             </a>
@@ -93,7 +93,7 @@
                         </td>
                         
                         <td>
-                            <a href="{% url 'editar_cliente' cliente.pk %}" class="btn btn-warning btn-sm" title="Editar cliente" aria-label="Editar cliente">
+                            <a href="{% url 'libreria:editar_cliente' cliente.pk %}" class="btn btn-warning btn-sm" title="Editar cliente" aria-label="Editar cliente">
                                 <i data-feather="edit" class="icon-small" aria-hidden="true"></i>
                             </a>
                             {% if user.role == 'Administrador' %}
@@ -107,7 +107,7 @@
             </tbody>
         </table>
         <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
-        <a class="btn btn-warning" href="{% url 'clientes' %}" role="button" title="Volver" aria-label="Volver">Volver</a>
+        <a class="btn btn-warning" href="{% url 'libreria:clientes' %}" role="button" title="Volver" aria-label="Volver">Volver</a>
     </div><br>
 </div>
 

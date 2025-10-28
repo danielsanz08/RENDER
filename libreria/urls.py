@@ -5,7 +5,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 from . import views
 from libreria import views
-
+app_name = 'libreria'
 urlpatterns = [
     path('', views.login_view, name='login'),  # Añade esta línea
     path('logout_view/', views.logout_view, name='logout_view'),
@@ -31,28 +31,13 @@ urlpatterns = [
     path('verificar_nombre_insumo/', views.verificar_nombre_insumo, name='verificar_nombre_insumo'),
     path('verificar-administrador/', views.verificar_administrador, name='verificar_administrador'),
     path('consultar_insumo', views.consultar_insumo, name='consultar_insumo'),
-    path('backup/', views.backup_view, name='backup'),
-    path('backup/download/<int:id>/', views.download_backup, name='download_backup'),
+    
     path('cambiar_contraseña/', views.cambiar_contraseña, name='cambiar_contraseña'),
     path('cambiar-estado-usuario/<int:user_id>/', views.cambiar_estado_usuario, name='cambiar_estado_usuario'),
-    # Rutas para la recuperación de contraseña usando vistas personalizadas
-    path('password_reset/', auth_views.PasswordResetView.as_view(
-        template_name='password_reset_form.html',
-        email_template_name='password_reset_email.html',
-        subject_template_name='subject.txt',
-    ), name='password_reset'),
-
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
-        template_name='password_reset_done.html'
-    ), name='password_reset_done'),
-
-    path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        template_name='password_reset_confirm.html'
-    ), name='password_reset_confirm'),
-
-    path('password_reset_complete/done/', auth_views.PasswordResetCompleteView.as_view(
-        template_name='password_reset_complete.html'
-    ), name='password_reset_complete'),
+    path("reset_password/", views.password_reset_request, name="password_reset"),
+    path("reset_password/done/", views.password_reset_done, name="password_reset_done"),
+    path("reset_password/confirm/<uidb64>/<token>/", views.password_reset_confirm, name="password_reset_confirm"),
+    path("reset_password/complete/", views.password_reset_complete, name="password_reset_complete"),
         
     # URLs para productos
     path('productos/', views.productos, name='productos'),

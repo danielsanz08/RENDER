@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('libreria.urls') ),
-    
+
+    # Apps con namespace
+    path('', include(('libreria.urls', 'libreria'), namespace='libreria')),
+    path('backup/', include(('backup.urls', 'backup'), namespace='backup')),
 ]

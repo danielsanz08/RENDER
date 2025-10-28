@@ -121,14 +121,6 @@ class Cliente(models.Model):
 
 
 
-class Backup(models.Model):
-    file_name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    file_path = models.CharField(max_length=1024)  # Incrementado para permitir rutas más largas
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def _str_(self):
-        return self.file_name
 
 class Producto(models.Model):
     UNIDAD_MEDIDA_CHOICES = [
@@ -219,6 +211,8 @@ class Insumo(models.Model):
     def __str__(self):
         return self.nombre
 
+from django.db import models
+from datetime import date
 class Transaccion(models.Model):
     TIPO_CHOICES = [
         ('Compra', 'Compra'),
@@ -228,22 +222,49 @@ class Transaccion(models.Model):
     ]
 
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-
-    descripcion = models.CharField(max_length=50, null=False, default="Descripción")
-    monto = models.DecimalField(max_digits=10, decimal_places=3, default=100.00, verbose_name="Monto")
-    fecha = models.DateField()
-
-    def __str__(self):
-        # Mostrar "un producto"
-        return f"{self.tipo} - {self.descripcion} - ${self.monto} - Producto: un producto"
-
-
-class LineaTransaccion(models.Model):
-    transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField()
+    cliente = models.ForeignKey('Cliente', on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=255, default="Descripción")
+    monto_total = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    fecha = models.DateField(default=date.today)
+    registrado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True
+    )
+    
+    # Campo para almacenar todos los productos como JSON
+    productos_json = models.JSONField(default=dict, verbose_name="Productos")
 
     def __str__(self):
-        return f"{self.producto.nombre} - Cantidad: {self.cantidad}"
+        return f"{self.tipo} - {self.cliente.nombre} - ${self.monto_total}"
+
+    def obtener_productos(self):
+        """Devuelve la lista de productos en formato legible"""
+        if self.productos_json and 'productos' in self.productos_json:
+            return self.productos_json['productos']
+        return []
+
+    def actualizar_inventario(self):
+        """Actualiza el inventario según el tipo de transacción"""
+        productos = self.obtener_productos()
+        
+        for producto_data in productos:
+            try:
+                producto = Producto.objects.get(id=producto_data['producto_id'])
+                cantidad = int(producto_data['cantidad'])
+                
+                if self.tipo == 'Venta':
+                    # Restar del inventario para ventas
+                    if producto.cantidad >= cantidad:
+                        producto.cantidad -= cantidad
+                        producto.save()
+                    else:
+                        raise ValueError(f"Stock insuficiente para {producto.nombre}")
+                elif self.tipo == 'Compra':
+                    # Sumar al inventario para compras
+                    producto.cantidad += cantidad
+                    producto.save()
+                    
+            except Producto.DoesNotExist:
+                continue

@@ -1,12 +1,12 @@
 from django import forms
 from django.db import models
-from .models import Transaccion, Insumo,CustomUser,Backup,Producto,Cliente,Proveedor
+from .models import Transaccion, Insumo,CustomUser,Producto,Cliente,Proveedor
 from django.contrib.auth import authenticate
 from django.core.mail import BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.forms import SetPasswordForm
 class InsumoForm(forms.ModelForm):
     class Meta:
         model = Insumo
@@ -24,17 +24,27 @@ class InsumoForm(forms.ModelForm):
 class TransaccionForm(forms.ModelForm):
     class Meta:
         model = Transaccion
-        fields = ['cliente', 'tipo', 'descripcion', 'monto', 'fecha']  # 'producto' lo manejarás por separado
+        fields = ['tipo', 'cliente', 'descripcion', 'monto_total', 'fecha']
         widgets = {
-            'cliente': forms.Select(),
-            'tipo': forms.Select(),
-            'descripcion': forms.Textarea(attrs={'rows': 3}),
-            'monto': forms.NumberInput(attrs={'min': 0, 'step': '0.01'}),
-            'fecha': forms.DateInput(attrs={'type': 'date'}),
+            'tipo': forms.Select(attrs={'id': 'op_create', 'required': True}),
+            'cliente': forms.Select(attrs={'id': 'cliente', 'required': True}),
+            'descripcion': forms.Textarea(attrs={
+                'rows': 3, 
+                'id': 'descripcion', 
+                'placeholder': 'Ingresa una descripción',
+                'required': True
+            }),
+            'monto_total': forms.NumberInput(attrs={
+                'id': 'monto-total', 
+                'readonly': True,
+                'step': '0.01'
+            }),
+            'fecha': forms.DateInput(attrs={
+                'type': 'date', 
+                'id': 'fecha',
+                'required': True
+            }),
         }
-
-
-
 
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
@@ -90,27 +100,19 @@ class CustomUserCreationForm(forms.ModelForm):
         return user
     
 class LoginForm(forms.Form):
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    correo = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def clean(self):
         cleaned_data = super().clean()
-        name = cleaned_data.get("name")
+        correo = cleaned_data.get("correo")
         password = cleaned_data.get("password")
 
-        if not name or not password:
-            raise forms.ValidationError("Nombre y contraseña son requeridos.")
+        if not correo or not password:
+            raise forms.ValidationError("Correo y contraseña son requeridos.")
         
         return cleaned_data
     
-class BackupForm(forms.ModelForm):
-    class Meta:
-        model = Backup
-        fields = ['file_name', 'file_path']  # Cambiar 'reated_at' por 'created_at'
-        widgets = {
-            'file_name': forms.TextInput(attrs={'placeholder': 'Nombre del archivo'}),
-            'file_path': forms.TextInput(attrs={'placeholder': 'Ruta del archivo'}),
-        }
 
 User = get_user_model()
 
@@ -256,3 +258,20 @@ class ProveedorForm(forms.ModelForm):
         choices = list(self.fields['tipo_persona'].choices)
         choices.insert(0, ('', self.fields['tipo_persona'].empty_label))
         self.fields['tipo_persona'].choices = choices
+
+class CustomPasswordChangeForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control1'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control2'})
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise ValidationError("Las contraseñas no coinciden")
+
+        return cleaned_data

@@ -11,136 +11,201 @@
 <div class="container">
     <form method='POST' id="transaction-form">
         {% csrf_token %}
-        <h1 title="Agregar movimiento">AGREGAR MOVIMIENTO</h1>
+        <h1>AGREGAR MOVIMIENTO</h1>
 
+        <!-- Tipo de Movimiento -->
         <div class="form-group">
-            <label for="tipo"><h3 title="Tipo de movimiento">Tipo de Movimiento</h3></label>
-            <select name="tipo" required id="op_create">
+            <label for="tipo">Tipo de Movimiento</label>
+            <select name="tipo" required id="tipo">
                 <option value="" selected disabled>Selecciona una opción</option>
-                <option value="Compra" title="Compra">Compra</option>
-                <option value="Venta" title="Venta">Venta</option>
-                <option value="Gasto" title="Gasto">Gasto</option>
-                <option value="Ingreso" title="Ingreso">Ingreso</option>
+                <option value="Compra">Compra</option>
+                <option value="Venta">Venta</option>
+                <option value="Gasto">Gasto</option>
+                <option value="Ingreso">Ingreso</option>
             </select>
         </div>
 
+        <!-- Cliente -->
         <div class="form-group">
-            <label for="cliente"><h3 title="Cliente">Cliente</h3></label>
+            <label for="cliente">Cliente</label>
             <select name="cliente" required id="cliente">
                 <option value="" selected disabled>Selecciona un cliente</option>
                 {% for cliente in clientes %}
                     <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
                 {% endfor %}
-            </select>            
+            </select>
         </div>
 
+        <!-- Productos -->
         <div id="productos-container">
-            <label for="producto"><h3 title="Producto">Producto</h3></label>
-            <div class="form-group producto">
-                <select name="producto" required class="producto-select">
-                    <option value="" selected disabled>Selecciona un producto</option>
-                    {% for producto in productos %}
-                        <option value="{{ producto.id }}" data-precio="{{ producto.precio }}">{{ producto.nombre }}</option>
-                    {% endfor %}
-                </select>                
-                <input type="number" name="cantidad" placeholder="Cantidad" required min="1" class="cantidad-input">
-            </div>
+            <h3>Productos</h3>
         </div>
-        <button type="button" id="agregar-producto" title="Agregar otro producto">Agregar otro producto</button>    
 
-        <br>
+        <button type="button" id="agregar-producto" class="btn-agregar">
+            <i class="fas fa-plus"></i> Agregar otro producto
+        </button>
+
+        <!-- Monto Total -->
         <div class="form-group">
-            <label for="monto"><h3 title="Monto total">Monto Total ($ COP)</h3></label>
-            <input type="number" name="monto" step="0.01" placeholder="Monto total" required id="monto-total" readonly title="Rellene este campo.">
+            <label for="monto_total">Monto Total ($ COP)</label>
+            <input type="number" name="monto_total" step="0.01" id="monto-total" readonly>
         </div>
 
         <div class="form-group">
-            <label for="descripcion"><h3 title="Descripción">Descripción</h3></label>
-            <textarea name="descripcion" placeholder="Ingresa una descripción" required id="descripcion"></textarea>
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" placeholder="Ingresa una descripción" required id="descripcion" rows="3"></textarea>
         </div>
 
         <div class="form-group">
-            <label for="fecha"><h3 title="Fecha">Fecha</h3></label>
-            <input type="date" id="fecha" name="fecha" required>
+            <label for="fecha">Fecha</label>
+            <input type="date" name="fecha" required id="fecha">
         </div>
 
         <div class="button-group">
-            <button type="submit" class="btn btn-success" title="Registrar movimiento">Registrar Movimiento</button>
-            <a class="btn btn-warning" href="{% url 'contabilidad' %}" role="button" title="Volver">Volver</a>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Registrar Movimiento
+            </button>
+            <a class="btn btn-warning" href="{% url 'libreria:contabilidad' %}">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
         </div>
+        
     </form>
-
-    <!-- Popup -->
-    <div id="popup" class="popup">
-        <div class="checkmark">
-            <svg class="checkmark-svg" viewBox="0 0 52 52">
-                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
-            </svg>
-        </div>
-        <p>Registro exitoso</p>
-    </div>
 </div>
 
-<script src="{% static 'js/crear_transaccion.js' %}?v={% now 'U' %}"></script>
+<!-- ==================== SCRIPT ==================== -->
 <script>
-    $(document).ready(function() {
-        // Función para actualizar el monto total
-        function actualizarMontoTotal() {
-            let total = 0;
-            $('.producto-select').each(function() {
-                const productoPrecio = parseFloat($(this).find(':selected').data('precio')) || 0;
-                const cantidad = parseInt($(this).closest('.producto').find('.cantidad-input').val()) || 0;
-                total += productoPrecio * cantidad;
-            });
-            $('#monto-total').val(total.toFixed(2));
-        }
+$(document).ready(function() {
+    const productos = JSON.parse('{{ productos_json|escapejs }}');
+    let index = 0;
 
-        // Evento para cambiar el precio y actualizar el monto total
-        $(document).on('change', '.producto-select, .cantidad-input', function() {
-            actualizarMontoTotal();
-        });
+    // 🔹 Función que genera un bloque de producto con todas las opciones
+    function crearProductoItem() {
+        const opciones = productos.map(p => 
+            `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`
+        ).join('');
 
-        // Validaciones en tiempo real
-        function validateField(field, regex, errorMessage) {
-            if (!regex.test(field.val())) {
-                toastr.error(errorMessage);
-                return false;
-            }
-            return true;
-        }
+        return `
+            <div class="producto-item" data-index="${index}">
+                <div class="producto-row">
+                    <select name="producto[]" required class="producto-select">
+                        <option value="" selected disabled>Selecciona un producto</option>
+                        ${opciones}
+                    </select>
+                    <input type="number" name="cantidad[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                    ${index === 0 ? '' : '<button type="button" class="btn-eliminar-producto"><i class="fas fa-trash"></i></button>'}
+                </div>
+            </div>`;
+    }
 
-        // Validaciones al escribir
-        $('#transaction-form input, #transaction-form select').on('input change', function() {
-            const field = $(this);
-            switch (field.attr('name')) {
-                case 'tipo':
-                    if (field.val() === "") {
-                        toastr.error('Debes seleccionar un tipo de movimiento.');
-                    }
-                    break;
-                case 'cliente':
-                    if (field.val() === "") {
-                        toastr.error('Debes seleccionar un cliente.');
-                    }
-                    break;
-                case 'cantidad':
-                    validateField(field, /^[0-9]+$/, 'La cantidad debe ser un número.');
-                    break;
-                case 'descripcion':
-                    validateField(field, /^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/, 'La descripción solo puede contener letras y espacios.');
-                    // Nueva validación para números en la descripción
-                    if (/\d/.test(field.val())) {
-                        toastr.error('La descripción no puede contener números.');
-                    }
-                    break;
-                case 'fecha':
-                    validateField(field, /^\d{4}-\d{2}-\d{2}$/, 'La fecha debe estar en formato YYYY-MM-DD.');
-                    break;
-                default:
-                    break;
-            }
-        });
+    // 🔹 Agregar el primer producto al cargar
+    $('#productos-container').append(crearProductoItem());
+
+    // 🔹 Agregar otro producto
+    $('#agregar-producto').click(function() {
+        index++;
+        $('#productos-container').append(crearProductoItem());
+        actualizarOpcionesProductos(); // evitar duplicados desde el inicio
     });
+
+    // 🔹 Eliminar producto
+    $(document).on('click', '.btn-eliminar-producto', function() {
+        $(this).closest('.producto-item').remove();
+        actualizarMontoTotal();
+        actualizarOpcionesProductos();
+    });
+
+    // 🔹 Actualizar monto total
+    function actualizarMontoTotal() {
+        let total = 0;
+        $('.producto-item').each(function() {
+            const select = $(this).find('.producto-select');
+            const cantidad = parseInt($(this).find('.cantidad-input').val()) || 0;
+            const precio = parseFloat(select.find(':selected').data('precio')) || 0;
+            total += cantidad * precio;
+        });
+        $('#monto-total').val(total.toFixed(2));
+    }
+
+    // 🔹 Evitar productos duplicados
+    function actualizarOpcionesProductos() {
+        const seleccionados = $('.producto-select').map(function() {
+            return $(this).val();
+        }).get().filter(v => v); // solo los que tienen valor
+
+        $('.producto-select').each(function() {
+            const valorActual = $(this).val();
+            $(this).find('option').each(function() {
+                const valor = $(this).attr('value');
+                if (valor && seleccionados.includes(valor) && valor !== valorActual) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+        });
+    }
+
+    // 🔹 Escuchar cambios
+    $(document).on('change input', '.producto-select, .cantidad-input', function() {
+        actualizarMontoTotal();
+        actualizarOpcionesProductos();
+    });
+});
 </script>
+
+<!-- ==================== ESTILOS ==================== -->
+<style>
+.producto-item {
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.producto-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.producto-row select,
+.producto-row input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.btn-eliminar-producto {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-eliminar-producto:hover {
+    background: #c82333;
+}
+
+.btn-agregar {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.btn-agregar:hover {
+    background: #218838;
+}
+</style>
 {% endblock %}

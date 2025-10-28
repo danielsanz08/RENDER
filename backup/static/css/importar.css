@@ -1,0 +1,163 @@
+/* === SECCIÓN PRINCIPAL === */
+section {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #eaeef1;
+    border: 2px solid #01AB7B;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    font-family: 'Times New Roman', serif;
+    font-size: 18px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === TÍTULO === */
+section h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: black;
+}
+
+/* === FORMULARIO === */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: black;
+}
+
+/* === INPUTS Y FILE === */
+input[type="text"], input[type="file"] {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="file"]:focus {
+    outline: none;
+    box-shadow: 0 0 10px #01AB7B;
+}
+
+/* === CHECKBOX === */
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* === MENSAJES DE ERROR === */
+.error-limite,
+.error-repetido {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 2px;
+}
+
+/* === BOTONES === */
+form button, form a.btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 30px 0px 30px 0px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* Botón principal */
+form button {
+    background-color: #01AB7B;
+}
+
+form button:hover {
+    background-color: #00995c;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+
+form button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Botón secundario (Cancelar) */
+form a.btn {
+    background-color: #555;
+}
+
+form a.btn:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+/* === MODO OSCURO === */
+body.dark section {
+    background: linear-gradient(110deg, #717f8f93, #6e6e6ee8);
+    border-color: #018c63;
+}
+
+body.dark h2, 
+body.dark label {
+    color: #fff;
+}
+
+body.dark input[type="text"],
+body.dark input[type="file"] {
+    background-color: #4a4a4a;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+body.dark form button {
+    background-color: #02c792;
+}
+
+body.dark form a.btn {
+    background-color: #888;
+}
+
+/* === RESPONSIVIDAD === */
+@media (max-width: 768px) {
+    section {
+        margin: 40px 20px;
+        padding: 30px;
+    }
+}

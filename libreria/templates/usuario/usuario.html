@@ -20,7 +20,7 @@
                 <p title="Bienvenido a tu panel de usuario">Bienvenido a tu panel de usuario.</p>
             {% else %}
                 <h2 title="Bienvenido, inicia sesión">¡Hola!</h2>
-                <p title="Inicia sesión">Por favor, <a href="{% url 'login' %}">inicia sesión</a> para acceder a las funcionalidades de tu cuenta.</p>
+                <p title="Inicia sesión">Por favor, <a href="{% url 'libreria:login' %}">inicia sesión</a> para acceder a las funcionalidades de tu cuenta.</p>
             {% endif %}
         </div>
             
@@ -30,14 +30,14 @@
             <h2 title="Acciones disponibles">Acciones Disponibles</h2>
             <ul class="list-group">
                 {% if user.role == 'Administrador' %}
-                <a class="btn-success" href="{% url 'crear_perfil' %}" title="Crear un nuevo usuario">Crear Usuario</a><br>
-                <a class="btn-success" href="{% url 'ver_perfil' %}" title="Ver tu perfil">Ver perfil</a><br>
+                <a class="btn-success" href="{% url 'libreria:crear_perfil' %}" title="Crear un nuevo usuario">Crear Usuario</a><br>
+                <a class="btn-success" href="{% url 'libreria:ver_perfil' %}" title="Ver tu perfil">Ver perfil</a><br>
                 <a class="btn-success" href="#" onclick="mostrarCambioContraseña()" title="Cambiar tu contraseña">Cambiar Contraseña</a><br>
-                <a class="btn-success" href="{% url 'listar_usuario' %}" title="Listar todos los usuarios">Listar Usuarios</a><br>
+                <a class="btn-success" href="{% url 'libreria:listar_usuario' %}" title="Listar todos los usuarios">Listar Usuarios</a><br>
                 {% else %}
                 <a class="btn-success" href="{% url 'ver_perfil' %}" title="Ver tu perfil">Ver perfil</a><br>
                 <a class="btn-success" href="#" onclick="mostrarCambioContraseña()" title="Cambiar tu contraseña">Cambiar Contraseña</a><br>
-                <a class="btn-success" href="{% url 'listar_usuario' %}" title="Listar todos los usuarios">Listar Usuarios</a><br>
+                <a class="btn-success" href="{% url 'libreria:listar_usuario' %}" title="Listar todos los usuarios">Listar Usuarios</a><br>
                 {% endif %}
             </ul>
         </section>
@@ -80,7 +80,7 @@
         <h3 class="mb-0" title="Cambiar contraseña"><b>CAMBIAR CONTRASEÑA</b></h3>
     </div>
     <div class="card-body">
-        <form method="post" action="{% url 'cambiar_contraseña' %}" onsubmit="return validarContrasena();">
+        <form method="post" action="{% url 'libreria:cambiar_contraseña' %}" onsubmit="return validarContrasena();">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="currentPassword" class="form-label fw-bold" title="Contraseña actual">Contraseña actual:</label>

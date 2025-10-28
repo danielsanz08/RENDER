@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from .models import Transaccion, Insumo, CustomUser, Backup,Cliente,Producto,Proveedor,LineaTransaccion
+from .models import Transaccion, Insumo, CustomUser,Cliente,Producto,Proveedor
 from django.contrib.auth.decorators import login_required
 from .forms import InsumoForm, TransaccionForm, CustomUserCreationForm, LoginForm, CustomUserChangeForm,ClienteForm,ProductoForm,ProveedorForm
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login as auth_login
-from .utils import create_backup, restore_backup
+
+from decimal import Decimal
 import os
+from django.contrib.auth.tokens import default_token_generator
+import json
 from django.http import FileResponse
 from .forms import CustomPasswordChangeForm
 from django.views.decorators.csrf import csrf_exempt
@@ -27,7 +30,7 @@ from .models import Proveedor,Insumo, Cliente
 from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
-
+from django.contrib.auth.forms import SetPasswordForm
 from reportlab.lib import colors
 from reportlab.lib.colors import Color
 from reportlab.lib.pagesizes import landscape, letter
@@ -39,6 +42,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 import openpyxl
 import reportlab
 import google.auth
+User = get_user_model()
 @never_cache
 def inicio(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
@@ -57,7 +61,7 @@ def usuario(request):
     ]
     return render(request, 'usuario/usuario.html', {'usuario': usuario,'breadcrumbs': breadcrumbs})
 
-@login_required
+@login_required(login_url='libreria:login')
 def manual_usuario(request):
     return render(request, 'manual/manual.html')
 
@@ -66,7 +70,7 @@ def abrir_pdf(request):
     filepath = os.path.join('static', 'pdfs', 'manual_usuario.pdf')
     return FileResponse(open(filepath, 'rb'), content_type='application/pdf')
 
-@login_required
+@login_required(login_url='libreria:login')
 def contabilidad(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     breadcrumbs = [
@@ -75,16 +79,16 @@ def contabilidad(request):
     ]
     return render(request, 'movimientos/movimientos.html', {'usuario': usuario,'breadcrumbs': breadcrumbs})
 
-@login_required
+@login_required(login_url='libreria:login')
 def insumos(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     breadcrumbs = [
-        {'name': 'Inicio', 'url': '/inicio'},
-        {'name': 'Gestión de Proveedores', 'url': '/insumos'},
+        {'name': 'Inicio', 'url': 'libreria:inicio'},
+        {'name': 'Gestión de Proveedores', 'url': 'libreria:insumos'},
     ]
     return render(request, 'insumos/insumos.html',{'usuario': usuario, 'breadcrumbs': breadcrumbs})
 
-@login_required
+@login_required(login_url='libreria:login')
 def ver_perfil(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
 
@@ -117,7 +121,7 @@ def ver_perfil(request):
     return render(request, 'usuario/ver.html', {'usuario': usuario, 'breadcrumbs': breadcrumbs})
 
 @never_cache
-@login_required
+@login_required(login_url='libreria:login')
 def editar_perfil(request, user_id):
     usuario = get_object_or_404(CustomUser, id=user_id)  # Obtiene el usuario por ID
     breadcrumbs = [
@@ -139,12 +143,12 @@ def editar_perfil(request, user_id):
             # Check if the user is changing from Empleado to Administrador
             if current_role == 'Empleado' and selected_role == 'Administrador' and admin_users_count > 0:
                 messages.error(request, 'No puedes cambiar el rol de Empleado a Administrador. Ya hay un Administrador registrado.')
-                return redirect('editar_perfil', user_id=user_id)  # Redirect to the same page
+                return redirect('libreria:editar_perfil', user_id=user_id)  # Redirect to the same page
 
             # Save the form if validation passed
             form.save()
             messages.success(request, 'Perfil actualizado exitosamente.')
-            return redirect('listar_usuario')
+            return redirect('libreria:listar_usuario')
     else:
         form = CustomUserChangeForm(instance=usuario)
 
@@ -154,7 +158,7 @@ def editar_perfil(request, user_id):
         'breadcrumbs': breadcrumbs,
         'admin_users_count': admin_users_count,  # Pass the count to the template if needed
     })
-@login_required
+@login_required(login_url='libreria:login')
 def cambiar_contraseña(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     if request.method == 'POST':
@@ -162,7 +166,7 @@ def cambiar_contraseña(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tu contraseña ha sido cambiada con éxito. Puedes iniciar sesión con tu nueva contraseña.')
-            return redirect('login')  # Redirige a la página de inicio de sesión
+            return redirect('libreria:login')  # Redirige a la página de inicio de sesión
         else:
             messages.error(request, 'Hubo un error al cambiar tu contraseña. Asegúrate de que la contraseña actual sea correcta y que las nuevas contraseñas coincidan.')
     else:
@@ -170,7 +174,7 @@ def cambiar_contraseña(request):
     
     return render(request, 'usuario/usuario.html', {'usuario': usuario, 'form': form})
 
-@login_required
+@login_required(login_url='libreria:login')
 def listar_usuario(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     usuarios = CustomUser.objects.all()  # Filtra por rol 'Empleado'
@@ -185,14 +189,14 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('name')
+            correo = form.cleaned_data.get('correo')
             password = form.cleaned_data.get('password')
-            user = authenticate(request, name=name, password=password)
+            user = authenticate(request, username=correo, password=password)
 
             if user is not None:
                 if user.is_active:  # Verificar si el usuario está activo
                     auth_login(request, user)
-                    return redirect('inicio')  # Redirige a la página principal o a otra página
+                    return redirect('libreria:inicio')  # Redirige a la página principal o a otra página
                 else:
                     messages.error(request, 'Tu cuenta está inactiva. Contacta al administrador.')
             else:
@@ -207,7 +211,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Has cerrado sesión exitosamente.')
-    return redirect('login')  # Redirige a la página de inicio de sesión u otra página deseada
+    return redirect('libreria:login')  # Redirige a la página de inicio de sesión u otra página deseada
 
 def validar_datos(request):
     if request.method == "GET":
@@ -247,7 +251,7 @@ def crear_perfil(request):
                     if form.is_valid():
                         user = form.save()
                         messages.success(request, f'Usuario {user.email} creado exitosamente.')
-                        return redirect('login')
+                        return redirect('libreria:login')
                     else:
                         messages.error(request, 'Por favor corrige los errores a continuación.')
                 else:
@@ -263,7 +267,7 @@ def crear_perfil(request):
                 else:
                     user = form.save()
                     messages.success(request, f'Usuario {user.email} creado exitosamente.')
-                    return redirect('login')
+                    return redirect('libreria:login')
             else:
                 messages.error(request, 'Por favor corrige los errores a continuación.')
 
@@ -277,91 +281,117 @@ def crear_perfil(request):
     user_role = getattr(request.user, 'role', None)  # Defaults to None if no role exists
 
     return render(request, 'usuario/registro.html', {'usuario': usuario, 'form': form, 'breadcrumbs': breadcrumbs, 'user_role': user_role})
-@login_required
+@login_required(login_url='libreria:login')
 
 def crear_transacciones(request):
-    usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
+    usuario = request.user
 
     if request.method == 'POST':
         form = TransaccionForm(request.POST)
         
         if form.is_valid():
-            nueva_transaccion = form.save(commit=False)
-            nueva_transaccion.registrado_por = usuario  # Asignar el usuario actual
+            productos_data = []
+            productos_ids = request.POST.getlist('producto[]')
+            cantidades = request.POST.getlist('cantidad[]')
             
-            # Asegúrate de obtener el ID del producto desde el formulario
-            producto_id = request.POST.get('producto')  # Suponiendo que tienes un campo de producto
-            producto = get_object_or_404(Producto, pk=producto_id)
-            nueva_transaccion.producto = producto  # Asignar el producto a la transacción
+            if not productos_ids or not any(productos_ids):
+                messages.error(request, 'Debe agregar al menos un producto.')
+                return redirect('libreria:crear_transacciones')
             
-            nueva_transaccion.save()  # Guardar la transacción
-
-            # Guardar las líneas de transacción, si es necesario
-            cantidades = request.POST.getlist('cantidades[]')  # Ajusta si necesitas manejar múltiples cantidades
-
-            for cantidad in cantidades:
-                LineaTransaccion.objects.create(
-                    transaccion=nueva_transaccion,
-                    producto=producto,
-                    cantidad=cantidad  # Si solo hay un producto, esta cantidad debe ser la misma
-                )
-
-            messages.success(request, 'Transacción creada exitosamente.')
-            return redirect('ver_transacciones')
+            total = 0
+            for i in range(len(productos_ids)):
+                if productos_ids[i] and cantidades[i]:
+                    try:
+                        producto = Producto.objects.get(id=productos_ids[i])
+                        cantidad = int(cantidades[i])
+                        
+                        if form.cleaned_data['tipo'] == 'Venta' and producto.cantidad < cantidad:
+                            messages.error(
+                                request, 
+                                f'Stock insuficiente para {producto.nombre}. Disponible: {producto.cantidad}'
+                            )
+                            return redirect('crear_transacciones')
+                        
+                        subtotal = float(producto.precio) * cantidad
+                        total += subtotal
+                        
+                        productos_data.append({
+                            'producto_id': producto.id,
+                            'producto_nombre': producto.nombre,
+                            'producto_precio': float(producto.precio),
+                            'cantidad': cantidad,
+                            'subtotal': subtotal
+                        })
+                        
+                    except (Producto.DoesNotExist, ValueError):
+                        continue
+            
+            if not productos_data:
+                messages.error(request, 'Debe agregar productos válidos.')
+                return redirect('libreria:crear_transacciones')
+            
+            transaccion = form.save(commit=False)
+            transaccion.registrado_por = usuario
+            transaccion.monto_total = total
+            transaccion.productos_json = {'productos': productos_data}
+            transaccion.save()
+            
+            try:
+                transaccion.actualizar_inventario()
+                messages.success(request, 'Transacción creada exitosamente.')
+                return redirect('libreria:ver_transacciones')
+            except Exception as e:
+                transaccion.delete()
+                messages.error(request, f'Error al actualizar inventario: {str(e)}')
+                return redirect('libreria:crear_transacciones')
+                
         else:
-            messages.error(request, 'Por favor corrige los errores a continuación.')
-            print(form.errors)  # Mostrar errores de validación
-
+            messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
         form = TransaccionForm()
 
+    # ---------- 🔧 ESTA ES LA PARTE QUE CAUSABA EL ERROR ----------
     clientes = Cliente.objects.all()
-    productos = Producto.objects.all()
+    productos = list(Producto.objects.values('id', 'nombre', 'precio', 'cantidad'))
 
-    breadcrumbs = [
-        {'name': 'Inicio', 'url': '/'},
-        {'name': 'Movimientos', 'url': '/contabilidad'},
-        {'name': 'Agregar Movimiento', 'url': '/crear_transacciones'},
-    ]
+    # Función segura para convertir cualquier Decimal a float
+    def decimal_default(obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        raise TypeError
+
+    # Serializar productos a JSON seguro
+    productos_json = json.dumps(productos, default=decimal_default)
+    # --------------------------------------------------------------
 
     return render(request, 'movimientos/crear_movimiento.html', {
-        'usuario': usuario,
         'form': form,
         'clientes': clientes,
-        'productos': productos,
-        'breadcrumbs': breadcrumbs,
+        'productos_json': productos_json,
     })
 
 def ver_transacciones(request):
-    usuario = request.user
-    transacciones = Transaccion.objects.select_related('producto', 'cliente').all()
-
-    breadcrumbs = [
-        {'name': 'Inicio', 'url': '/'},
-        {'name': 'Movimientos', 'url': '/contabilidad'},
-        {'name': 'Movimientos Registrados', 'url': '/ver_transacciones'},
-    ]
-
+    transacciones = Transaccion.objects.all().select_related('cliente')
+    
     return render(request, 'movimientos/ver_movimientos.html', {
-        'usuario': usuario,
         'transacciones': transacciones,
-        'breadcrumbs': breadcrumbs
     })
 
 
 
-@login_required
+
+@login_required(login_url='libreria:login')
 def registros_recientes(request):
     recientes = Transaccion.objects.all().order_by('-fecha')[:3]
     return render(request, 'movimientos/movimientos.html', {'recientes': recientes})
 
-@login_required
+@login_required(login_url='libreria:login')
 def eliminar(request, id):
     transaccion = Transaccion.objects.get(id=id)
     transaccion.delete()
-    return redirect('ver_transacciones')
+    return redirect('libreria:ver_transacciones')
 
-@login_required
+@login_required(login_url='libreria:login')
 def search(request):
     search_type = request.GET.get('type')
     query = request.GET.get('query')
@@ -376,7 +406,7 @@ def search(request):
     results = list(transacciones.values('tipo', 'descripcion', 'monto', 'fecha'))
     return JsonResponse(results, safe=False)
 
-@login_required
+@login_required(login_url='libreria:login')
 def agregar_insumo(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     if request.method == 'POST':
@@ -390,7 +420,7 @@ def agregar_insumo(request):
                 insumo.registrado_por = request.user  # Asigna el usuario que registra
                 insumo.save()
                 messages.success(request, 'Insumo agregado exitosamente.')
-                return redirect('consultar_insumo')
+                return redirect('libreria:consultar_insumo')
             except Proveedor.DoesNotExist:
                 messages.error(request, 'Proveedor no válido.')
         else:
@@ -414,7 +444,7 @@ def agregar_insumo(request):
     })
 
 
-@login_required
+@login_required(login_url='libreria:login')
 def editar_insumo(request, insumo_id):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     insumo = Insumo.objects.get(id=insumo_id)
@@ -424,7 +454,7 @@ def editar_insumo(request, insumo_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Insumo actualizado exitosamente.')
-            return redirect('consultar_insumo')
+            return redirect('libreria:consultar_insumo')
         else:
             messages.error(request, 'Por favor corrige los errores a continuación.')
     else:
@@ -436,7 +466,7 @@ def editar_insumo(request, insumo_id):
     })
 
 
-@login_required
+@login_required(login_url='libreria:login')
 def verificar_nombre_insumo(request):
     nombre = request.GET.get('nombre', None)
     exists = Insumo.objects.filter(nombre=nombre).exists()
@@ -450,7 +480,7 @@ def verificar_administrador(request):
     # Devolver la respuesta en formato JSON
     return JsonResponse({'existe_administrador': existe_administrador})
 
-@login_required
+@login_required(login_url='libreria:login')
 def consultar_insumo(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     query = request.GET.get('q', '')
@@ -467,34 +497,8 @@ def consultar_insumo(request):
 
     return render(request, 'insumos/consultar_insumo.html', {'usuario': usuario, 'insumos': insumos, 'breadcrumbs': breadcrumbs})
 
-def backup_view(request):
-    if request.method == 'POST':
-        if 'create_backup' in request.POST:
-            backup = create_backup()
-            if backup:
-                messages.success(request, 'Copia de seguridad creada exitosamente.')
-            else:
-                messages.error(request, 'Error al crear la copia de seguridad.')
-        elif 'restore_backup' in request.POST:
-            backup_id = request.POST.get('backup_id')
-            if restore_backup(backup_id):
-                messages.success(request, 'Base de datos restaurada exitosamente.')
-            else:
-                messages.error(request, 'Error al restaurar la base de datos.')
-        elif 'delete_backup' in request.POST:
-            backup_id = request.POST.get('backup_id')
-            backup = Backup.objects.get(id=backup_id)
-            backup.delete()
-            messages.success(request, 'Copia de seguridad eliminada exitosamente.')
 
-    backups = Backup.objects.all().order_by('-created_at')
-    return render(request, 'backup_restore/backup.html', {'backups': backups})
-
-def download_backup(request, id):
-    backup = get_object_or_404(Backup, id=id)
-    response = HttpResponse(backup.file, content_type='application/force-download')
-    response['Content-Disposition'] = f'attachment; filename="{backup.file.name}"'
-    return response
+   
 
 
 def cambiar_estado_usuario(request, user_id):
@@ -502,7 +506,7 @@ def cambiar_estado_usuario(request, user_id):
         user = get_object_or_404(CustomUser, id=user_id)
         user.is_active = 'is_active' in request.POST
         user.save()
-        return redirect('login')  # Redirige a la página que quiera
+        return redirect('libreria:login')  # Redirige a la página que quiera
     
     
 def clientes(request):
@@ -533,7 +537,7 @@ def crear_cliente(request):
             cliente.registrado_por = request.user  # Asigna el usuario que registra
             cliente.save()  # Luego, guarda el cliente en la base de datos
             messages.success(request, 'Cliente creado con éxito.')  # Mensaje de éxito
-            return redirect('consultar_clientes')  # Redirige a la lista de clientes
+            return redirect('libreria:consultar_clientes')  # Redirige a la lista de clientes
         else:
             messages.error(request, 'Por favor, corrige los errores en el formulario.')  # Mensaje de error
             print(cliente_form.errors)  # Imprime los errores del formulario en la consola
@@ -551,7 +555,7 @@ def crear_cliente(request):
         'cliente_form': cliente_form, 
         'breadcrumbs': breadcrumbs
     })
-@login_required
+@login_required(login_url='libreria:login')
 def verificar_cliente(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre', None)
@@ -587,7 +591,7 @@ def editar_cliente(request, pk):
         if form.is_valid():
             form.save()  # Solo se guardarán los campos que han sido modificados
             messages.success(request, 'Cliente actualizado exitosamente.')
-            return redirect('consultar_clientes')
+            return redirect('libreria:consultar_clientes')
         else:
             messages.error(request, 'Error al actualizar el cliente. Por favor, revisa los datos ingresados.')
 
@@ -611,7 +615,7 @@ def eliminar_cliente(request, pk):
     if request.method == 'POST':
         cliente.delete()
         messages.success(request, 'Cliente eliminado exitosamente.')
-        return redirect('consultar_clientes')
+        return redirect('libreria:consultar_clientes')
     
     return render(request, 'clientes/consultar_clientes.html', {
         'usuario': usuario,
@@ -620,7 +624,7 @@ def eliminar_cliente(request, pk):
 
 
 # Vistas de productos
-@login_required
+@login_required(login_url='libreria:login')
 def productos(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     productos = Producto.objects.all()
@@ -637,14 +641,14 @@ def crear_producto(request):
             # Asigna el usuario que registra
             producto.registrado_por = request.user  
             producto.save()
-            return redirect('lista_productos')
+            return redirect('libreria:lista_productos')
     else:
         form = ProductoForm()
     
     return render(request, 'productos/crear_producto.html', {'form': form})
 
-@login_required
-@login_required
+@login_required(login_url='libreria:login')
+@login_required(login_url='libreria:login')
 def editar_producto(request, pk=None):
     if pk:
         producto = get_object_or_404(Producto, pk=pk)
@@ -658,7 +662,7 @@ def editar_producto(request, pk=None):
             producto.registrado_por = request.user  # Asignar el usuario que registra
             producto.save()
             messages.success(request, 'El producto ha sido guardado exitosamente.')
-            return redirect('lista_productos')
+            return redirect('libreria:lista_productos')
     else:
         form = ProductoForm(instance=producto)
 
@@ -669,12 +673,12 @@ def editar_producto(request, pk=None):
 
 
 
-@login_required
+@login_required(login_url='libreria:login')
 def eliminar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     producto.delete()
     messages.success(request, 'Producto eliminado exitosamente.')
-    return redirect('lista_productos')
+    return redirect('libreria:lista_productos')
 
 def lista_productos(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
@@ -698,7 +702,7 @@ def crear_proveedor(request):
             proveedor = form.save(commit=False)
             proveedor.registrado_por = request.user
             proveedor.save()
-            return redirect('listar_proveedor')  # Redirige a la tabla de proveedores
+            return redirect('libreria:listar_proveedor')  # Redirige a la tabla de proveedores
         else:
             print(form.errors)  # Mostrar errores del formulario
 
@@ -744,7 +748,7 @@ def editar_proveedor(request, proveedor_id, campo=None):
                 setattr(proveedor, campo, form.cleaned_data[campo])
                 proveedor.save()
                 messages.success(request, f'{campo.capitalize()} editado exitosamente.')
-                return redirect('listar_proveedor')
+                return redirect('libreria:listar_proveedor')
         
         # Si no es válido, muestra error
         messages.error(request, 'Error al editar el proveedor. Por favor, revisa los errores.')
@@ -768,7 +772,7 @@ def eliminar_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
     proveedor.delete()
     messages.success(request, 'Proveedor eliminado exitosamente.')  # Mensaje de éxito
-    return redirect('listar_proveedor')  # Asegúrate de que la URL esté configurada
+    return redirect('libreria:listar_proveedor')  # Asegúrate de que la URL esté configurada
 
 @require_POST
 @csrf_exempt
@@ -1389,7 +1393,7 @@ def reporte_movimiento_excel(request):
             transaccion.tipo,
             str(transaccion.cliente),  # Asegúrate de que el método str esté definido en Cliente
             transaccion.descripcion,
-            transaccion.monto,
+            transaccion.monto_total,
             transaccion.fecha,
         ])
 
@@ -1448,7 +1452,7 @@ def reporte_movimiento_pdf(request):
             transaccion.tipo,
             transaccion.cliente,  # Asegúrate de que el método str esté definido en Cliente
             transaccion.descripcion,
-            transaccion.monto,
+            transaccion.monto_total,
             transaccion.fecha,
         ])
 
@@ -1483,3 +1487,118 @@ def reporte_movimiento_pdf(request):
     response['Content-Disposition'] = 'attachment; filename="Reporte_transacciones.pdf"'
 
     return response
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+import traceback
+from django.conf import settings
+import socket
+def password_reset_request(request)  :
+    if request.method =="POST":
+        correo = request.POST.get("email")
+
+        try:
+            user = User.objects.get(email=correo)
+
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_link = request.build_absolute_uri(
+                reverse("password_reset_confirm", kwargs={"uidb64": uid, "token": token})
+            )
+            context={
+                'user' : user,
+                'reset_link': reset_link,
+                'site_name': 'proyecto',
+                'company_name':'proyecto'
+            }
+            subject = "Restablecer tu contraseña"
+            html_message = render_to_string("password_reset_email.html", context)
+
+            text_message = f"""
+Hola {user.name},
+
+Recibimos una solicitud para restablecer la contraseña de tu cuenta en Gestor CCD.
+
+Para restablecer tu contraseña, copia y pega el siguiente enlace en tu navegador:
+{reset_link}
+
+Si no solicitaste este cambio, puedes ignorar este mensaje.
+
+El enlace será válido por 24 horas.
+
+Saludos,
+El equipo de Gestor CCD
+"""
+            try:
+                msg = EmailMultiAlternatives(
+                    subject,
+                    text_message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email]
+                )
+                msg.attach_alternative(html_message, "text/html")
+                msg.send()
+
+                return redirect(reverse("password_reset_done" )+"?sent=true")
+            
+            except socket.timeout:
+                messages.error(request, "Hubo un problema de conexion al enviar el correo. Intenta nuevamente.")
+                return render(request, "password_reset.html")
+            
+            except Exception as e:
+            
+                print(traceback.format_exc())  # imprime el error completo en la consola
+                messages.error(request, f"Error enviando email: {e}")
+                return redirect(reverse("password_reset_done") + "?sent=error")
+
+            
+        except User.DoesNotExist:
+            return redirect(reverse("password_reset_done") + "?sent=not_found")
+
+    return render(request, "password_reset.html")
+
+def password_reset_done(request):
+    sent_status = request.GET.get('sent', 'unknown')
+    context = {
+        'sent_status':sent_status,
+        'show_success':sent_status=='true',
+        'show_error': sent_status=='error',
+        'show_not_found':sent_status =='not_found'
+    }
+    return render(request, "password_reset_done.html", context)
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == "POST":
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Tu contraseña ha sido restablecida correctamente.")
+                return redirect(reverse("password_reset_complete"))
+        else:
+            form = SetPasswordForm(user)
+
+        # 🔹 Este return se ejecuta tanto en GET como si el formulario no es válido
+        return render(request, "password_reset_confirm.html", {
+            "form": form,
+            "user": user,
+            "valid_link": True
+        })
+
+    else:
+        # 🔹 Este return se ejecuta si el token o enlace no son válidos
+        return render(request, "password_reset_confirm.html", {
+            "error": "El enlace no es válido o ha expirado.",
+            "valid_link": False
+        })
+    
+def password_reset_complete(request):
+    return render(request, "password_reset_complete.html")
+    

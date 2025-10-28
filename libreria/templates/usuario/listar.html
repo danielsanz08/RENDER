@@ -37,7 +37,7 @@
                     </td>
                     {% if user.role == 'Administrador' %}
                     <td title="Estado del usuario">
-                        <form action="{% url 'cambiar_estado_usuario' usuario.id %}" method="POST">
+                        <form action="{% url 'libreria:cambiar_estado_usuario' usuario.id %}" method="POST">
                             {% csrf_token %}
                             <div class="cl-toggle-switch">
                                 <label class="cl-switch">
@@ -49,7 +49,7 @@
                         
                     </td>
                     <td title="Editar perfil de usuario">
-                        <a href="{% url 'editar_perfil' usuario.id %}" class="btn btn-warning btn-sm" title="Editar perfil">
+                        <a href="{% url 'libreria:editar_perfil' usuario.id %}" class="btn btn-warning btn-sm" title="Editar perfil">
                             <i data-feather="edit" class="icon-small"></i>
                         </a>
                     </td>
@@ -68,7 +68,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <a class="btn btn-warning" href="{% url 'usuario' %}" title="Volver">Volver</a>
+        <a class="btn btn-warning" href="{% url 'libreria:usuario' %}" title="Volver">Volver</a>
         <p id="no-results" style="display: none;" title="Mensaje cuando no hay resultados">No se encontraron resultados.</p>
     </div>
 </div>

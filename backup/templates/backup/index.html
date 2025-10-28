@@ -1,0 +1,38 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block titulo %}Backup{% endblock %}
+{% block contenido %}
+<style>
+  body.dark .card {
+    background: linear-gradient(110deg, #717f8f93, #6e6e6ee8);
+  }
+</style>
+
+<link rel="stylesheet" href="{% static 'css/index_backup.css' %}?v={% now 'U' %}">
+
+<section>
+  <div class="card">
+    <i data-feather="plus" class="icono"></i>
+    <p class="text">Crear Backup</p>
+    <a href="{% url 'backup:crear_backup' %}">
+      <button class="btn-card">Crear</button>
+    </a>
+  </div>
+
+  <div class="card" id="listar">
+    <i data-feather="list" class="icono"></i>
+    <p class="text">Listar Backups</p>
+    <a href="{% url 'backup:lista_backups' %}">
+      <button class="btn-card">Listar</button>
+    </a>
+  </div>
+
+  <div class="card">
+    <i data-feather="upload" class="icono"></i>
+    <p class="text">Importar Backup</p>
+    <a href="{% url 'backup:importar' %}">
+      <button class="btn-card">Importar</button>
+    </a>
+  </div>
+</section>
+{% endblock %}

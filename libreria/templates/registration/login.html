@@ -19,8 +19,8 @@
                     {% csrf_token %}
                     <div class="input-group">
                         <i class='bx bxs-user'></i>
-                        <input type="text" name="name" id="id_name" 
-                               placeholder="Nombre" class="form-control" 
+                        <input type="email" name="correo" id="id_name" 
+                               placeholder="Correo" class="form-control" 
                                value="{{ form.name.value|default_if_none:'' }}">
                         {% if form.name.errors %}
                             <span class="error">{{ form.name.errors }}</span>
@@ -40,10 +40,10 @@
                     <div class="opciones">
                         {% if not admin_exists %}
                         <!-- Si no hay administrador, mostrar opción de registro -->
-                        <a href="{% url 'crear_perfil' %}">Regístrate</a>
+                        <a href="{% url 'libreria:crear_perfil' %}">Regístrate</a>
                     {% endif %}
                 </div>
-                <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?
+                <a href="{% url 'libreria:password_reset' %}">¿Olvidaste tu contraseña?
                 </form>
             </div>
         </div>

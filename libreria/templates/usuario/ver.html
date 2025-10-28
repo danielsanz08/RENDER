@@ -34,8 +34,8 @@
                         <span title="Rol del usuario"><b>Rol:</b><br> {{ usuario.role }}</span>
                     </div>
                 </div>
-                <a class="btn btn-warning" href="{% url 'usuario' %}" role="button" title="Volver">Volver</a>
-                <a class="btn btn-warning" href="{% url 'editar_perfil' usuario.id %}" role="button" title="Volver">Editar</a>
+                <a class="btn btn-warning" href="{% url 'libreria:usuario' %}" role="button" title="Volver">Volver</a>
+                <a class="btn btn-warning" href="{% url 'libreria:editar_perfil' usuario.id %}" role="button" title="Volver">Editar</a>
             </div>
         </div>
     </div>

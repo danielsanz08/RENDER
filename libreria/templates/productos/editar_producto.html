@@ -12,7 +12,7 @@
             {% csrf_token %}
             {{ form.as_p }}  <!-- Renderiza el formulario -->
             <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <a href="{% url 'lista_productos' %}" class="btn btn-warning">Cancelar</a>
+            <a href="{% url 'libreria:lista_productos' %}" class="btn btn-warning">Cancelar</a>
         </form>
     </div>
 </div>

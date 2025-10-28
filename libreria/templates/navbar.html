@@ -46,13 +46,13 @@
                    
             {% endif %}
             <div class="user-menu">
-                <a href="{% url 'ver_perfil' %}" class="perfil" title="Ver perfil">Ver Perfil</a>
-                <a href="{% url 'logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
+                <a href="{% url 'libreria:ver_perfil' %}" class="perfil" title="Ver perfil">Ver Perfil</a>
+                <a href="{% url 'libreria:logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
             </div>
         {% else %}
             <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle" width="50" height="50">
             <div class="user-menu">
-                <a href="{% url 'logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
+                <a href="{% url 'libreria:logout_view' %}" class="logout" title="Cerrar sesión">Cerrar sesión</a>
             </div>
         {% endif %}
     </div>
@@ -78,50 +78,50 @@
     <ul class="navbar__menu">
       {% if user.role == 'Administrador' %}
       <li class="navbar__item">
-        <a href="{% url 'inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
+        <a href="{% url 'libreria:inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
+        <a href="{% url 'libreria:usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
+        <a href="{% url 'libreria:clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
+        <a href="{% url 'libreria:insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
+        <a href="{% url 'libreria:productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
+        <a href="{% url 'libreria:contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'backup' %}" class="navbar__link" title="Realizar copia de seguridad"><i data-feather="cloud"></i><span>Copia de Seguridad</span></a>
+        <a href="{% url 'backup:index_backup' %}" class="navbar__link" title="Realizar copia de seguridad"><i data-feather="cloud"></i><span>Copia de Seguridad</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+        <a href="{% url 'libreria:manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
       </li>
       {% else %}
       <li class="navbar__item">
-        <a href="{% url 'inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
+        <a href="{% url 'libreria:inicio' %}" class="navbar__link" title="Ir a la página de inicio"><i data-feather="home"></i><span>Inicio</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
+        <a href="{% url 'libreria:usuario' %}" class="navbar__link" title="Administrar usuarios"><i data-feather="user"></i><span>Usuarios</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
+        <a href="{% url 'libreria:clientes' %}" class="navbar__link" title="Administrar clientes"><i data-feather="users"></i><span>Clientes</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
+        <a href="{% url 'libreria:insumos' %}" class="navbar__link" title="Ver proveedores e insumos"><i data-feather="truck"></i><span>Proveedores y Insumos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
+        <a href="{% url 'libreria:productos' %}" class="navbar__link" title="Ver productos"><i data-feather="package"></i><span>Productos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
+        <a href="{% url 'libreria:contabilidad' %}" class="navbar__link" title="Ver movimientos contables"><i data-feather="dollar-sign"></i><span>Movimientos</span></a>
       </li>
       <li class="navbar__item">
-        <a href="{% url 'manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
+        <a href="{% url 'libreria:manual_usuario' %}" class="navbar__link" title="Ver el manual de usuario"><i data-feather="help-circle"></i><span>Manual de Usuario</span></a>
       </li>
       {% endif %}
     </ul>

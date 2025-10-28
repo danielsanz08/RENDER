@@ -44,13 +44,13 @@
                 <i class="bi bi-printer"></i>
                 <span>Imprimir</span>
             </a>
-            <a class="opc" href="{% url 'reporte_excel_proveedor' %}" role="button" data-tooltip="Descargar tabla en excel">
+            <a class="opc" href="{% url 'libreria:reporte_excel_proveedor' %}" role="button" data-tooltip="Descargar tabla en excel">
                 <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
             </a>
-            <a class="opc" href="{% url 'reporte_pdf_proveedor' %}" role="button" data-tooltip="Descargar tabla en pdf">
+            <a class="opc" href="{% url 'libreria:reporte_pdf_proveedor' %}" role="button" data-tooltip="Descargar tabla en pdf">
                 <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
             </a>
-<a class="opc" href="{% url 'crear_proveedor' %}" role="button" title="Crear proveedores" aria-label="Crear proveedores">
+<a class="opc" href="{% url 'libreria:crear_proveedor' %}" role="button" title="Crear proveedores" aria-label="Crear proveedores">
     <i class="fas fa-warehouse" aria-hidden="true"></i> Crear proveedores
 </a>
         </div>
@@ -90,7 +90,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-warning btn-sm" title="Editar proveedor">
+                        <a href="{% url 'libreria:editar_proveedor' proveedor.id %}" class="btn btn-warning btn-sm" title="Editar proveedor">
                             <i data-feather="edit" class="icon-small"></i>
                         </a>
                         <a href="javascript:void(0);" class="btn btn-danger" role="button" title="Eliminar proveedor" onclick="showConfirmModal('{{ proveedor.id }}', '{{ proveedor.nombre }}')">
@@ -111,7 +111,7 @@
             </tbody>
         </table>
         <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
-        <a class="btn btn-warning" href="{% url 'insumos' %}" role="button" title="Volver">Volver</a>
+        <a class="btn btn-warning" href="{% url 'libreria:insumos' %}" role="button" title="Volver">Volver</a>
     </div><br>
 </div>
     

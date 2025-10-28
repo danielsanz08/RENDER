@@ -7,7 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # 🔹 Clave secreta y modo debug
 SECRET_KEY = os.environ.get('SECRET_KEY', 'clave-insegura-para-desarrollo')
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.8']
+
+
 
 # 🔹 Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -20,7 +22,8 @@ INSTALLED_APPS = [
 
     # Apps propias
     'libreria',
-    'backup_restore',
+    'backup',
+    
 
     # Terceros
     'django_extensions',
@@ -41,7 +44,12 @@ MIDDLEWARE = [
 
 # 🔹 Configuración principal
 ROOT_URLCONF = 'sistema.urls'
+# Backup configuration
+BACKUP_ROOT = os.path.join(BASE_DIR, 'backups')
 
+# Asegúrate de que el directorio exista
+if not os.path.exists(BACKUP_ROOT):
+    os.makedirs(BACKUP_ROOT)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -111,16 +119,21 @@ AUTH_USER_MODEL = 'libreria.CustomUser'
 # 🔹 Redirecciones login/logout
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login_view'
-LOGIN_URL = 'login'
+LOGIN_URL = 'libreria:login'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 600  # La sesión expira después de 10 minutos
+SESSION_SAVE_EVERY_REQUEST = True
 
-# 🔹 Configuración de correo
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-PASSWORD_RESET_TIMEOUT = 3600
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_TIMEOUT = 30  # 30 segundos
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = "gestorccd@gmail.com"
+EMAIL_HOST_PASSWORD = "utdf dxyn btiz dgjv"  # tu contraseña de aplicación
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+PASSWORD_RESET_TIMEOUT = 300  # 5 minutos
 
 # 🔹 Logging
 LOGGING = {
