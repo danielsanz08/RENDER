@@ -25,10 +25,10 @@
             </select>
         </div>
 
-        <!-- Cliente -->
-        <div class="form-group">
+        <!-- Cliente (solo para Venta) -->
+        <div class="form-group" id="cliente-group" style="display: none;">
             <label for="cliente">Cliente</label>
-            <select name="cliente" required id="cliente">
+            <select name="cliente" id="cliente">
                 <option value="" selected disabled>Selecciona un cliente</option>
                 {% for cliente in clientes %}
                     <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
@@ -36,13 +36,42 @@
             </select>
         </div>
 
-        <!-- Productos -->
-        <div id="productos-container">
-            <h3>Productos</h3>
+        <!-- Proveedor (solo para Compra) -->
+        <div class="form-group" id="proveedor-group" style="display: none;">
+            <label for="proveedor">Proveedor</label>
+            <select name="proveedor" id="proveedor">
+                <option value="" selected disabled>Selecciona un proveedor</option>
+                {% for proveedor in proveedores %}
+                    <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        <button type="button" id="agregar-producto" class="btn-agregar">
+        <!-- Productos (solo para Venta) -->
+        <div id="productos-container" style="display: none;">
+            <h3>Productos Vendidos</h3>
+        </div>
+
+        <button type="button" id="agregar-producto" class="btn-agregar" style="display: none;">
             <i class="fas fa-plus"></i> Agregar otro producto
+        </button>
+
+        <!-- Insumos (solo para Compra y Gasto) -->
+        <div id="insumos-container" style="display: none;">
+            <h3>Insumos</h3>
+        </div>
+
+        <button type="button" id="agregar-insumo" class="btn-agregar" style="display: none;">
+            <i class="fas fa-plus"></i> Agregar otro insumo
+        </button>
+
+        <!-- Productos obtenidos (solo para Gasto) -->
+        <div id="productos-obtenidos-container" style="display: none;">
+            <h3>Productos Obtenidos</h3>
+        </div>
+
+        <button type="button" id="agregar-producto-obtenido" class="btn-agregar" style="display: none;">
+            <i class="fas fa-plus"></i> Agregar otro producto obtenido
         </button>
 
         <!-- Monto Total -->
@@ -73,65 +102,199 @@
     </form>
 </div>
 
-<!-- ==================== SCRIPT ==================== -->
+<!-- ==================== SCRIPT MEJORADO ==================== -->
 <script>
 $(document).ready(function() {
     const productos = JSON.parse('{{ productos_json|escapejs }}');
-    let index = 0;
+    const insumos = JSON.parse('{{ insumos_json|escapejs }}');
+    let productoIndex = 0;
+    let insumoIndex = 0;
+    let productoObtenidoIndex = 0;
 
-    // 🔹 Función que genera un bloque de producto con todas las opciones
+    // 🔹 Mostrar/ocultar campos según tipo de movimiento
+    $('#tipo').change(function() {
+        const tipo = $(this).val();
+        
+        // Resetear y ocultar todos los campos
+        resetearCampos();
+        
+        switch(tipo) {
+            case 'Compra':
+                mostrarCompra();
+                break;
+            case 'Venta':
+                mostrarVenta();
+                break;
+            case 'Gasto':
+                mostrarGasto();
+                break;
+            case 'Ingreso':
+                mostrarIngreso();
+                break;
+        }
+        
+        actualizarMontoTotal();
+    });
+
+    function resetearCampos() {
+        // Ocultar todos los grupos
+        $('#cliente-group, #proveedor-group, #productos-container, #insumos-container, #productos-obtenidos-container').hide();
+        $('#agregar-producto, #agregar-insumo, #agregar-producto-obtenido').hide();
+        
+        // Limpiar contenedores
+        $('#productos-container').empty().append('<h3>Productos Vendidos</h3>');
+        $('#insumos-container').empty().append('<h3>Insumos</h3>');
+        $('#productos-obtenidos-container').empty().append('<h3>Productos Obtenidos</h3>');
+        
+        // Resetear índices
+        productoIndex = 0;
+        insumoIndex = 0;
+        productoObtenidoIndex = 0;
+        
+        // Limpiar selects
+        $('#cliente, #proveedor').val('');
+    }
+
+    function mostrarCompra() {
+        $('#proveedor-group').show();
+        $('#insumos-container').show();
+        $('#agregar-insumo').show();
+        $('#insumos-container').append(crearInsumoItem());
+    }
+
+    function mostrarVenta() {
+        $('#cliente-group').show();
+        $('#productos-container').show();
+        $('#agregar-producto').show();
+        $('#productos-container').append(crearProductoItem());
+    }
+
+    function mostrarGasto() {
+        $('#insumos-container').show();
+        $('#productos-obtenidos-container').show();
+        $('#agregar-insumo').show();
+        $('#agregar-producto-obtenido').show();
+        $('#insumos-container').append(crearInsumoItem());
+        $('#productos-obtenidos-container').append(crearProductoObtenidoItem());
+    }
+
+    function mostrarIngreso() {
+        // Para ingresos, solo mostrar monto total, descripción y fecha
+    }
+
+    // 🔹 Función que genera un bloque de producto para ventas
     function crearProductoItem() {
         const opciones = productos.map(p => 
             `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`
         ).join('');
 
         return `
-            <div class="producto-item" data-index="${index}">
+            <div class="producto-item" data-index="${productoIndex}">
                 <div class="producto-row">
-                    <select name="producto[]" required class="producto-select">
+                    <select name="producto_venta[]" required class="producto-select">
                         <option value="" selected disabled>Selecciona un producto</option>
                         ${opciones}
                     </select>
-                    <input type="number" name="cantidad[]" placeholder="Cantidad" required min="1" class="cantidad-input">
-                    ${index === 0 ? '' : '<button type="button" class="btn-eliminar-producto"><i class="fas fa-trash"></i></button>'}
+                    <input type="number" name="cantidad_producto[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                    ${productoIndex === 0 ? '' : '<button type="button" class="btn-eliminar"><i class="fas fa-trash"></i></button>'}
                 </div>
             </div>`;
     }
 
-    // 🔹 Agregar el primer producto al cargar
-    $('#productos-container').append(crearProductoItem());
+    // 🔹 Función que genera un bloque de insumo para compras y gastos
+    function crearInsumoItem() {
+        const opciones = insumos.map(i => 
+            `<option value="${i.id}" data-precio="${i.precio}">${i.nombre} - $${i.precio}</option>`
+        ).join('');
 
-    // 🔹 Agregar otro producto
+        return `
+            <div class="insumo-item" data-index="${insumoIndex}">
+                <div class="insumo-row">
+                    <select name="insumo[]" required class="insumo-select">
+                        <option value="" selected disabled>Selecciona un insumo</option>
+                        ${opciones}
+                    </select>
+                    <input type="number" name="cantidad_insumo[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                    ${insumoIndex === 0 ? '' : '<button type="button" class="btn-eliminar"><i class="fas fa-trash"></i></button>'}
+                </div>
+            </div>`;
+    }
+
+    // 🔹 Función que genera un bloque de producto obtenido para gastos
+    function crearProductoObtenidoItem() {
+        const opciones = productos.map(p => 
+            `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`
+        ).join('');
+
+        return `
+            <div class="producto-obtenido-item" data-index="${productoObtenidoIndex}">
+                <div class="producto-row">
+                    <select name="producto_obtenido[]" required class="producto-obtenido-select">
+                        <option value="" selected disabled>Selecciona un producto</option>
+                        ${opciones}
+                    </select>
+                    <input type="number" name="cantidad_producto_obtenido[]" placeholder="Cantidad" required min="1" class="cantidad-input">
+                    ${productoObtenidoIndex === 0 ? '' : '<button type="button" class="btn-eliminar"><i class="fas fa-trash"></i></button>'}
+                </div>
+            </div>`;
+    }
+
+    // 🔹 Agregar productos para ventas
     $('#agregar-producto').click(function() {
-        index++;
+        productoIndex++;
         $('#productos-container').append(crearProductoItem());
-        actualizarOpcionesProductos(); // evitar duplicados desde el inicio
+        actualizarOpcionesProductos();
     });
 
-    // 🔹 Eliminar producto
-    $(document).on('click', '.btn-eliminar-producto', function() {
-        $(this).closest('.producto-item').remove();
+    // 🔹 Agregar insumos para compras y gastos
+    $('#agregar-insumo').click(function() {
+        insumoIndex++;
+        $('#insumos-container').append(crearInsumoItem());
+        actualizarOpcionesInsumos();
+    });
+
+    // 🔹 Agregar productos obtenidos para gastos
+    $('#agregar-producto-obtenido').click(function() {
+        productoObtenidoIndex++;
+        $('#productos-obtenidos-container').append(crearProductoObtenidoItem());
+        actualizarOpcionesProductosObtenidos();
+    });
+
+    // 🔹 Eliminar elementos
+    $(document).on('click', '.btn-eliminar', function() {
+        $(this).closest('.producto-item, .insumo-item, .producto-obtenido-item').remove();
         actualizarMontoTotal();
-        actualizarOpcionesProductos();
+        actualizarTodasLasOpciones();
     });
 
     // 🔹 Actualizar monto total
     function actualizarMontoTotal() {
         let total = 0;
+        
+        // Sumar productos de ventas
         $('.producto-item').each(function() {
             const select = $(this).find('.producto-select');
             const cantidad = parseInt($(this).find('.cantidad-input').val()) || 0;
             const precio = parseFloat(select.find(':selected').data('precio')) || 0;
             total += cantidad * precio;
         });
+        
+        // Sumar insumos de compras y gastos
+        $('.insumo-item').each(function() {
+            const select = $(this).find('.insumo-select');
+            const cantidad = parseInt($(this).find('.cantidad-input').val()) || 0;
+            const precio = parseFloat(select.find(':selected').data('precio')) || 0;
+            total += cantidad * precio;
+        });
+        
         $('#monto-total').val(total.toFixed(2));
     }
 
-    // 🔹 Evitar productos duplicados
+    // 🔹 Funciones para evitar duplicados
     function actualizarOpcionesProductos() {
         const seleccionados = $('.producto-select').map(function() {
             return $(this).val();
-        }).get().filter(v => v); // solo los que tienen valor
+        }).get().filter(v => v);
 
         $('.producto-select').each(function() {
             const valorActual = $(this).val();
@@ -146,66 +309,241 @@ $(document).ready(function() {
         });
     }
 
-    // 🔹 Escuchar cambios
-    $(document).on('change input', '.producto-select, .cantidad-input', function() {
-        actualizarMontoTotal();
+    function actualizarOpcionesInsumos() {
+        const seleccionados = $('.insumo-select').map(function() {
+            return $(this).val();
+        }).get().filter(v => v);
+
+        $('.insumo-select').each(function() {
+            const valorActual = $(this).val();
+            $(this).find('option').each(function() {
+                const valor = $(this).attr('value');
+                if (valor && seleccionados.includes(valor) && valor !== valorActual) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+        });
+    }
+
+    function actualizarOpcionesProductosObtenidos() {
+        const seleccionados = $('.producto-obtenido-select').map(function() {
+            return $(this).val();
+        }).get().filter(v => v);
+
+        $('.producto-obtenido-select').each(function() {
+            const valorActual = $(this).val();
+            $(this).find('option').each(function() {
+                const valor = $(this).attr('value');
+                if (valor && seleccionados.includes(valor) && valor !== valorActual) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+        });
+    }
+
+    function actualizarTodasLasOpciones() {
         actualizarOpcionesProductos();
+        actualizarOpcionesInsumos();
+        actualizarOpcionesProductosObtenidos();
+    }
+
+    // 🔹 Escuchar cambios en todos los campos
+    $(document).on('change input', '.producto-select, .insumo-select, .producto-obtenido-select, .cantidad-input', function() {
+        actualizarMontoTotal();
+        actualizarTodasLasOpciones();
     });
 });
 </script>
 
-<!-- ==================== ESTILOS ==================== -->
+<!-- ==================== ESTILOS MEJORADOS ==================== -->
 <style>
-.producto-item {
+/* ==================== ESTILOS PARA PRODUCTOS, INSUMOS Y PRODUCTOS OBTENIDOS ==================== */
+
+.producto-item, .insumo-item, .producto-obtenido-item {
     margin-bottom: 15px;
     padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f8f9fa;
+    border: none; /* Sin borde */
+    border-radius: 20px; /* Bordes redondeados */
+    background-color: #fff; /* Fondo blanco */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
 }
 
-.producto-row {
+.producto-row, .insumo-row {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.producto-row select,
-.producto-row input {
+.producto-row select, .producto-row input,
+.insumo-row select, .insumo-row input {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    padding: 10px;
+    border: none; /* Sin borde */
+    border-radius: 20px; /* Bordes redondeados */
+    background-color: #f8f9fa; /* Fondo gris claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: all 0.3s ease; /* Transición suave */
+    font-size: 16px;
+    height: 50px; /* Altura consistente */
 }
 
-.btn-eliminar-producto {
+/* Efecto en el foco para selects e inputs */
+.producto-row select:focus, .producto-row input:focus,
+.insumo-row select:focus, .insumo-row input:focus {
+    outline: none; /* Sin borde por defecto */
+    box-shadow: 0 0 10px #01AB7B; /* Sombra verde al hacer foco */
+    background-color: #fff; /* Fondo blanco al enfocar */
+}
+
+.btn-eliminar {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     background: #dc3545;
     color: #fff;
     border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 10px 15px;
+    border-radius: 20px; /* Bordes redondeados */
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+    height: 50px; /* Altura consistente */
 }
 
-.btn-eliminar-producto:hover {
+.btn-eliminar:hover {
     background: #c82333;
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
 }
 
 .btn-agregar {
-    background: #28a745;
+    background: #01AB7B; /* Color verde consistente */
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
+    padding: 12px 20px;
+    border-radius: 20px; /* Bordes redondeados */
     cursor: pointer;
     margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
+    animation-delay: 0.4s; /* Retardo en la animación */
 }
 
 .btn-agregar:hover {
-    background: #218838;
+    background: #00995c; /* Color más oscuro al pasar el mouse */
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+/* Estilos para diferentes secciones */
+#productos-container h3 {
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
+    animation-delay: 0.2s; /* Retardo en la animación */
+}
+
+#insumos-container h3 {
+    color: #28a745;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
+    animation-delay: 0.2s; /* Retardo en la animación */
+}
+
+#productos-obtenidos-container h3 {
+    color: #ffc107;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    opacity: 0; /* Inicia oculto */
+    transform: translateY(10px); /* Desplazado hacia abajo */
+    animation: fadeIn 0.5s forwards; /* Animación de entrada */
+    animation-delay: 0.2s; /* Retardo en la animación */
+}
+
+/* Animación de entrada para los elementos */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Regresa a su posición original */
+    }
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .producto-row, .insumo-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .producto-row select, .producto-row input,
+    .insumo-row select, .insumo-row input {
+        width: 100%;
+    }
+    
+    .btn-eliminar {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .btn-agregar {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Efectos de hover para los contenedores de items */
+.producto-item:hover, .insumo-item:hover, .producto-obtenido-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada al hover */
+    transform: translateY(-2px); /* Efecto de elevación */
+    transition: all 0.3s ease;
+}
+
+/* Estilos para los placeholders */
+.producto-row input::placeholder,
+.insumo-row input::placeholder {
+    color: rgba(0, 0, 0, 0.4); /* Color del placeholder */
+    opacity: 1;
+}
+
+/* Estilos para los selects */
+.producto-row select,
+.insumo-row select {
+    appearance: none; /* Elimina el estilo por defecto del navegador */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23001AB7B' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+    padding-right: 40px; /* Espacio para la flecha */
+}
+
+/* Estilos para los botones de agregar cuando están deshabilitados */
+.btn-agregar:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-agregar:disabled:hover {
+    background-color: #6c757d;
+    transform: none;
 }
 </style>
 {% endblock %}

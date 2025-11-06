@@ -24,27 +24,40 @@ class InsumoForm(forms.ModelForm):
 class TransaccionForm(forms.ModelForm):
     class Meta:
         model = Transaccion
-        fields = ['tipo', 'cliente', 'descripcion', 'monto_total', 'fecha']
+        fields = ['tipo', 'descripcion', 'monto_total', 'fecha']
         widgets = {
-            'tipo': forms.Select(attrs={'id': 'op_create', 'required': True}),
-            'cliente': forms.Select(attrs={'id': 'cliente', 'required': True}),
+            'tipo': forms.Select(attrs={
+                'id': 'tipo', 
+                'required': True,
+                'class': 'form-control'
+            }),
             'descripcion': forms.Textarea(attrs={
-                'rows': 3, 
-                'id': 'descripcion', 
+                'rows': 3,
+                'id': 'descripcion',
                 'placeholder': 'Ingresa una descripción',
-                'required': True
+                'required': True,
+                'class': 'form-control'
             }),
             'monto_total': forms.NumberInput(attrs={
-                'id': 'monto-total', 
+                'id': 'monto-total',
                 'readonly': True,
-                'step': '0.01'
+                'step': '0.01',
+                'class': 'form-control'
             }),
             'fecha': forms.DateInput(attrs={
-                'type': 'date', 
+                'type': 'date',
                 'id': 'fecha',
-                'required': True
+                'required': True,
+                'class': 'form-control'
             }),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Opcional: agregar clases CSS a todos los campos
+        for field_name, field in self.fields.items():
+            if 'class' not in field.widget.attrs:
+                field.widget.attrs['class'] = 'form-control'
 
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))

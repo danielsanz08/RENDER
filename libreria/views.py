@@ -290,88 +290,127 @@ def crear_transacciones(request):
 
     if request.method == 'POST':
         form = TransaccionForm(request.POST)
-        
         if form.is_valid():
-            productos_data = []
-            productos_ids = request.POST.getlist('producto[]')
-            cantidades = request.POST.getlist('cantidad[]')
-            
-            if not productos_ids or not any(productos_ids):
-                messages.error(request, 'Debe agregar al menos un producto.')
-                return redirect('libreria:crear_transacciones')
-            
+            tipo = form.cleaned_data['tipo']
+            cliente_id = request.POST.get('cliente')
+            proveedor_id = request.POST.get('proveedor')
+
+            transaccion = form.save(commit=False)
+            transaccion.registrado_por = usuario
+
+            # Asignar cliente si existe
+            if cliente_id:
+                try:
+                    transaccion.cliente = Cliente.objects.get(id=cliente_id)
+                except Cliente.DoesNotExist:
+                    pass
+
+            # Asignar proveedor si existe
+            if proveedor_id:
+                try:
+                    transaccion.proveedor = Proveedor.objects.get(id=proveedor_id)
+                except Proveedor.DoesNotExist:
+                    pass
+
+            items_data = []
             total = 0
+
+            # --- Productos para VENTAS ---
+            productos_ids = request.POST.getlist('producto_venta[]')
+            cantidades_productos = request.POST.getlist('cantidad_producto[]')
+
             for i in range(len(productos_ids)):
-                if productos_ids[i] and cantidades[i]:
+                if productos_ids[i] and cantidades_productos[i]:
                     try:
                         producto = Producto.objects.get(id=productos_ids[i])
-                        cantidad = int(cantidades[i])
-                        
-                        if form.cleaned_data['tipo'] == 'Venta' and producto.cantidad < cantidad:
-                            messages.error(
-                                request, 
-                                f'Stock insuficiente para {producto.nombre}. Disponible: {producto.cantidad}'
-                            )
-                            return redirect('crear_transacciones')
-                        
+                        cantidad = int(cantidades_productos[i])
                         subtotal = float(producto.precio) * cantidad
                         total += subtotal
-                        
-                        productos_data.append({
-                            'producto_id': producto.id,
-                            'producto_nombre': producto.nombre,
-                            'producto_precio': float(producto.precio),
+
+                        items_data.append({
+                            'tipo': 'producto_venta',
+                            'id': producto.id,
+                            'nombre': producto.nombre,
+                            'precio': float(producto.precio),
                             'cantidad': cantidad,
                             'subtotal': subtotal
                         })
-                        
                     except (Producto.DoesNotExist, ValueError):
                         continue
-            
-            if not productos_data:
-                messages.error(request, 'Debe agregar productos válidos.')
-                return redirect('libreria:crear_transacciones')
-            
-            transaccion = form.save(commit=False)
-            transaccion.registrado_por = usuario
+
+            # --- Insumos para COMPRAS y GASTOS ---
+            insumos_ids = request.POST.getlist('insumo[]')
+            cantidades_insumos = request.POST.getlist('cantidad_insumo[]')
+
+            for i in range(len(insumos_ids)):
+                if insumos_ids[i] and cantidades_insumos[i]:
+                    try:
+                        insumo = Insumo.objects.get(id=insumos_ids[i])
+                        cantidad = int(cantidades_insumos[i])
+                        subtotal = float(insumo.precio) * cantidad
+                        total += subtotal
+
+                        items_data.append({
+                            'tipo': 'insumo',
+                            'id': insumo.id,
+                            'nombre': insumo.nombre,
+                            'precio': float(insumo.precio),
+                            'cantidad': cantidad,
+                            'subtotal': subtotal
+                        })
+                    except (Insumo.DoesNotExist, ValueError):
+                        continue
+
+            # --- Productos Obtenidos para GASTOS ---
+            productos_obtenidos_ids = request.POST.getlist('producto_obtenido[]')
+            cantidades_productos_obtenidos = request.POST.getlist('cantidad_producto_obtenido[]')
+
+            for i in range(len(productos_obtenidos_ids)):
+                if productos_obtenidos_ids[i] and cantidades_productos_obtenidos[i]:
+                    try:
+                        producto = Producto.objects.get(id=productos_obtenidos_ids[i])
+                        cantidad = int(cantidades_productos_obtenidos[i])
+                        # Los productos obtenidos NO suman al total, son el resultado del gasto
+
+                        items_data.append({
+                            'tipo': 'producto_obtenido',
+                            'id': producto.id,
+                            'nombre': producto.nombre,
+                            'precio': 0,  # No afecta el monto total
+                            'cantidad': cantidad,
+                            'subtotal': 0  # No afecta el monto total
+                        })
+                    except (Producto.DoesNotExist, ValueError):
+                        continue
+
+            # --- Guardar transacción ---
             transaccion.monto_total = total
-            transaccion.productos_json = {'productos': productos_data}
+            transaccion.productos_json = {'items': items_data}
             transaccion.save()
-            
-            try:
-                transaccion.actualizar_inventario()
-                messages.success(request, 'Transacción creada exitosamente.')
-                return redirect('libreria:ver_transacciones')
-            except Exception as e:
-                transaccion.delete()
-                messages.error(request, f'Error al actualizar inventario: {str(e)}')
-                return redirect('libreria:crear_transacciones')
-                
+            transaccion.actualizar_inventario()
+
+            messages.success(request, f'{tipo} registrada exitosamente.')
+            return redirect('libreria:ver_transacciones')
         else:
+            # Si el formulario no es válido, mostrar errores
             messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
         form = TransaccionForm()
 
-    # ---------- 🔧 ESTA ES LA PARTE QUE CAUSABA EL ERROR ----------
-    clientes = Cliente.objects.all()
-    productos = list(Producto.objects.values('id', 'nombre', 'precio', 'cantidad'))
+    # Preparar datos para el template
+    productos_data = list(Producto.objects.values('id', 'nombre', 'precio'))
+    insumos_data = list(Insumo.objects.values('id', 'nombre', 'precio'))
 
-    # Función segura para convertir cualquier Decimal a float
-    def decimal_default(obj):
-        if isinstance(obj, Decimal):
-            return float(obj)
-        raise TypeError
-
-    # Serializar productos a JSON seguro
-    productos_json = json.dumps(productos, default=decimal_default)
-    # --------------------------------------------------------------
-
-    return render(request, 'movimientos/crear_movimiento.html', {
+    context = {
         'form': form,
-        'clientes': clientes,
-        'productos_json': productos_json,
-    })
-
+        'clientes': Cliente.objects.all(),
+        'proveedores': Proveedor.objects.all(),
+        'productos': Producto.objects.all(),
+        'insumos': Insumo.objects.all(),
+        'productos_json': json.dumps(productos_data),
+        'insumos_json': json.dumps(insumos_data),
+    }
+    return render(request, 'movimientos/crear_movimiento.html', context)
 def ver_transacciones(request):
     transacciones = Transaccion.objects.all().select_related('cliente')
     
@@ -1506,7 +1545,7 @@ def password_reset_request(request)  :
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             reset_link = request.build_absolute_uri(
-                reverse("password_reset_confirm", kwargs={"uidb64": uid, "token": token})
+                reverse("libreria:password_reset_confirm", kwargs={"uidb64": uid, "token": token})
             )
             context={
                 'user' : user,
@@ -1542,7 +1581,7 @@ El equipo de Gestor CCD
                 msg.attach_alternative(html_message, "text/html")
                 msg.send()
 
-                return redirect(reverse("password_reset_done" )+"?sent=true")
+                return redirect(reverse("libreria:password_reset_done" )+"?sent=true")
             
             except socket.timeout:
                 messages.error(request, "Hubo un problema de conexion al enviar el correo. Intenta nuevamente.")
@@ -1552,11 +1591,11 @@ El equipo de Gestor CCD
             
                 print(traceback.format_exc())  # imprime el error completo en la consola
                 messages.error(request, f"Error enviando email: {e}")
-                return redirect(reverse("password_reset_done") + "?sent=error")
+                return redirect(reverse("libreria:password_reset_done") + "?sent=error")
 
             
         except User.DoesNotExist:
-            return redirect(reverse("password_reset_done") + "?sent=not_found")
+            return redirect(reverse("libreria:password_reset_done") + "?sent=not_found")
 
     return render(request, "password_reset.html")
 
@@ -1583,7 +1622,7 @@ def password_reset_confirm(request, uidb64, token):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Tu contraseña ha sido restablecida correctamente.")
-                return redirect(reverse("password_reset_complete"))
+                return redirect(reverse("libreria:password_reset_complete"))
         else:
             form = SetPasswordForm(user)
 
