@@ -87,8 +87,11 @@
                         {% endif %}
                     </td>
                     {% if user.role == 'Administrador' %}
-                    <td><a href="{% url 'editar_insumo' insumo_id=insumo.pk %}" class="btn btn-warning" title="Editar insumo">
+                    <td><a href="{% url 'libreria:editar_insumo' insumo_id=insumo.pk %}" class="btn btn-warning" title="Editar insumo">
                         <i data-feather="edit"></i>
+                    </a></td>
+                    <td><a href="{% url 'libreria:eliminar_insumo' insumo_id=insumo.pk %}" class="btn btn-warning" title="Editar insumo">
+                        <i data-feather="trash"></i>
                     </a></td>
                     
                     {% endif %}

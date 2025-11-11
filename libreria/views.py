@@ -396,6 +396,10 @@ def crear_transacciones(request):
             messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
         form = TransaccionForm()
+    def decimal_fault(obj):
+        if isinstance(obj, Decimal):
+            return float (obj)
+        raise TypeError
 
     # Preparar datos para el template
     productos_data = list(Producto.objects.values('id', 'nombre', 'precio'))
@@ -407,8 +411,8 @@ def crear_transacciones(request):
         'proveedores': Proveedor.objects.all(),
         'productos': Producto.objects.all(),
         'insumos': Insumo.objects.all(),
-        'productos_json': json.dumps(productos_data),
-        'insumos_json': json.dumps(insumos_data),
+        'productos_json': json.dumps(productos_data, default=decimal_fault),
+        'insumos_json': json.dumps(insumos_data, default=decimal_fault),
     }
     return render(request, 'movimientos/crear_movimiento.html', context)
 def ver_transacciones(request):
@@ -417,7 +421,6 @@ def ver_transacciones(request):
     return render(request, 'movimientos/ver_movimientos.html', {
         'transacciones': transacciones,
     })
-
 
 
 
@@ -484,7 +487,10 @@ def agregar_insumo(request):
         'breadcrumbs': breadcrumbs,
     })
 
-
+def eliminar_insumo(request, insumo_id):
+    insumo = get_object_or_404(Insumo,id=insumo_id )
+    insumo.delete()
+    return render(request, 'insumos/consultar_insumo.html')
 @login_required(login_url='libreria:login')
 def editar_insumo(request, insumo_id):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión

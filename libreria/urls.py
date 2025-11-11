@@ -31,7 +31,7 @@ urlpatterns = [
     path('verificar_nombre_insumo/', views.verificar_nombre_insumo, name='verificar_nombre_insumo'),
     path('verificar-administrador/', views.verificar_administrador, name='verificar_administrador'),
     path('consultar_insumo', views.consultar_insumo, name='consultar_insumo'),
-    
+    path('eliminar_insumo/<int:insumo_id>', views.eliminar_insumo, name='eliminar_insumo'),
     path('cambiar_contraseña/', views.cambiar_contraseña, name='cambiar_contraseña'),
     path('cambiar-estado-usuario/<int:user_id>/', views.cambiar_estado_usuario, name='cambiar_estado_usuario'),
     path("reset_password/", views.password_reset_request, name="password_reset"),
