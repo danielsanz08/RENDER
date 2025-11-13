@@ -71,14 +71,15 @@
                 {% for transaccion in transacciones %}
                 <tr>
                     <td>{{ transaccion.tipo }}</td>
-                    <td>{{ transaccion.cliente.nombre }}</td>
+                    <td>{% if transaccion.cliente %}{{ transaccion.cliente.nombre }}{% else %}-{% endif %}</td>
                     <td>
+                        <!-- ✅ Botón que abre la ventana emergente -->
                         <button class="btn btn-info btn-sm" onclick="verProductos('{{ transaccion.id }}')">Ver productos</button>
 
                         <!-- Productos ocultos (se muestran en modal) -->
                         <div id="productos-{{ transaccion.id }}" style="display:none;">
-                            {% for producto_data in transaccion.obtener_productos %}
-                                <p>{{ producto_data.producto_nombre }} (x{{ producto_data.cantidad }}) - ${{ producto_data.subtotal }}</p>
+                            {% for producto_data in transaccion.obtener_items %}
+                                <p>{{ producto_data.nombre }} (x{{ producto_data.cantidad }}) - ${{ producto_data.subtotal }}</p>
                             {% empty %}
                                 <p>Sin productos registrados</p>
                             {% endfor %}

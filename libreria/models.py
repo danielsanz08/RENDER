@@ -208,7 +208,7 @@ class Insumo(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name="insumos", verbose_name="Proveedor", default=1)
     cantidad = models.IntegerField(verbose_name="Cantidad")  # Este campo puede ser problemático
     stock = models.IntegerField(default=0)  # AGREGAR ESTE CAMPO PARA INVENTARIO
-    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # AGREGAR ESTE CAMPO
+    precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio")
     registrado_por = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

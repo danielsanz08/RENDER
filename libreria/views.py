@@ -488,9 +488,10 @@ def agregar_insumo(request):
     })
 
 def eliminar_insumo(request, insumo_id):
-    insumo = get_object_or_404(Insumo,id=insumo_id )
+    insumo = get_object_or_404(Insumo, id=insumo_id)
     insumo.delete()
-    return render(request, 'insumos/consultar_insumo.html')
+    messages.success(request, f'El insumo "{insumo.nombre}" fue eliminado correctamente.')
+    return redirect('libreria:consultar_insumo')
 @login_required(login_url='libreria:login')
 def editar_insumo(request, insumo_id):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
