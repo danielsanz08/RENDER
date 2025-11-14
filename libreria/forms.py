@@ -10,15 +10,17 @@ from django.contrib.auth.forms import SetPasswordForm
 class InsumoForm(forms.ModelForm):
     class Meta:
         model = Insumo
-        fields = ['nombre', 'descripcion', 'cantidad', 'proveedor', 'unidad_medida']  # Asegúrate de incluir 'proveedor'
+        fields = ['nombre', 'descripcion', 'cantidad', 'proveedor', 'unidad_medida', 'precio']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre'})
         self.fields['descripcion'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Descripción'})
         self.fields['cantidad'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Cantidad'})
-        self.fields['proveedor'].widget.attrs.update({'class': 'form-control'})  # Añadir clase form-control
+        self.fields['proveedor'].widget.attrs.update({'class': 'form-control'})
         self.fields['unidad_medida'].widget.attrs.update({'class': 'form-control'})
+        self.fields['precio'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Precio'})
+
 
 
 class TransaccionForm(forms.ModelForm):
