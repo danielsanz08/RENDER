@@ -734,3 +734,150 @@ body.readable-font {
     font-size: 20px; /* Aumenta ligeramente el tamaño de la fuente */
 }
 
+/* ==========================================
+   RESPONSIVE DESIGN — TABLET & MÓVIL
+   ========================================== */
+
+/* ----- Ajustes generales ----- */
+@media (max-width: 992px) {
+
+    #main-header {
+        left: 100px;
+        right: 20px;
+    }
+
+    .breadcrumbs-container {
+        left: 100px;
+        right: 20px;
+        top: calc(var(--spacer) + 70px);
+    }
+
+    .movimientos-card,
+    .cliente-card,
+    .gestion-card,
+    .report-card {
+        width: 90% !important;
+        margin: 0 auto !important;
+    }
+}
+
+/* ======== MÓVIL (hasta 768px) ======== */
+@media (max-width: 768px) {
+
+    /* Ocultar texto de usuario para que no se rompa */
+    .header-icons .name {
+        display: none;
+    }
+
+    /* Reducir header */
+    #main-header {
+        left: 90px;
+        right: 10px;
+        padding: 5px 12px;
+        font-size: 15px;
+    }
+
+    .nombre img {
+        width: 42px;
+    }
+
+    /* Ajustar menú lateral */
+    .navbar {
+        width: 65px;
+        height: calc(100vh - 40px);
+        padding: 10px 0;
+    }
+
+    .navbar__link {
+        width: 55px;
+        height: 55px;
+    }
+
+    .navbar__link span {
+        display: none; /* Ocultamos etiquetas en móvil */
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs-container {
+        top: calc(var(--spacer) + 55px);
+        left: 90px;
+        right: 10px;
+        padding: 5px 15px;
+        font-size: 14px;
+    }
+
+    /* Contenido principal */
+    .container,
+    .movimientos-container,
+    .clientes-container,
+    .gestion-container {
+        margin-left: 90px !important;
+        padding: 10px !important;
+    }
+
+    /* Tarjetas del panel de movimientos */
+    .movimientos-card {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .movimientos-card .card {
+        width: 100% !important;
+        margin: 0 auto;
+    }
+
+    /* Footer */
+    footer p {
+        font-size: 12px;
+    }
+
+    #toggle-accessibility-menu {
+        bottom: 80px;
+        right: 10px;
+    }
+
+    #accessibility-menu {
+        right: 10px;
+        width: 260px;
+    }
+}
+
+/* ======== MÓVIL PEQUEÑO (hasta 480px) ======== */
+@media (max-width: 480px) {
+
+    #main-header {
+        left: 80px;
+        right: 5px;
+        padding: 5px 10px;
+    }
+
+    .breadcrumbs-container {
+        left: 80px;
+        right: 5px;
+    }
+
+    /* Ajustar fotos */
+    .user img {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Ajustar tarjetas */
+    .card {
+        padding: 15px !important;
+    }
+
+    .movimientos-card .card h4 {
+        font-size: 18px;
+    }
+
+    .movimientos-card .card p {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}

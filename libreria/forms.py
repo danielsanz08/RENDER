@@ -67,9 +67,8 @@ class CustomUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['profile_picture', 'name', 'email', 'role', 'phone']
+        fields = ['name', 'email', 'role', 'phone']
         widgets = {
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'role': forms.Select(attrs={'class': 'form-control'}),
@@ -164,12 +163,11 @@ class CustomPasswordChangeForm(forms.Form):
 class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['name', 'email', 'phone', 'profile_picture', 'role']
+        fields = ['name', 'email', 'phone',  'role']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'role': forms.Select(attrs={'class': 'form-control'}),
         }
         

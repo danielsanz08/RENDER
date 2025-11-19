@@ -238,6 +238,7 @@ def validar_datos(request):
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 def crear_perfil(request):
+    admin_exists = CustomUser.objects.filter(role='Administrador').exists()
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
     form = CustomUserCreationForm()  # Inicializamos el formulario por defecto al inicio
 
@@ -282,7 +283,7 @@ def crear_perfil(request):
     # Safely access role
     user_role = getattr(request.user, 'role', None)  # Defaults to None if no role exists
 
-    return render(request, 'usuario/registro.html', {'usuario': usuario, 'form': form, 'breadcrumbs': breadcrumbs, 'user_role': user_role})
+    return render(request, 'usuario/registro.html', {'usuario': usuario, 'form': form, 'breadcrumbs': breadcrumbs, 'user_role': user_role, 'admin_exists':admin_exists})
 @login_required(login_url='libreria:login')
 
 def crear_transacciones(request):

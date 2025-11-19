@@ -42,14 +42,6 @@
             <div id="error-timer" class="timer-bar"></div>
         </div>
     
-        <!-- Foto de perfil -->
-        <div class="form-group">
-            <label for="imageUpload" title="Foto de perfil">Foto de Perfil:</label>
-            <div class="input-group">
-                <input type="file" name="profile_picture" id="imageUpload" class="profile_picture" required title="Selecciona una foto de perfil">
-            </div>
-        </div>
-    
         <!-- Nombre -->
         <div class="form-group">
             <label for="name" title="Nombre">Nombre:</label>
@@ -70,10 +62,12 @@
         <div class="form-group">
             <label for="role" title="Rol">Rol:</label>
             <select name="role" id="role" required title="Selecciona un rol">
-                <option value="">Selecciona un rol</option>
-                {% for choice, label in form.role.field.choices %}
-                    <option value="{{ choice }}">{{ label }}</option>
-                {% endfor %}
+                <option value="" disabled selected>Selecciona un rol</option>
+                {% if not admin_exists %}
+                   <option value="Administrador">Administrador</option>
+                {% endif %}
+                <option value="Empleado">Empleado</option>
+                
             </select>
         </div>
     
@@ -212,11 +206,7 @@ $(document).ready(function () {
             hasError = true;
         }
 
-        if (role === 'Administrador' && registeredRoles.includes(role)) {
-            $('#error-message-container').show();
-            $('#error-message').text('Ya existe un rol de Administrador registrado.');
-            hasError = true;
-        }
+       
 
         if (!hasError) {
             // Si no hay errores, puedes enviar el formulario

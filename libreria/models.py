@@ -44,7 +44,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20, blank=True, null=True)
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures', blank=True, null=True)
+
     estado = models.IntegerField(choices=ESTADO_CHOICES, default=ACTIVE)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
