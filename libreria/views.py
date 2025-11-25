@@ -6,7 +6,7 @@ from .forms import InsumoForm, TransaccionForm, CustomUserCreationForm, LoginFor
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login as auth_login
-
+from django.views.decorators.http import require_http_methods
 from decimal import Decimal
 import os
 from django.contrib.auth.tokens import default_token_generator
@@ -1567,7 +1567,7 @@ def password_reset_request(request)  :
             text_message = f"""
 Hola {user.name},
 
-Recibimos una solicitud para restablecer la contraseña de tu cuenta en Gestor CCD.
+Recibimos una solicitud para restablecer la contraseña de tu cuenta en HEDY_NET.
 
 Para restablecer tu contraseña, copia y pega el siguiente enlace en tu navegador:
 {reset_link}
@@ -1577,7 +1577,7 @@ Si no solicitaste este cambio, puedes ignorar este mensaje.
 El enlace será válido por 24 horas.
 
 Saludos,
-El equipo de Gestor CCD
+El equipo de HEDY_NET
 """
             try:
                 msg = EmailMultiAlternatives(
@@ -1650,4 +1650,31 @@ def password_reset_confirm(request, uidb64, token):
     
 def password_reset_complete(request):
     return render(request, "password_reset_complete.html")
+
+@require_http_methods(["GET"])
+def verificar_contraseña(request):
+    """
+    Vista para verificar si la contraseña ya existe en la base de datos
+    """
+    password = request.GET.get('password', '')
     
+    if not password:
+        return JsonResponse({'error': 'No se proporcionó contraseña'}, status=400)
+    
+    try:
+      
+        usuarios = User.objects.all()
+        password_existe = False
+        
+        for usuario in usuarios:
+            if check_password(password, usuario.password):
+                password_existe = True
+                break
+        
+        return JsonResponse({
+            'password_existe': password_existe,
+            'mensaje': 'Esta contraseña ya está en uso. Por seguridad, elige una diferente.' if password_existe else 'Contraseña válida'
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': f'Error al verificar contraseña: {str(e)}'}, status=500)
