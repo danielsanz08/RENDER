@@ -40,17 +40,17 @@ body {
     height: 100vh;
 }
 
-
 .align-items-center {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-}*/
+}
 
 .form-wrapper {
     width: 100%;
     max-width: 28rem;
+    padding: 0 1rem;
 }
 
 .form {
@@ -58,12 +58,11 @@ body {
     background-color: var(--white);
     border-radius: 1.5rem;
     width: 100%;
-    height: 100%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transform: scale(0);
     transition: .5s ease-in-out;
     transition-delay: 1s;
-    margin-left: 130vh;
+    margin: 0 auto;
 }
 
 .input-group {
@@ -114,7 +113,7 @@ body {
 
 .flex-col {
     flex-direction: column;
-}*/
+}
 
 .social-list {
     margin: 2rem 0;
@@ -274,10 +273,79 @@ body {
     right: 50%;
 }
 
-/* RESPONSIVE */
+/* Estilos para enlaces */
+.opciones {
+    margin: 20px 0;
+}
 
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: #017a58;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Para tablets y pantallas medianas */
+@media only screen and (max-width: 1024px) {
+    .form-wrapper {
+        max-width: 24rem;
+    }
+    
+    .text h2 {
+        font-size: 2.8rem;
+    }
+    
+    .img img {
+        width: 35vw;
+    }
+}
+
+/* Para tablets pequeñas */
+@media only screen and (max-width: 768px) {
+    .form-wrapper {
+        max-width: 22rem;
+    }
+    
+    .text h2 {
+        font-size: 2.2rem;
+        margin: 1.5rem 0;
+    }
+    
+    .text {
+        margin: 2rem;
+    }
+    
+    .img img {
+        width: 40vw;
+    }
+}
+
+/* Para móviles grandes */
+@media only screen and (max-width: 600px) {
+    .form-wrapper {
+        max-width: 20rem;
+    }
+    
+    .text h2 {
+        font-size: 1.8rem;
+        margin: 1rem 0;
+    }
+    
+    .text {
+        margin: 1.5rem;
+    }
+    
+    .img img {
+        width: 50vw;
+    }
+}
+
+/* Para móviles pequeños */
 @media only screen and (max-width: 425px) {
-
     .container::before,
     .container.sign-in::before,
     .container.sign-up::before {
@@ -288,10 +356,6 @@ body {
         transform: none;
         right: 0;
     }
-
-    /* .container.sign-in .col.sign-up {
-        transform: translateY(100%);
-    } */
 
     .container.sign-in .col.sign-in,
     .container.sign-up .col.sign-up {
@@ -340,32 +404,36 @@ body {
 
     .text h2 {
         margin: .5rem;
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
-
-}
-/* Estilos para pantallas de laptop */
-@media (max-width: 1366px) {
-    .form {
-        padding: 1rem;
-        background-color: var(--white);
-        border-radius: 1.5rem;
-        width: 100%;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        transform: scale(0);
-        transition: .5s ease-in-out;
-        transition-delay: 1s;
-        margin-left: 150vh;
-    }
-}
-.opciones{
-    margin-bottom: 10%;
-    margin: 20px;
     
+    .form-wrapper {
+        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+    
+    .input-group input {
+        padding: 0.8rem 2.5rem;
+    }
+    
+    .form button {
+        padding: 0.5rem 0;
+        font-size: 1rem;
+    }
 }
- a{
-    text-decoration: none;
-}
-a:hover{
-    color: #01AB7B;
+
+/* Para móviles muy pequeños */
+@media only screen and (max-width: 320px) {
+    .text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .input-group input {
+        padding: 0.7rem 2rem;
+        font-size: 0.9rem;
+    }
+    
+    .form button {
+        font-size: 0.9rem;
+    }
 }

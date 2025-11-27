@@ -11,11 +11,7 @@
             {% if user.is_authenticated %}
                 <h2 title="Bienvenida a tu panel de usuario">¡Hola, {{ usuario.name }}!</h2>
                 <div class="profile-picture">
-                    {% if usuario.profile_picture %}
-                    <img src="{{ usuario.profile_picture.url }}" class="profile" alt="Foto de perfil" style="width: 150px; height: 150px;" title="Foto de perfil de {{ usuario.name }}">
-                {% else %}
-                    No disponible
-                {% endif %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/12225/12225881.png" alt="">
                 </div>
                 <p title="Bienvenido a tu panel de usuario">Bienvenido a tu panel de usuario.</p>
             {% else %}

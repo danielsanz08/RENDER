@@ -12,43 +12,54 @@
     <div class="login wrap">
         <h1 title="Agregar proveedor">AGREGAR PROVEEDOR</h1>
 
-        <form method='post' id="crear-proveedor-form">
+        <form method="post" id="crear-proveedor-form">
             {% csrf_token %}
-        
+
+            <!-- NIT -->
             <div class="nit_input">
-                <label for="{{ form.nit.id_for_label }}" title="NIT">NIT</label>
-                {{ form.nit }}  <!-- Campo prellenado -->
+                <label for="nit" title="NIT">NIT</label>
+                <input type="text" name="nit" id="nit" class="form-control" placeholder="NIT" required>
             </div>
+
+            <!-- Tipo de persona -->
             <div class="tipo_persona_input">
-                <label for="{{ form.tipo_persona.id_for_label }}" title="Tipo de persona">Tipo de Persona</label>
-                {{ form.tipo_persona }}
+                <label for="tipo_persona" title="Tipo de persona">Tipo de Persona</label>
+                <select name="tipo_persona" id="tipo_persona" class="form-control">
+                    <option value="">Seleccione tipo de persona</option>
+                    <option value="Persona Jurídica">Persona Jurídica</option>
+                    <option value="Persona Natural">Persona Natural</option>
+                </select>
             </div>
-            
+
+            <!-- Nombre -->
             <div class="name_input">
-                <label for="{{ form.nombre.id_for_label }}" title="Nombre del proveedor">Nombre del Proveedor</label>
-                {{ form.nombre }}  <!-- Campo prellenado -->
+                <label for="nombre" title="Nombre del proveedor">Nombre del Proveedor</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre del Proveedor" required>
             </div>
-        
+
+            <!-- Dirección -->
             <div class="direccion_input">
-                <label for="{{ form.direccion.id_for_label }}" title="Dirección">Dirección</label>
-                {{ form.direccion }}  <!-- Campo prellenado -->
+                <label for="direccion" title="Dirección">Dirección</label>
+                <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Dirección" required>
             </div>
-        
+
+            <!-- Email -->
             <div class="email_input">
-                <label for="{{ form.email.id_for_label }}" title="Correo electrónico">Correo Electrónico</label>
-                {{ form.email }}  <!-- Campo prellenado -->
+                <label for="email" title="Correo electrónico">Correo Electrónico</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Correo Electrónico" required>
             </div>
-        
+
+            <!-- Teléfono -->
             <div class="form-group">
-                <label for="{{ form.telefono.id_for_label }}" title="Teléfono">Teléfono</label>
-                {{ form.telefono }}  <!-- Campo prellenado -->
-            </div>    
-        
+                <label for="telefono" title="Teléfono">Teléfono</label>
+                <input maxlength="10" type="text" name="telefono" id="telefono" class="form-control" placeholder="Teléfono">
+            </div>
+
             <div class="button-group">
                 <button type="submit" class="btn btn-success" title="Registrar proveedor">Registrar Proveedor</button>
                 <a href="{% url 'libreria:insumos' %}" class="btn btn-warning" role="button" title="Volver">Volver</a>
             </div>
-        </form>        
+        </form>
 
         <!-- Popup -->
         <div id="popup" class="popup" style="display:none;">
@@ -62,6 +73,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     const nitInput = document.querySelector('input[name="nit"]');
@@ -184,6 +196,14 @@
 
         return valid; // Retorna el estado de validación del formulario
     }
+
+    document.getElementById("nombre").addEventListener("input", function(){
+        this.value = this.value.replace(/[^a-zA-Z]/g, "");
+    });
+
+    document.getElementById("telefono").addEventListener("input", function(){
+        this.value = this.value.replace(/[a-zA-Z]/g, "");
+    });
 </script>
 
 {% endblock %}
