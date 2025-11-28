@@ -54,12 +54,13 @@
 
         <div class="form-group">
             <label for="telefono" title="Teléfono">Teléfono:</label>
-            <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required title="Ingrese el teléfono" class="form-control">
+            <input maxlength="10" type="text" id="telefono" name="telefono" placeholder="Teléfono" required title="Ingrese el teléfono" class="form-control">
         </div>
 
         <div class="form-group">
             <label for="direccion" title="Dirección">Dirección:</label>
             <input type="text" id="direccion" name="direccion" placeholder="Dirección" required title="Ingrese la dirección" class="form-control">
+            <p id="mensaje" style="color: red;"></p>
         </div>
 
         <div class="button-group" title="Botones de acción">
@@ -81,5 +82,23 @@
 </div>
 
 <script src="{% static 'js/crear_cliente.js' %}?v={% now 'U' %}"></script>
+<script>
+    document.getElementById("nombre").addEventListener("input", function(){
+        this.value = this.value.replace(/[0-9]/g, "");
+    });
+    document.getElementById("telefono").addEventListener("input", function(){
+        this.value = this.value.replace(/[a-zA-Z]/g, "");
+    });
+    /*input de direccion*/
+    const input = document.getElementById("direccion");
+    const mensaje = document.getElementById("mensaje");
 
+    input.addEventListener("input", ()=>{
+        const valor = input.value;
+        const regex = /(.)\1{2,}/;
+        if(regex.test(valor)){
+            mensaje.textContent="No se permiten 3 o más caracteres iguales repetitivos"
+        }
+    });
+</script>
 {% endblock %}
