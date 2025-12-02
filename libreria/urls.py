@@ -71,4 +71,5 @@ urlpatterns = [
     path('reporte-excel.movimiento/', views.reporte_movimiento_excel, name='reporte_excel_movimiento'),
     path('reporte-pdf-movimiento/', views.reporte_movimiento_pdf, name='reporte_pdf_movimiento'),
     path('verificar_password/', views.verificar_contraseña, name='verificar_password'),
+    path('verificar_email/', views.validar_email, name='verificar_email'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

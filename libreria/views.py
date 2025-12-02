@@ -1678,3 +1678,9 @@ def verificar_contraseña(request):
         
     except Exception as e:
         return JsonResponse({'error': f'Error al verificar contraseña: {str(e)}'}, status=500)
+    
+
+def validar_email(request):
+    email = request.GET.get('email', '').strip()
+    existe = CustomUser.objects.filter(email=email).exists()
+    return JsonResponse({'existe':existe})
