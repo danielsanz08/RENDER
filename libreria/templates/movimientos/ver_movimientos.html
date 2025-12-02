@@ -60,7 +60,9 @@
                 <tr>
                     <th>Tipo</th>
                     <th>Cliente</th>
+                    <th>Proveedor</th>
                     <th>Productos</th>
+                    <th>Insumos</th>
                     <th>Descripción</th>
                     <th>Monto</th>
                     <th>Fecha</th>
@@ -71,10 +73,11 @@
                 {% for transaccion in transacciones %}
                 <tr>
                     <td>{{ transaccion.tipo }}</td>
-                    <td>{% if transaccion.cliente %}{{ transaccion.cliente.nombre }}{% else %}-{% endif %}</td>
+                    <td>{% if transaccion.cliente %}{{ transaccion.cliente.nombre }}{% else %}No aplica{% endif %}</td>
+                    <td>{% if transaccion.proveedor %}{{ transaccion.proveedor.nombre }}{% else %}No aplica{% endif %}</td>
                     <td>
                         <!-- ✅ Botón que abre la ventana emergente -->
-                        <button class="btn btn-info btn-sm" onclick="verProductos('{{ transaccion.id }}')">Ver productos</button>
+                        <button class="btn btn-danger" onclick="verProductos('{{ transaccion.id }}')"><i data-feather="eye"></i></button>
 
                         <!-- Productos ocultos (se muestran en modal) -->
                         <div id="productos-{{ transaccion.id }}" style="display:none;">
@@ -85,6 +88,7 @@
                             {% endfor %}
                         </div>
                     </td>
+                    <td></td>
                     <td>{{ transaccion.descripcion }}</td>
                     <td>${{ transaccion.monto_total|floatformat:2 }}</td>
                     <td>{{ transaccion.fecha }}</td>
@@ -93,6 +97,11 @@
                            onclick="showConfirmModal(event, '{{ transaccion.pk }}', '{{ transaccion.descripcion }}');">
                             <i data-feather="trash"></i>
                         </a>
+                        {% if transaccion.tipo == "Venta" %}
+                        <a href="{% url 'libreria:generar_factura' transaccion.id %}" title="Generar factura" class="btn btn-danger">
+                            <i data-feather="clipboard"></i>
+                        </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

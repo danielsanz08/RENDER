@@ -72,4 +72,5 @@ urlpatterns = [
     path('reporte-pdf-movimiento/', views.reporte_movimiento_pdf, name='reporte_pdf_movimiento'),
     path('verificar_password/', views.verificar_contraseña, name='verificar_password'),
     path('verificar_email/', views.validar_email, name='verificar_email'),
+    path('factura/<int:transaccion_id>/', views.generar_factura, name='generar_factura'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

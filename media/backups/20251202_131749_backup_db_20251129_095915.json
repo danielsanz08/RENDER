@@ -1,0 +1,198 @@
+[
+{
+    "model": "libreria.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$XLo2d3gjPazLi6IzJlRe4i$R0KfDsxpU5fKKscH+CHiSx6kxDjQXmouQYhD47VFrSE=",
+        "last_login": "2025-11-29T14:51:59.146Z",
+        "is_superuser": false,
+        "email": "nataliafigueroa1028@gmail.com",
+        "name": "Natalia Figueroa",
+        "phone": "3222124125",
+        "role": "Administrador",
+        "profile_picture": "profile_pictures/Captura_de_pantalla_2025-11-29_090546.png",
+        "estado": 2,
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 1,
+    "fields": {
+        "tipo_cliente": "minorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 123456,
+        "nombre": "Daniel Gonzalez",
+        "email": "daniel@gmial.com",
+        "telefono": "3212546525",
+        "direccion": "calle 6 #456",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 1,
+    "fields": {
+        "codigo": "001",
+        "nombre": "queso",
+        "categoria": "queso",
+        "presentacion": "caja",
+        "unidad_medida": "kilogramo",
+        "cantidad": "2.00",
+        "stock": -2,
+        "precio": "2100.00",
+        "fecha_elaboracion": "2025-11-29",
+        "fecha_vencimiento": "2025-11-29",
+        "temperatura_conservacion": "1.40",
+        "lote": "000123645",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 2,
+    "fields": {
+        "codigo": "002",
+        "nombre": "yogurt",
+        "categoria": "otros",
+        "presentacion": "vaso",
+        "unidad_medida": "litro",
+        "cantidad": "1.00",
+        "stock": -1,
+        "precio": "15000.00",
+        "fecha_elaboracion": "2025-11-29",
+        "fecha_vencimiento": "2025-11-29",
+        "temperatura_conservacion": "2.00",
+        "lote": "0002254",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.proveedor",
+    "pk": 1,
+    "fields": {
+        "nit": "9998878585",
+        "nombre": "Cristian Rodriguez",
+        "direccion": "calle 2 #5",
+        "email": "cristianrodriguez@gmail.com",
+        "telefono": "3546161368",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ],
+        "tipo_persona": "Persona Natural"
+    }
+},
+{
+    "model": "libreria.insumo",
+    "pk": 1,
+    "fields": {
+        "nombre": "LECHE",
+        "descripcion": "Litro de leche",
+        "unidad_medida": "Litro",
+        "proveedor": 1,
+        "cantidad": 2,
+        "stock": 2,
+        "precio": "12000.00",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 1,
+    "fields": {
+        "tipo": "Venta",
+        "cliente": 1,
+        "proveedor": null,
+        "descripcion": "cdsmcbsef",
+        "monto_total": "2100.00",
+        "fecha": "2025-11-29",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "producto_venta",
+                    "nombre": "queso",
+                    "precio": 2100.0,
+                    "cantidad": 1,
+                    "subtotal": 2100.0
+                }
+            ]
+        }
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 2,
+    "fields": {
+        "tipo": "Venta",
+        "cliente": 1,
+        "proveedor": null,
+        "descripcion": "njggoih",
+        "monto_total": "17100.00",
+        "fecha": "2025-11-29",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "producto_venta",
+                    "nombre": "queso",
+                    "precio": 2100.0,
+                    "cantidad": 1,
+                    "subtotal": 2100.0
+                },
+                {
+                    "id": 2,
+                    "tipo": "producto_venta",
+                    "nombre": "yogurt",
+                    "precio": 15000.0,
+                    "cantidad": 1,
+                    "subtotal": 15000.0
+                }
+            ]
+        }
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 3,
+    "fields": {
+        "tipo": "Compra",
+        "cliente": null,
+        "proveedor": 1,
+        "descripcion": "litro de leche",
+        "monto_total": "24000.00",
+        "fecha": "2025-11-29",
+        "registrado_por": [
+            "nataliafigueroa1028@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "insumo",
+                    "nombre": "LECHE",
+                    "precio": 12000.0,
+                    "cantidad": 2,
+                    "subtotal": 24000.0
+                }
+            ]
+        }
+    }
+}
+]

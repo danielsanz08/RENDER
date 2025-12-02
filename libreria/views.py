@@ -1808,3 +1808,26 @@ def validar_email(request):
     email = request.GET.get('email', '').strip()
     existe = CustomUser.objects.filter(email=email).exists()
     return JsonResponse({'existe':existe})
+
+from django.shortcuts import get_object_or_404
+from django.http import FileResponse
+from .utils_factura import generar_factura_pdf
+import os
+from django.conf import settings
+
+def generar_factura(request, transaccion_id):
+    transaccion = get_object_or_404(Transaccion, id=transaccion_id)
+
+    # Solo ventas
+    if transaccion.tipo != "Venta":
+        return HttpResponse("Solo se pueden generar facturas de ventas.")
+
+    # Generar el PDF
+    archivo = generar_factura_pdf(transaccion)
+    ruta = os.path.join(settings.MEDIA_ROOT, archivo)
+
+    # Descargar con nombre REAL (no untitled)
+    with open(ruta, "rb") as pdf:
+        response = HttpResponse(pdf.read(), content_type="application/pdf")
+        response['Content-Disposition'] = f'attachment; filename="{archivo}"'
+        return response

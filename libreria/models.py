@@ -244,7 +244,13 @@ class Transaccion(models.Model):
     def obtener_items(self):
         """Retorna todos los items de la transacción"""
         return self.productos_json.get('items', [])
-
+    
+    def obtener_insumos(self):
+        """Retorna solo los items de tipo 'insumo' de la transacción"""
+        items = self.productos_json.get('items', [])
+        # Filtramos los items donde 'tipo' es 'insumo'
+        insumos = [item for item in items if item.get('tipo') == 'insumo']
+        return insumos
     def actualizar_inventario(self):
         """Actualiza el inventario según el tipo de transacción"""
         items = self.obtener_items()
