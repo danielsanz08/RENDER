@@ -38,14 +38,16 @@
         
             <div class="form-group-numero">
                 <label for="numero_documento" title="Número de documento"></label>
-                <input type="text" id="numero_documento" name="documento" placeholder="Número de documento" class="form-control" required>
+                <input maxlength="10" type="text" id="numero_documento" name="documento" placeholder="Número de documento" class="form-control" required>
             </div>
+            
         </div>
-        
+        <p id="mensaje_id" style="color: red; font-weight: bold;"></p>
         <div class="form-group">
             <label for="nombre" title="Nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" placeholder="Nombre" required title="Ingrese el nombre" class="form-control">
         </div>
+        <p id="mensaje_name" style="color: red; font-weight: bold;"></p>
 
         <div class="form-group">
             <label for="email" title="Correo Electrónico">Correo Electrónico:</label>
@@ -56,11 +58,12 @@
             <label for="telefono" title="Teléfono">Teléfono:</label>
             <input maxlength="10" type="text" id="telefono" name="telefono" placeholder="Teléfono" required title="Ingrese el teléfono" class="form-control">
         </div>
+        <p id="mensaje_phone" style="color: red; font-weight: bold;"></p>
 
         <div class="form-group">
             <label for="direccion" title="Dirección">Dirección:</label>
             <input type="text" id="direccion" name="direccion" placeholder="Dirección" required title="Ingrese la dirección" class="form-control">
-            <p id="mensaje" style="color: red;"></p>
+            <p id="mensaje" style="color: red; font-weight: bold;"></p>
         </div>
 
         <div class="button-group" title="Botones de acción">
@@ -83,6 +86,7 @@
 
 <script src="{% static 'js/crear_cliente.js' %}?v={% now 'U' %}"></script>
 <script>
+    const regex = /(.)\1{2,}/;
     document.getElementById("nombre").addEventListener("input", function(){
         this.value = this.value.replace(/[0-9]/g, "");
     });
@@ -95,10 +99,61 @@
 
     input.addEventListener("input", ()=>{
         const valor = input.value;
-        const regex = /(.)\1{2,}/;
+        
         if(regex.test(valor)){
             mensaje.textContent="No se permiten 3 o más caracteres iguales repetitivos"
         }
     });
+
+    /*validacion de documento*/
+    inputId = document.getElementById("numero_documento");
+    menasajeId = document.getElementById("mensaje_id");
+
+    inputId.addEventListener("input", ()=>{
+        const valorId = inputId.value;
+        if(regex.test(valorId)){
+            menasajeId.textContent = "No se permiten valores repetidos consecutivamente";
+        }else{
+            menasajeId.textContent = "";
+        }
+    })
+
+    /*Validacion para nombre*/
+    inputName = document.getElementById("nombre");
+    mensajeName = document.getElementById("mensaje_name");
+
+    inputName.addEventListener("input", ()=>{
+        const valorName = inputName.value;
+
+        if(regex.test(valorName)){
+            mensajeName.textContent="No se permiten caracteres repetidos";
+        }else{
+            mensajeName.textContent = "";
+        }
+    })
+    /*Validacion del telefono*/
+    inputPhone = document.getElementById("telefono");
+    mensajePhone = document.getElementById("mensaje_phone");
+
+    inputPhone.addEventListener("input", ()=>{
+        const regexPhone = /(.)\1{3,}/
+        const valorP = inputPhone.value;
+        if(regexPhone.test(valorP)){
+            mensajePhone.textContent = "No se puede tener 3 caracteres repetidos consecutivamente";
+        }else{
+            mensajePhone.textContent = "";
+        }
+    })
+    inputDireccion = document.getElementById("direccion");
+    mensajeDireccion = document.getElementById("mensaje");
+    inputDireccion.addEventListener("input", ()=>{
+        const regex = /(.)\1{2,}/
+        const valorD = inputDireccion.value;
+        if(regex.test(valorD)){
+            mensajeDireccion.textContent = "No se permiten caracteres repetidos";
+        }else{
+            mensajeDireccion.textContent = "";
+        }
+    })
 </script>
 {% endblock %}

@@ -1409,133 +1409,257 @@ def reporte_movimiento_excel(request):
     ws = wb.active
     ws.title = "Transacciones"
 
+    # ================================
+    #            LOGO
+    # ================================
     logo_path = finders.find('imagen/logo.png')
     img = Image(logo_path)
     img.height = 60
     img.width = 80
     ws.add_image(img, 'A1')
 
-    ws.merge_cells('B1:D1')
+    # ================================
+    #          TÍTULOS
+    # ================================
+    ws.merge_cells('B1:H1')
     ws['B1'] = "LACTEOS HEDYBED"
     ws['B1'].font = Font(size=24, bold=True)
     ws['B1'].alignment = Alignment(horizontal='center', vertical='center')
 
-    ws.merge_cells('A2:E2')
-    ws['A2'] = "Transacciones Registradas"
-    ws['A2'].font = Font(size=18)
+    ws.merge_cells('A2:H2')
+    ws['A2'] = "Reporte de Transacciones"
+    ws['A2'].font = Font(size=18, bold=True)
     ws['A2'].alignment = Alignment(horizontal='center', vertical='center')
 
-    headers = ["Tipo", "Cliente", "Descripción", "Monto", "Fecha"]
+    # ================================
+    #        ENCABEZADOS NUEVOS
+    # ================================
+    headers = [
+        "Tipo", "Cliente", "Proveedor",
+        "Productos", "Insumos",
+        "Descripción", "Monto", "Fecha"
+    ]
     ws.append(headers)
 
+    # Estilos encabezado
     header_fill = PatternFill(start_color="01AB7B", end_color="01AB7B", fill_type="solid")
+
     for cell in ws[3]:
         cell.fill = header_fill
         cell.font = Font(color="FFFFFF", bold=True)
         cell.alignment = Alignment(horizontal='center', vertical='center')
 
-    border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-
+    # ================================
+    #   DATOS DE TRANSACCIONES
+    # ================================
     transacciones = Transaccion.objects.all()
-    for transaccion in transacciones:
+
+    for t in transacciones:
+
+        cliente = str(t.cliente) if t.cliente else "No aplica"
+        proveedor = str(t.proveedor) if t.proveedor else "No aplica"
+
+        items = t.obtener_items()
+
+        productos = ", ".join([i["nombre"] for i in items if i["tipo"] in ["producto_venta", "producto_obtenido"]]) or "No aplica"
+        insumos = ", ".join([i["nombre"] for i in items if i["tipo"] == "insumo"]) or "No aplica"
+
         ws.append([
-            transaccion.tipo,
-            str(transaccion.cliente),  # Asegúrate de que el método str esté definido en Cliente
-            transaccion.descripcion,
-            transaccion.monto_total,
-            transaccion.fecha,
+            t.tipo,
+            cliente,
+            proveedor,
+            productos,
+            insumos,
+            t.descripcion,
+            str(t.monto_total),
+            str(t.fecha),
         ])
 
-    # Establecer el ancho de las columnas
-    ws.column_dimensions['A'].width = 20
-    ws.column_dimensions['B'].width = 25
-    ws.column_dimensions['C'].width = 20
-    ws.column_dimensions['D'].width = 15
-    ws.column_dimensions['E'].width = 15
+    # ================================
+    #      ESTILOS POR FILA
+    # ================================
+    border = Border(
+        left=Side(style='thin'),
+        right=Side(style='thin'),
+        top=Side(style='thin'),
+        bottom=Side(style='thin')
+    )
 
-    # Aplicar estilos a las celdas
-    for row in ws.iter_rows(min_row=3, max_row=ws.max_row, min_col=1, max_col=5):
+    # Aplicar estilo a todas las celdas
+    for row in ws.iter_rows(min_row=3, max_row=ws.max_row, min_col=1, max_col=8):
         for cell in row:
-            cell.alignment = Alignment(horizontal='center', vertical='center')
+            cell.alignment = Alignment(
+                horizontal='center',
+                vertical='center',
+                wrap_text=True   # ← permite salto de línea AUTOMÁTICO
+            )
             cell.border = border
 
-    # Ajustar el ancho de la fila para el título
+    # ================================
+    #     ANCHOS DE COLUMNAS
+    # ================================
+    column_widths = {
+        'A': 15,   # Tipo
+        'B': 22,   # Cliente
+        'C': 22,   # Proveedor
+        'D': 25,   # Productos
+        'E': 25,   # Insumos
+        'F': 35,   # Descripción
+        'G': 15,   # Monto
+        'H': 18,   # Fecha
+    }
+
+    for col, width in column_widths.items():
+        ws.column_dimensions[col].width = width
+
+    # ================================
+    #       ALTURA FILAS TÍTULOS
+    # ================================
     ws.row_dimensions[1].height = 40
     ws.row_dimensions[2].height = 30
 
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    # ================================
+    #          RESPUESTA
+    # ================================
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
     response['Content-Disposition'] = 'attachment; filename="Reporte_transacciones.xlsx"'
-    
+
     wb.save(response)
     return response
 
 def reporte_movimiento_pdf(request):
     buffer = BytesIO()
-    p = canvas.Canvas(buffer, pagesize=landscape(letter))
-    width, height = landscape(letter)
 
-    margin = 40
-    table_width = width - 2 * margin
-    y_position = height - margin - 110
+    # Crear documento horizontal con márgenes
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=landscape(letter),
+        leftMargin=40,
+        rightMargin=40,
+        topMargin=70,
+        bottomMargin=40
+    )
 
-    # Ruta de la marca de agua
+    styles = getSampleStyleSheet()
+    style_normal = styles["Normal"]
+    style_bold = styles["Heading2"]
+
+    elements = []
+
+    # ====================================================
+    #   FUNCIÓN PARA MARCA DE AGUA EN CADA PÁGINA
+    # ====================================================
     watermark_path = finders.find('imagen/logo.png')
-    p.saveState()
 
-    # Ajustar transparencia y tamaño de la marca de agua
-    p.setFillColor(colors.Color(1, 1, 1, alpha=0.1))  # Más transparente
-    p.setStrokeColor(colors.Color(1, 1, 1, alpha=0.1))
-    p.drawImage(watermark_path, x=(width - 600) / 2, y=(height - 600) / 2, width=600, height=600, mask='auto')
+    def add_watermark(canvas_obj, doc_obj):
+        canvas_obj.saveState()
+        canvas_obj.setFillColor(colors.Color(1, 1, 1, alpha=0.10))
+        canvas_obj.drawImage(
+            watermark_path, 
+            x=150,
+            y=50,
+            width=500,
+            height=500,
+            mask='auto'
+        )
+        canvas_obj.restoreState()
 
-    p.restoreState()
+    # ====================================================
+    #                    TÍTULOS
+    # ====================================================
+    elements.append(Paragraph("<b>LACTEOS HEDYBED</b>", styles["Title"]))
+    elements.append(Paragraph("Reporte de Transacciones", style_bold))
+    elements.append(Spacer(1, 20))
 
-    p.setFont("Helvetica-Bold", 24)
-    p.drawCentredString(width / 2, y_position + 50, "LACTEOS HEDYBED")
-    p.setFont("Helvetica", 18)
-    p.drawCentredString(width / 2, y_position + 20, "Reporte de Transacciones")
+    # ====================================================
+    #               ENCABEZADO DE TABLA
+    # ====================================================
+    headers = [
+        "Tipo", "Cliente", "Proveedor",
+        "Productos", "Insumos",
+        "Descripción", "Monto", "Fecha"
+    ]
 
-    data = [["Tipo", "Cliente", "Descripción", "Monto", "Fecha"]]
+    data = [headers]
+
     transacciones = Transaccion.objects.all()
-    for transaccion in transacciones:
-        data.append([
-            transaccion.tipo,
-            transaccion.cliente,  # Asegúrate de que el método str esté definido en Cliente
-            transaccion.descripcion,
-            transaccion.monto_total,
-            transaccion.fecha,
-        ])
 
-    table = Table(data, colWidths=[1.5 * inch, 2 * inch, 3 * inch, 2 * inch, 1.5 * inch])
+    for t in transacciones:
+        cliente = str(t.cliente) if t.cliente else "No aplica"
+        proveedor = str(t.proveedor) if t.proveedor else "No aplica"
 
-    style = TableStyle([
+        items = t.obtener_items()
+
+        productos = ", ".join([i["nombre"] for i in items if i["tipo"] in ["producto_venta", "producto_obtenido"]]) or "No aplica"
+        insumos = ", ".join([i["nombre"] for i in items if i["tipo"] == "insumo"]) or "No aplica"
+
+        fila = [
+            Paragraph(t.tipo, style_normal),
+            Paragraph(cliente, style_normal),
+            Paragraph(proveedor, style_normal),
+            Paragraph(productos, style_normal),
+            Paragraph(insumos, style_normal),
+            Paragraph(t.descripcion, style_normal),
+            Paragraph(str(t.monto_total), style_normal),
+            Paragraph(str(t.fecha), style_normal),
+        ]
+
+        data.append(fila)
+
+    # ====================================================
+    #                   TABLA COMPLETA
+    # ====================================================
+    table = Table(
+        data,
+        colWidths=[
+            1.2 * inch,   # Tipo
+            1.2 * inch,   # Cliente
+            1.6 * inch,   # Proveedor
+            1.4 * inch,   # Productos
+            1.4 * inch,   # Insumos
+            2.0 * inch,   # Descripción
+            1.0 * inch,   # Monto
+            1.2 * inch,   # Fecha
+        ]
+    )
+
+    table_style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#01AB7B")),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+
+        # Filas normales
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 9),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
         ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('FONTSIZE', (0, 1), (-1, -1), 10),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+
+        # Bordes
+        ('GRID', (0, 0), (-1, -1), 0.8, colors.black),
     ])
-    table.setStyle(style)
 
-    table.wrapOn(p, table_width, height - 2 * margin)
-    table_x = margin
-    table_y = y_position - len(data) * 30
-    table.drawOn(p, table_x, table_y)
+    table.setStyle(table_style)
 
-    p.showPage()
-    p.save()
-    
+    elements.append(table)
+
+    # ====================================================
+    #       CONSTRUIR PDF + MARCA DE AGUA EN CADA PÁGINA
+    # ====================================================
+    doc.build(elements, onFirstPage=add_watermark, onLaterPages=add_watermark)
+
     buffer.seek(0)
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="Reporte_transacciones.pdf"'
 
     return response
+
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMultiAlternatives
