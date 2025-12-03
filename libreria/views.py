@@ -1831,3 +1831,13 @@ def generar_factura(request, transaccion_id):
         response = HttpResponse(pdf.read(), content_type="application/pdf")
         response['Content-Disposition'] = f'attachment; filename="{archivo}"'
         return response
+
+def validar_email_c(request):
+    email = request.GET.get('email', '').strip()
+    existe = CustomUser.objects.filter(email=email).exists()
+    return JsonResponse({'existe':existe})
+
+def validad_email_cliente(request):
+    email_c = request.GET.get('email', '').strip()
+    existe = Cliente.objects.filter(email=email_c).exists()
+    return JsonResponse({'existe':existe})

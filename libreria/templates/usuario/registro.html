@@ -249,7 +249,7 @@
     const mensajePhone = document.getElementById("phone_mensaje");
     inputPhone.addEventListener("input", () => {
         const valorP = inputPhone.value;
-        const regex = /(.)\1{2,}/;
+        const regex = /(.)\1{3,}/;
         if (regex.test(valorP)) {
             mensajePhone.textContent = "No se permite caracteres repetidos"
         } else {

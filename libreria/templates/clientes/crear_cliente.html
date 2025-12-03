@@ -25,7 +25,8 @@
         <div class="form-row">
             <div class="form-group-tipo">
                 <label for="tipo_documento" title="Tipo de documento"></label>
-                <select id="tipo_documento" name="tipo_documento" required title="Seleccione el tipo de documento" class="form-control">
+                <select id="tipo_documento" name="tipo_documento" required title="Seleccione el tipo de documento"
+                    class="form-control">
                     <option value="" disabled selected>Seleccione el tipo de documento</option>
                     <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
                     <option value="Tarjeta de identidad">Tarjeta de identidad</option>
@@ -35,34 +36,39 @@
                     <option value="NIT">Número de Identificación Tributaria (NIT)</option>
                 </select>
             </div>
-        
+
             <div class="form-group-numero">
                 <label for="numero_documento" title="Número de documento"></label>
-                <input maxlength="10" type="text" id="numero_documento" name="documento" placeholder="Número de documento" class="form-control" required>
+                <input maxlength="10" type="text" id="numero_documento" name="documento"
+                    placeholder="Número de documento" class="form-control" required>
             </div>
-            
+
         </div>
         <p id="mensaje_id" style="color: red; font-weight: bold;"></p>
         <div class="form-group">
             <label for="nombre" title="Nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required title="Ingrese el nombre" class="form-control">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required title="Ingrese el nombre"
+                class="form-control">
         </div>
         <p id="mensaje_name" style="color: red; font-weight: bold;"></p>
 
         <div class="form-group">
             <label for="email" title="Correo Electrónico">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" placeholder="Correo Electrónico" required title="Ingrese el correo electrónico" class="form-control">
+            <input type="email" id="email" name="email" placeholder="Correo Electrónico" required
+                title="Ingrese el correo electrónico" class="form-control">
         </div>
-
+        <p id="mensaje_email" style="color: red; font-weight: bold;"></p>
         <div class="form-group">
             <label for="telefono" title="Teléfono">Teléfono:</label>
-            <input maxlength="10" type="text" id="telefono" name="telefono" placeholder="Teléfono" required title="Ingrese el teléfono" class="form-control">
+            <input maxlength="10" type="text" id="telefono" name="telefono" placeholder="Teléfono" required
+                title="Ingrese el teléfono" class="form-control">
         </div>
         <p id="mensaje_phone" style="color: red; font-weight: bold;"></p>
 
         <div class="form-group">
             <label for="direccion" title="Dirección">Dirección:</label>
-            <input type="text" id="direccion" name="direccion" placeholder="Dirección" required title="Ingrese la dirección" class="form-control">
+            <input type="text" id="direccion" name="direccion" placeholder="Dirección" required
+                title="Ingrese la dirección" class="form-control">
             <p id="mensaje" style="color: red; font-weight: bold;"></p>
         </div>
 
@@ -71,13 +77,13 @@
             <a href="{% url 'libreria:clientes' %}" class="btn btn-warning" title="Volver">VOLVER</a>
         </div>
     </form>
-    
+
     <!-- Popup -->
     <div id="popup" class="popup" style="display: none;">
         <div class="checkmark">
             <svg class="checkmark-svg" viewBox="0 0 52 52">
-                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16" />
             </svg>
         </div>
         <p>Registro exitoso</p>
@@ -87,21 +93,21 @@
 <script src="{% static 'js/crear_cliente.js' %}?v={% now 'U' %}"></script>
 <script>
     const regex = /(.)\1{2,}/;
-    document.getElementById("nombre").addEventListener("input", function(){
+    document.getElementById("nombre").addEventListener("input", function () {
         this.value = this.value.replace(/[0-9]/g, "");
     });
-    document.getElementById("telefono").addEventListener("input", function(){
+    document.getElementById("telefono").addEventListener("input", function () {
         this.value = this.value.replace(/[a-zA-Z]/g, "");
     });
     /*input de direccion*/
     const input = document.getElementById("direccion");
     const mensaje = document.getElementById("mensaje");
 
-    input.addEventListener("input", ()=>{
+    input.addEventListener("input", () => {
         const valor = input.value;
-        
-        if(regex.test(valor)){
-            mensaje.textContent="No se permiten 3 o más caracteres iguales repetitivos"
+
+        if (regex.test(valor)) {
+            mensaje.textContent = "No se permiten 3 o más caracteres iguales repetitivos"
         }
     });
 
@@ -109,11 +115,11 @@
     inputId = document.getElementById("numero_documento");
     menasajeId = document.getElementById("mensaje_id");
 
-    inputId.addEventListener("input", ()=>{
+    inputId.addEventListener("input", () => {
         const valorId = inputId.value;
-        if(regex.test(valorId)){
+        if (regex.test(valorId)) {
             menasajeId.textContent = "No se permiten valores repetidos consecutivamente";
-        }else{
+        } else {
             menasajeId.textContent = "";
         }
     })
@@ -122,12 +128,12 @@
     inputName = document.getElementById("nombre");
     mensajeName = document.getElementById("mensaje_name");
 
-    inputName.addEventListener("input", ()=>{
+    inputName.addEventListener("input", () => {
         const valorName = inputName.value;
 
-        if(regex.test(valorName)){
-            mensajeName.textContent="No se permiten caracteres repetidos";
-        }else{
+        if (regex.test(valorName)) {
+            mensajeName.textContent = "No se permiten caracteres repetidos";
+        } else {
             mensajeName.textContent = "";
         }
     })
@@ -135,25 +141,56 @@
     inputPhone = document.getElementById("telefono");
     mensajePhone = document.getElementById("mensaje_phone");
 
-    inputPhone.addEventListener("input", ()=>{
+    inputPhone.addEventListener("input", () => {
         const regexPhone = /(.)\1{3,}/
         const valorP = inputPhone.value;
-        if(regexPhone.test(valorP)){
-            mensajePhone.textContent = "No se puede tener 3 caracteres repetidos consecutivamente";
-        }else{
+        if (regexPhone.test(valorP)) {
+            mensajePhone.textContent = "No se puede tener  caracteres repetidos consecutivamente";
+        } else {
             mensajePhone.textContent = "";
         }
     })
     inputDireccion = document.getElementById("direccion");
     mensajeDireccion = document.getElementById("mensaje");
-    inputDireccion.addEventListener("input", ()=>{
+    inputDireccion.addEventListener("input", () => {
         const regex = /(.)\1{2,}/
         const valorD = inputDireccion.value;
-        if(regex.test(valorD)){
+        if (regex.test(valorD)) {
             mensajeDireccion.textContent = "No se permiten caracteres repetidos";
-        }else{
+        } else {
             mensajeDireccion.textContent = "";
         }
+    })
+    /*Validar solo letras*/
+    inputNombre = document.getElementById("nombre").addEventListener("input", function () {
+        this.value = this.value.replace(/[0-9]/g, "");
+    })
+
+    /*EMAIL*/
+    const inputEmail = document.getElementById("email");
+    const mensajeEmail = document.getElementById("mensaje_email");
+
+    inputEmail.addEventListener("input", () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const value = inputEmail.value.trim();
+        if (value == "") {
+            mensajeEmail.textContent = "";
+            return;
+        }
+        if (!emailRegex.test(value)) {
+            mensajeEmail.textContent = "Formato no valido";
+            return;
+        } else {
+            mensajeEmail.textContent = "";
+        }
+        /*Verifica si el correo existe */
+        fetch("{% url 'libreria:validad_email_cliente' %}?email="+encodeURIComponent(value))
+            .then(r => r.json())
+            .then(d => {
+                if (d.existe) {
+                    mensajeEmail.textContent = d.existe ? "Correo ya registrado" : "Correo no disponible";
+                }
+            });
     })
 </script>
 {% endblock %}
