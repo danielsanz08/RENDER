@@ -1,4 +1,4 @@
-/* === ESTRUCTURA GENERAL === */
+
 main {
   margin-top: 10.9vh;
   margin-left: 19vh;
@@ -8,14 +8,14 @@ main {
   align-items: center;
 }
 
-/* === CONTENEDOR PRINCIPAL === */
+
 section {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 40px;
-  margin: 60px auto;
+  margin: 110px auto;
   padding: 40px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
@@ -25,7 +25,6 @@ section {
   text-align: center;
 }
 
-/* === TARJETAS === */
 .card {
   background-color: #e4eaf1;
   border-radius: 15px;

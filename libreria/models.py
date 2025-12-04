@@ -142,7 +142,7 @@ class Producto(models.Model):
 
     codigo = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100, blank=False)
-    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES, default='otros')
+    
     presentacion = models.CharField(max_length=50)
     unidad_medida = models.CharField(max_length=15, choices=UNIDAD_MEDIDA_CHOICES, default='unidad')
     cantidad = models.DecimalField(max_digits=10, decimal_places=2)  # Este campo puede ser problemático

@@ -51,12 +51,12 @@
         
             <div class="form-group">
                 <label for="cantidad" title="Cantidad">Cantidad</label>
-                <input type="number" placeholder="Cantidad" id="cantidad" name="cantidad" min="0" step="0.01" required title="Introduce la cantidad del producto">
+                <input type="number" placeholder="Cantidad" id="cantidad" name="cantidad" min="1" step="1" required title="Introduce la cantidad del producto">
             </div>
         
             <div class="form-group">
                 <label for="precio" title="Precio">Precio ($ COP)</label>
-                <input type="number" placeholder="Precio" id="precio" name="precio" min="0" step="100" required title="Introduce el precio del producto">
+                <input type="number" placeholder="Precio" id="precio" name="precio" min="100" step="100" required title="Introduce el precio del producto">
             </div>
         
             <div class="form-group">
@@ -71,7 +71,7 @@
         
             <div class="form-group">
                 <label for="temperatura_conservacion" title="Temperatura de conservación">Temperatura de Conservación (°C)</label>
-                <input type="number" placeholder="Temperatura" id="temperatura_conservacion" name="temperatura_conservacion" min="-20" max="30" step="0.1" required title="Introduce la temperatura de conservación">
+                <input type="number" placeholder="Temperatura" id="temperatura_conservacion" name="temperatura_conservacion" min="-20" max="30" step="1" required title="Introduce la temperatura de conservación">
             </div>            
         
             <div class="form-group">
@@ -81,7 +81,7 @@
         
             <div class="form-group">
                 <label for="codigo" title="Código del producto">Código del Producto</label>
-                <input type="text" placeholder="Código" id="codigo" name="codigo" required pattern="[A-Za-z0-9]+" title="Ingresa el código del producto">
+                <input maxlength="8" type="text" placeholder="Código" id="codigo" name="codigo" required pattern="[A-Za-z0-9]+" title="Ingresa el código del producto">
             </div>   
         
             <div class="form-actions">

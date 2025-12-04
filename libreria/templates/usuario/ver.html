@@ -13,13 +13,7 @@
                 <h3 title="Detalles del usuario">Detalles del Usuario</h3>
             </div>
             <div class="card-body">
-                <div class="profile_picture" title="Foto de perfil del usuario">
-                    {% if usuario.profile_picture %}
-                        <img src="{{ usuario.profile_picture.url }}" class="profile" alt="Foto de perfil" title="Foto de perfil de {{ usuario.name }}">
-                    {% else %}
-                        <p title="Foto de perfil no disponible">No disponible</p>
-                    {% endif %}
-                </div>
+                
                 <div class="user-details" title="Detalles del usuario">
                     <div class="detail">
                         <span title="Nombre del usuario"><b>Nombre:</b><br> {{ usuario.name }}</span>

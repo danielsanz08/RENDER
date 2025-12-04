@@ -1,0 +1,35 @@
+[
+{
+    "model": "libreria.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$VHrKBZYXxsx3QMmt9vD7TP$CP/3N90MfjbQ+mTyMOdYxctf95mJVSaFZEo+maoQus0=",
+        "last_login": "2025-12-04T17:56:35.281Z",
+        "is_superuser": false,
+        "email": "jonnathansz73@gmail.com",
+        "name": "Daniel sanchez",
+        "phone": "3017851555",
+        "role": "Administrador",
+        "estado": 2,
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 1,
+    "fields": {
+        "tipo_cliente": "mayorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 1007142318,
+        "nombre": "Daniel Sanchez",
+        "email": "camilorodrigueznaranjo1994@gmail.com",
+        "telefono": "3223950140",
+        "direccion": "Cr28n6-45",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+}
+]

@@ -223,7 +223,7 @@ class ProductoForm(forms.ModelForm):
         fields = [
             'codigo',
             'nombre',
-            'categoria',
+            
             'presentacion',
             'unidad_medida',
             'cantidad',

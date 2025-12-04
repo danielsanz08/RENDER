@@ -37,10 +37,23 @@
     </ul>
   </section>
   {% else %}
-  <h2 title="Bienvenido, inicia sesión">¡Hola!</h2>
-  <p title="Inicia sesión">Por favor, <a href="{% url 'libreria:login' %}">inicia sesión</a> para acceder a las
-    funcionalidades de tu cuenta.</p>
+  <section class="sec-login">
+    <div class="div-login">
+      <p>Por favor, <a href="{% url 'libreria:login' %}">Inicia sesion</a></p>
+    </div>
+  </section>
   {% endif %}
+  <style>
+.sec-login{
+  background-color: rgb(226, 225, 225);
+  margin: 20px;
+  padding: 10px;
+  width: 90%;
+  border-radius: 30px;
+  border: 2px solid #01AB7B;
+}
+
+  </style>
 </body>
 
 {% endblock %}

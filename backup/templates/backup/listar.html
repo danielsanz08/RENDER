@@ -21,87 +21,101 @@
 
 <link href="{% static 'css/consultar_insumo.css' %}?v={% now 'U' %}" rel="stylesheet" />
 <link href="{% static 'css/eliminar_insumo.css' %}?v={% now 'U' %}" rel="stylesheet" />
+<style>
+    .descargar,
+    .restaurar,
+    .eliminar {
+        padding: 1em 1em;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        font-weight: 500;
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 45px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: none;
+    }
 
+    .descargar:hover,
+    .restaurar:hover {
+        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+        color: #fff;
+        transform: translateY(-7px);
+        background-color: rgb(16, 177, 78);
+    }
+     .eliminar:hover {
+        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+        color: #fff;
+        transform: translateY(-7px);
+        background-color: rgb(177, 16, 16);
+    }
+</style>
 <div class="container">
     <h2 title="Insumos registrados">Insumos Registrados</h2>
-    <div class="toolbar">
-        <form method="GET" action="{% url 'backup:lista_backups' %}" id="search-form">
-            <div>
-                <input type="text" name="q" id="buscador" placeholder="Buscar ..." class="buscador"
-                    value="{{ request.GET.q }}">
-                <button type="submit" class="btn-search" title="Buscar texto">
-                    <i class="fas fa-search text-white"></i>
-                </button>
 
-                <a href="{% url 'backup:lista_backups' %}">
-                    <button type="button" class="clean" title="Limpiar búsqueda">
-                        <i class="fas fa-trash text-white"></i>
-                    </button>
-                </a>
-            </div>
-        </form>
-        <p id="search-warning" style="color: red; display: none;"></p>
+    <div class="opciones">
 
-        <div class="opciones">
-
-            <a class="opc" href="{% url 'backup:crear_backup' %}" role="button">
-               <i class="fas fa-plus-circle me-2"></i>
-                <span>Crear backup</span>
-                            </a>
-                 <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
-               <i class="fas fa-file-export me-2"></i>
-                <span>Exportar backup</span>
-                            </a>
-                <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
-               <i class="fas fa-file-export me-2"></i>
-                <span>Exportar backup</span>
-                            </a>
-        </div>
+        <a class="opc" href="{% url 'backup:crear_backup' %}" role="button">
+            <i class="fas fa-plus-circle me-2"></i>
+            <span>Crear backup</span>
+                        </a>
+        <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
+            <i class="fas fa-file-export me-2"></i>
+            <span>Exportar backup</span>
+                        </a>
+        <a class="opc" href="{% url 'backup:exportar_backup' %}" role="button">
+            <i class="fas fa-file-export me-2"></i>
+            <span>Exportar backup</span>
+                        </a>
     </div>
+</div>
 
-    <div id="search-results">
-        <table class="table table-responsive">
-            <thead>
-                <tr>
-                    <th title="ID">ID</th>
-                    <th title="Nombre">Nombre</th>
-                    <th title="Unidad de medida">Fecha</th>
-                    <th title="Descripción">Tamaño</th>
-                    <th title="Proveedor">Modelos</th>
-                    <th title="Cantidad">Descargar</th>
-                    <th>Restaurar</th>
-                    <th title="Acciones">Borrar</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for backup in backups %}
-                <tr>
-                    <td title="Id del insumo">{{ backup.id }}</td>
-                    <td title="Nombre del insumo">{{ backup.nombre }}</td>
-                    <td title="Unidad de medida">{{ backup.fecha_creacion|date:"d/m/Y" }}</td>
-                    <td title="Descripción del insumo">{{ backup.tamano }}</td>
-                    <td title="Nombre del proveedor">{{ insumo.proveedor.nombre }}</td>
-                    <td><a type="" href="{% url 'backup:descargar_backup' backup.id %}" class="descargar"
-                            title="Descargar">
-                            <button><i class="fas fa-download"></i></button>
-                        </a></td>
-                    <td><a href="{% url 'backup:restaurar_backup' backup.id %}" class="restaurar" title="Restaurar"
-                            onclick="return confirm('¿Restaurar esta copia? Se sobrescribirán los datos actuales.')">
-                           <button> <i class="fas fa-undo"></i></button>
-                        </a></td>
-                        <td>
-                            <a href="{% url 'backup:eliminar_backup' backup.id %}" class="eliminar" title="Eliminar"
-                            onclick="return confirm('¿Eliminar permanentemente esta copia?')">
-                            <button><i class="fas fa-trash"></i></button>
-                        </a>
-                        </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
-        <a class="btn btn-warning" href="{% url 'libreria:insumos' %}" role="button" title="Volver">Volver</a>
-    </div><br>
+<div id="search-results">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th title="ID">ID</th>
+                <th title="Nombre">Nombre</th>
+                <th title="Unidad de medida">Fecha</th>
+                <th title="Descripción">Tamaño</th>
+                <th title="Proveedor">Modelos</th>
+                <th title="Cantidad">Descargar</th>
+                <th>Restaurar</th>
+                <th title="Acciones">Borrar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for backup in backups %}
+            <tr>
+                <td title="Id del insumo">{{ backup.id }}</td>
+                <td title="Nombre del insumo">{{ backup.nombre }}</td>
+                <td title="Unidad de medida">{{ backup.fecha_creacion|date:"d/m/Y" }}</td>
+                <td title="Descripción del insumo">{{ backup.tamano }}</td>
+                <td title="Nombre del proveedor">{{ insumo.proveedor.nombre }}</td>
+                <td><a type="" href="{% url 'backup:descargar_backup' backup.id %}" class="descargar" title="Descargar">
+                        <i class="fas fa-download"></i>
+                    </a></td>
+                <td><a href="{% url 'backup:restaurar_backup' backup.id %}" class="restaurar" title="Restaurar"
+                        onclick="return confirm('¿Restaurar esta copia? Se sobrescribirán los datos actuales.')">
+                        <i class="fas fa-undo"></i>
+                    </a></td>
+                <td>
+                    <a href="{% url 'backup:eliminar_backup' backup.id %}" class="eliminar" title="Eliminar"
+                        onclick="return confirm('¿Eliminar permanentemente esta copia?')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p id="no-results" style="display: none;" title="No se encontraron resultados">No se encontraron resultados.</p>
+    <a class="btn btn-warning" href="{% url 'backup:index_backup' %}" role="button" title="Volver">Volver</a>
+</div><br>
 </div>
 
 <!-- Overlay -->
