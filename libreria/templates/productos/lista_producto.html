@@ -21,6 +21,7 @@
 
 <link href="{% static 'css/listar_productos.css' %}?v={% now 'U' %}" rel="stylesheet" />
 <link href="{% static 'css/eliminar_productos.css' %}?v={% now 'U' %}" rel="stylesheet" />
+{% if user.is_authenticated %}
 
 <div class="container">
     <h2 title="Productos registrados">Productos Registrados</h2>
@@ -35,7 +36,7 @@
                 <option value="precio">Precio</option>
             </select>
             <input id="search-input" type="text" style="display: none;" placeholder="Buscar..." title="Buscar">
-            <input class="btn btn-success" type="submit" value="Buscar" title="Buscar"/>
+            <input class="btn btn-success" type="submit" value="Buscar" title="Buscar" />
         </form>
         <p id="search-warning" style="color: red; display: none;"></p>
 
@@ -44,15 +45,17 @@
                 <i class="bi bi-printer"></i>
                 <span>Imprimir</span>
             </a>
-            <a class="opc" href="{% url 'libreria:reporte_excel_producto' %}" role="button" data-tooltip="Descargar tabla en excel">
+            <a class="opc" href="{% url 'libreria:reporte_excel_producto' %}" role="button"
+                data-tooltip="Descargar tabla en excel">
                 <i class="fas fa-file-excel text-white"></i> <span>Descargar Excel</span>
             </a>
-            <a class="opc" href="{% url 'libreria:reporte_pdf_producto' %}" role="button" data-tooltip="Descargar tabla en pdf">
+            <a class="opc" href="{% url 'libreria:reporte_pdf_producto' %}" role="button"
+                data-tooltip="Descargar tabla en pdf">
                 <i class="fas fa-file-pdf text-white"></i> <span>Descargar PDF</span>
             </a>
             <a class="opc" href="{% url 'libreria:crear_producto' %}" role="button">
                 <i class="fas fa-shopping-cart text-white"></i> Crear productos
-</i>
+                </i>
             </a>
         </div>
     </div>
@@ -72,41 +75,44 @@
             </thead>
             <tbody>
                 {% for producto in productos %}
-                    <tr>
-                        <td title="Nombre del producto">{{ producto.nombre }}</td>
-                        <td title="Presentación del producto">{{ producto.presentacion }}</td>
-                        <td title="Unidad de medidad del producto">{{ producto.unidad_medida }}</td>
-                        <td title="Cantidad del producto">{{ producto.cantidad }}</td>
-                        <td title="Precio del producto">${{ producto.formatear_precio }}</td>
-                        <td>
-                            {% if producto.registrado_por.name %}
-                                {{ producto.registrado_por.name }}
-                            {% else %}
-                                Sin asignar
-                            {% endif %}
-                        </td>
-                        {% if user.role == 'Administrador' %}
-                            <td>
-                                <a href="#" class="btn btn-danger" role="button" title="Eliminar producto" onclick="showConfirmModal(event, '{{ producto.pk }}', '{{ producto.nombre }}');">
-                                    <i data-feather="trash" class="icon-small"></i>
-                                </a>
-                                <a href="{% url 'libreria:editar_producto' producto.pk %}" class="btn btn-warning btn-sm" title="Editar producto">
-                                    <i data-feather="edit" class="icon-small"></i>
-                                </a>
-                            </td>
+                <tr>
+                    <td title="Nombre del producto">{{ producto.nombre }}</td>
+                    <td title="Presentación del producto">{{ producto.presentacion }}</td>
+                    <td title="Unidad de medidad del producto">{{ producto.unidad_medida }}</td>
+                    <td title="Cantidad del producto">{{ producto.cantidad }}</td>
+                    <td title="Precio del producto">${{ producto.formatear_precio }}</td>
+                    <td>
+                        {% if producto.registrado_por.name %}
+                        {{ producto.registrado_por.name }}
                         {% else %}
-                            <td>
-                                <span title="No tienes permisos para eliminar">Sin acceso</span>
-                            </td>
-                            <td>
-                                <a href="{% url 'libreria:editar_producto' producto.pk %}" class="btn btn-warning btn-sm" title="Editar producto">
-                                    <i data-feather="edit" class="icon-small"></i>
-                                </a>
-                            </td>
-                            
+                        Sin asignar
                         {% endif %}
-                        
-                    </tr>
+                    </td>
+                    {% if user.role == 'Administrador' %}
+                    <td>
+                        <a href="#" class="btn btn-danger" role="button" title="Eliminar producto"
+                            onclick="showConfirmModal(event, '{{ producto.pk }}', '{{ producto.nombre }}');">
+                            <i data-feather="trash" class="icon-small"></i>
+                        </a>
+                        <a href="{% url 'libreria:editar_producto' producto.pk %}" class="btn btn-warning btn-sm"
+                            title="Editar producto">
+                            <i data-feather="edit" class="icon-small"></i>
+                        </a>
+                    </td>
+                    {% else %}
+                    <td>
+                        <span title="No tienes permisos para eliminar">Sin acceso</span>
+                    </td>
+                    <td>
+                        <a href="{% url 'libreria:editar_producto' producto.pk %}" class="btn btn-warning btn-sm"
+                            title="Editar producto">
+                            <i data-feather="edit" class="icon-small"></i>
+                        </a>
+                    </td>
+
+                    {% endif %}
+
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -114,7 +120,11 @@
         <a class="btn btn-warning" href="{% url 'libreria:productos' %}" role="button" title="Volver">Volver</a>
     </div><br>
 </div>
-
+{% else %}
+<h2 title="Bienvenido, inicia sesión">¡Hola!</h2>
+<p title="Inicia sesión">Por favor, <a href="{% url 'libreria:login' %}">inicia sesión</a> para acceder a las
+    funcionalidades de tu cuenta.</p>
+{% endif %}
 <!-- Overlay -->
 <div id="overlay" class="overlay" style="display: none;"></div>
 
@@ -130,8 +140,9 @@
         <form method="post" id="delete-form-producto">
             {% csrf_token %}
             <div class="card-footer">
-                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar producto"/>
-                <a class="btn btn-warning" href="#" onclick="cerrarVentana()" role="button" title="Cancelar">Cancelar</a>
+                <input class="btn btn-danger" type="submit" value="Eliminar" title="Eliminar producto" />
+                <a class="btn btn-warning" href="#" onclick="cerrarVentana()" role="button"
+                    title="Cancelar">Cancelar</a>
             </div>
         </form>
     </div>

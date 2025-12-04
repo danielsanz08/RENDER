@@ -18,7 +18,8 @@
             <!-- NIT -->
             <div class="nit_input">
                 <label for="nit" title="NIT">NIT</label>
-                <input type="text" name="nit" id="nit" class="form-control" placeholder="NIT" required>
+                <input type="text" name="nit" id="nit" class="form-control" placeholder="NIT" required maxlength="10">
+                <p class="nit_mensaje"></p>
             </div>
 
             <!-- Tipo de persona -->
@@ -76,6 +77,50 @@
 
 
 <script>
+    // Manejo del envío del formulario con AJAX y popup
+    document.getElementById('crear-proveedor-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir envío normal
+        
+        const form = this;
+        const formData = new FormData(form);
+        
+        // Agregar header para identificar solicitud AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Mostrar el popup
+                    const popup = document.getElementById('popup');
+                    popup.style.display = 'block';
+                    
+                    // Desplazar hacia el popup
+                    setTimeout(function() {
+                        $('html, body').animate({
+                            scrollTop: $(popup).offset().top - 300
+                        }, 300);
+
+                        // Ocultar popup después de 2 segundos y redirigir
+                        setTimeout(() => {
+                            $(popup).fadeOut();
+                            // Redirigir a la lista de proveedores
+                            window.location.href = "{% url 'libreria:listar_proveedor' %}";
+                        }, 5000);
+                    });
+                } else {
+                    // Mostrar errores del formulario
+                    toastr.error('Error al registrar el proveedor. Verifique los datos.', 'Error');
+                }
+            } else {
+                toastr.error('Error de conexión con el servidor', 'Error');
+            }
+        };
+        
+        xhr.send(formData);
+    });
     const nitInput = document.querySelector('input[name="nit"]');
     const nombreInput = document.querySelector('input[name="nombre"]');
     const emailInput = document.querySelector('input[name="email"]');
@@ -87,15 +132,7 @@
     emailInput.addEventListener('input', validateEmail);
     telefonoInput.addEventListener('input', validateTelefono);
 
-    // Validaciones
-    function validateNIT() {
-        clearErrors(nitInput);
-        const nitValue = nitInput.value;
-        // Verifica que solo contenga 10 dígitos
-        if (!/^\d{10}$/.test(nitValue)) {
-            showError(nitInput, "El NIT debe tener exactamente 10 dígitos.");
-        }
-    }
+    
 
     function validateNombre() {
         clearErrors(nombreInput);
@@ -162,12 +199,7 @@
 
         let valid = true; // Inicializa la validez del formulario
 
-        // Validación del campo NIT
-        const nitValue = nitInput.value;
-        if (!/^\d{10}$/.test(nitValue)) {
-            showError(nitInput, "El NIT debe tener exactamente 10 dígitos.");
-            valid = false;
-        }
+   
 
         // Validación del campo nombre
         if (/\d/.test(nombreInput.value)) {
@@ -204,6 +236,8 @@
     document.getElementById("telefono").addEventListener("input", function(){
         this.value = this.value.replace(/[a-zA-Z]/g, "");
     });
+    
+    
 </script>
 
 {% endblock %}

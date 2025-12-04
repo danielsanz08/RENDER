@@ -76,9 +76,12 @@
                     <td>{% if transaccion.cliente %}{{ transaccion.cliente.nombre }}{% else %}No aplica{% endif %}</td>
                     <td>{% if transaccion.proveedor %}{{ transaccion.proveedor.nombre }}{% else %}No aplica{% endif %}</td>
                     <td>
-                        <!-- ✅ Botón que abre la ventana emergente -->
-                        <button class="btn btn-danger" onclick="verProductos('{{ transaccion.id }}')"><i data-feather="eye"></i></button>
-
+                        <!-- ✅ Botón que abre la ventana emergente de productos -->
+                       {% if transaccion.tipo == "Venta" %}
+                             <button class="btn btn-danger" onclick="verProductos('{{ transaccion.id }}')"><i data-feather="eye"></i></button>
+                             {% else %}
+                             <button class="btn btn-danger"><i data-feather="eye-off"></i></button>
+                             {% endif %}
                         <!-- Productos ocultos (se muestran en modal) -->
                         <div id="productos-{{ transaccion.id }}" style="display:none;">
                             {% for producto_data in transaccion.obtener_items %}
@@ -88,7 +91,23 @@
                             {% endfor %}
                         </div>
                     </td>
-                    <td></td>
+                    <td>
+                        <!-- ✅ Botón que abre la ventana emergente de insumos -->
+                        {% if transaccion.tipo == "Compra"%}
+                                <button class="btn btn-danger" onclick="verInsumos('{{ transaccion.id }}')"><i data-feather="eye"></i></button>
+                                {% else %}
+                                        <button class="btn btn-danger" ><i data-feather="eye-off"></i></button>
+                                        {% endif %}
+
+                        <!-- Insumos ocultos (se muestran en modal) -->
+                        <div id="insumos-{{ transaccion.id }}" style="display:none;">
+                            {% for insumo_data in transaccion.obtener_insumos %}
+                                <p>{{ insumo_data.nombre }} (x{{ insumo_data.cantidad }}) - ${{ insumo_data.subtotal }}</p>
+                            {% empty %}
+                                <p>Sin insumos registrados</p>
+                            {% endfor %}
+                        </div>
+                    </td>
                     <td>{{ transaccion.descripcion }}</td>
                     <td>${{ transaccion.monto_total|floatformat:2 }}</td>
                     <td>{{ transaccion.fecha }}</td>
@@ -119,6 +138,15 @@
         <span class="close" onclick="cerrarModalProductos()">&times;</span>
         <h3>Productos de la Transacción</h3>
         <div id="productosLista"></div>
+    </div>
+</div>
+
+<!-- 🔹 Modal insumos -->
+<div id="insumosModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalInsumos()">&times;</span>
+        <h3>Insumos de la Transacción</h3>
+        <div id="insumosLista"></div>
     </div>
 </div>
 
@@ -164,6 +192,24 @@
 
     function cerrarModalProductos() {
         document.getElementById("productosModal").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    // 🔸 Modal de insumos
+    function verInsumos(transaccionId) {
+        const modal = document.getElementById("insumosModal");
+        const overlay = document.getElementById("overlay");
+        const lista = document.getElementById("insumosLista");
+
+        const insumosDiv = document.getElementById(`insumos-${transaccionId}`);
+        lista.innerHTML = insumosDiv.innerHTML;
+
+        modal.style.display = "block";
+        overlay.style.display = "block";
+    }
+
+    function cerrarModalInsumos() {
+        document.getElementById("insumosModal").style.display = "none";
         document.getElementById("overlay").style.display = "none";
     }
 

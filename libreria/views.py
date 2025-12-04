@@ -680,20 +680,27 @@ def productos(request):
     breadcrumbs = [{'name': 'Inicio', 'url': '/'}, {'name': 'Gestión de Productos', 'url': '/'}]
     return render(request, 'productos/producto.html', {'usuario': usuario, 'productos': productos, 'breadcrumbs': breadcrumbs})
 
+
 def crear_producto(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST)
         if form.is_valid():
             producto = form.save(commit=False)
-            # Asegúrate de que temperatura_conservacion sea un número decimal
-            producto.temperatura_conservacion = form.cleaned_data['temperatura_conservacion']
-            # Asigna el usuario que registra
-            producto.registrado_por = request.user  
+            producto.registrado_por = request.user
             producto.save()
+
+            # Soporte para AJAX
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
             return redirect('libreria:lista_productos')
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+            # Si no es AJAX, renderiza con errores (fallback)
+            return render(request, 'productos/crear_producto.html', {'form': form})
     else:
         form = ProductoForm()
-    
+
     return render(request, 'productos/crear_producto.html', {'form': form})
 
 @login_required(login_url='libreria:login')
@@ -744,16 +751,27 @@ def lista_productos(request):
 
 @never_cache
 def crear_proveedor(request):
-    usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
+    usuario = request.user
     if request.method == 'POST':
         form = ProveedorForm(request.POST)
         if form.is_valid():
             proveedor = form.save(commit=False)
             proveedor.registrado_por = request.user
             proveedor.save()
-            return redirect('libreria:listar_proveedor')  # Redirige a la tabla de proveedores
+            
+            # Si es una solicitud AJAX, retorna JSON
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': True})
+            # Si no es AJAX, redirige normalmente
+            return redirect('libreria:listar_proveedor')
         else:
-            print(form.errors)  # Mostrar errores del formulario
+            # Si hay errores en el formulario
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'errors': form.errors.as_json()
+                }, status=400)
+            print(form.errors)
 
     else:
         form = ProveedorForm()
@@ -762,11 +780,14 @@ def crear_proveedor(request):
     breadcrumbs = [
         {'name': 'Inicio', 'url': '/'},
         {'name': 'Gestión de Proveedores', 'url': '/insumos'},
-        {'name': 'Crear Proveedor', 'url': '/'}  # No se requiere URL en la página actual
+        {'name': 'Crear Proveedor', 'url': '/'}
     ]
     
-    return render(request, 'proveedores/crear_proveedor.html', {'usuario': usuario, 'form': form, 'breadcrumbs': breadcrumbs})
-
+    return render(request, 'proveedores/crear_proveedor.html', {
+        'usuario': usuario, 
+        'form': form, 
+        'breadcrumbs': breadcrumbs
+    })
 @never_cache
 def listar_proveedor(request):
     usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
