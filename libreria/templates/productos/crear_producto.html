@@ -7,7 +7,72 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link href="{% static 'css/crear_producto.css' %}?v={% now 'U' %}" rel="stylesheet"/>
+<style>
+    /* Estilos para el popup */
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 9999;
+}
 
+/* Estilos de alertas (éxito y error) */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.checkmark {
+    margin: 10px auto;
+}
+
+.checkmark-svg {
+    width: 50px;
+    height: 50px;
+    stroke: #4CAF50;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: drawCircle 0.6s ease-out forwards;
+}
+
+.checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: drawCheck 0.3s 0.6s ease-out forwards;
+}
+
+@keyframes drawCircle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+</style>
 <div class="container">
     <div class="login wrap">
         <h1 title="Agregar producto">AGREGAR PRODUCTO</h1>
@@ -20,17 +85,7 @@
                 <input type="text" placeholder="Nombre" id="nombre" name="nombre" required title="Introduce el nombre del producto">
             </div>
         
-            <div class="form-group">
-                <label for="categoria" title="Categoría">Categoría</label>
-                <select id="categoria" name="categoria" required title="Selecciona una categoría">
-                    <option value="">Seleccione una categoría</option>
-                    <option value="leche" title="Leche">Leche</option>
-                    <option value="queso" title="Queso">Queso</option>
-                    <option value="mantequilla" title="Mantequilla">Mantequilla</option>
-                    <option value="crema" title="Crema">Crema</option>
-                    <option value="otros" title="Otros">Otros</option>
-                </select>
-            </div>
+            
         
             <div class="form-group">
                 <label for="presentacion" title="Presentación">Presentación</label>
@@ -97,150 +152,122 @@
                     <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
                     <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
                 </svg>
+                            <p>Registro Exitoso</p>
             </div>
-            <p>Registro exitoso</p>
+            
         </div>
+                    
     </div>
 </div>
-
 <script>
-$(document).ready(function() {
-    // Función para limpiar mensajes de error
-    const clearErrors = (input) => {
-        input.next('.error-message').remove();
-    };
+// =============================================
+// MENSAJE DE ERROR DINÁMICO
+// =============================================
+function crearMensajeError(input, id) {
+    let msg = document.getElementById(id);
+    if (!msg) {
+        msg = document.createElement("p");
+        msg.id = id;
+        msg.style.color = "red";
+        msg.style.fontSize = "14px";
+        msg.style.marginTop = "5px";
+        input.parentNode.appendChild(msg);
+    }
+    return msg;
+}
 
-    // Función para mostrar mensaje de error
-    const showError = (input, message) => {
-        clearErrors(input);
-        input.after(`<span class="error-message" style="color:red;">${message}</span>`);
-    };
+// =============================================
+// VALIDACIÓN CAMPOS DE TEXTO SIN NÚMEROS Y REPETIDOS
+// =============================================
+function validarTexto(input, mensajeId) {
+    const mensajeError = crearMensajeError(input, mensajeId);
 
-    // Validación en tiempo real
-    $('#nombre').on('input', function() {
-        const val = $(this).val().trim();
-        clearErrors($(this));
-        if (!/^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/.test(val)) {
-            showError($(this), 'El nombre solo puede contener letras y espacios.');
+    input.addEventListener("input", function () {
+        mensajeError.textContent = ""; // limpiar
+
+        // Eliminar números
+        const newValue = this.value.replace(/[0-9]/g, "");
+        if (newValue !== this.value) {
+            this.value = newValue;
+        }
+
+        // Detectar 3 o más caracteres repetidos consecutivamente
+        const repetidos = /(.)\1{2,}/;
+
+        if (repetidos.test(this.value)) {
+            mensajeError.textContent = "No se permiten caracteres repetidos consecutivamente";
         }
     });
+}
 
-    $('#presentacion').on('input', function() {
-        const val = $(this).val().trim();
-        clearErrors($(this));
-        if (!/^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/.test(val)) {
-            showError($(this), 'La presentación solo puede contener letras y espacios.');
-        } else if (val.length < 3 || val.length > 10) {
-            showError($(this), 'La presentación debe tener entre 3 y 10 caracteres.');
-        }
+validarTexto(document.getElementById("nombre"), "errorNombre");
+validarTexto(document.getElementById("presentacion"), "errorPresentacion");
+
+// =============================================
+// VALIDACIÓN SOLO NÚMEROS PARA LOTE Y CÓDIGO
+// =============================================
+function soloNumeros(input) {
+    input.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
     });
+}
 
-    $('#lote').on('input', function() {
-        const val = $(this).val().trim();
-        clearErrors($(this));
-        if (!/^[0-9]+$/.test(val)) {
-            showError($(this), 'El lote debe contener solo números.');
+soloNumeros(document.getElementById("lote"));
+soloNumeros(document.getElementById("codigo"));
+
+
+// =============================================
+// VALIDACIÓN Y ENVÍO DEL FORMULARIO
+// =============================================
+document.getElementById('productoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // PREVENIR ENVÍO SI HAY REPETIDOS
+    const repetidos = /(.)\1{2,}/;
+    if (repetidos.test(document.getElementById("nombre").value) ||
+        repetidos.test(document.getElementById("presentacion").value)) {
+
+        alert("Corrige los campos con caracteres repetidos antes de enviar.");
+        return;
+    }
+
+    const formData = new FormData(this);
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    fetch('', {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+
+        if (data.success) {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'flex';
+            popup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            setTimeout(() => {
+                window.location.href = "{% url 'libreria:lista_productos' %}";
+            }, 2000);
+
+        } else {
+            alert('Por favor corrige los errores en el formulario.');
         }
-    });
-
-    $('#codigo').on('input', function() {
-        const val = $(this).val().trim();
-        clearErrors($(this));
-        if (!/^[0-9]+$/.test(val)) {
-            showError($(this), 'El código debe contener solo números.');
-        }
-    });
-
-    // Envío del formulario con AJAX
-    $('#productoForm').on('submit', function(event) {
-        event.preventDefault();
-
-        // Validación previa (opcional, ya que el backend también valida)
-        let isValid = true;
-        $('.error-message').remove();
-
-        const nombre = $('#nombre').val().trim();
-        if (!/^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/.test(nombre)) {
-            showError($('#nombre'), 'El nombre solo puede contener letras y espacios.');
-            isValid = false;
-        }
-
-        const presentacion = $('#presentacion').val().trim();
-        if (!/^[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+$/.test(presentacion) || presentacion.length < 3 || presentacion.length > 10) {
-            showError($('#presentacion'), 'La presentación debe tener entre 3 y 10 letras.');
-            isValid = false;
-        }
-
-        const lote = $('#lote').val().trim();
-        if (!/^[0-9]+$/.test(lote)) {
-            showError($('#lote'), 'El lote debe ser numérico.');
-            isValid = false;
-        }
-
-        const codigo = $('#codigo').val().trim();
-        if (!/^[0-9]+$/.test(codigo)) {
-            showError($('#codigo'), 'El código debe ser numérico.');
-            isValid = false;
-        }
-
-        const categoria = $('#categoria').val();
-        const unidadMedida = $('#unidad_medida').val();
-        const cantidad = $('#cantidad').val();
-        const precio = $('#precio').val();
-        const fechaElab = $('#fecha_elaboracion').val();
-        const fechaVenc = $('#fecha_vencimiento').val();
-        const temp = $('#temperatura_conservacion').val();
-
-        if (!categoria) { showError($('#categoria'), 'Selecciona una categoría.'); isValid = false; }
-        if (!unidadMedida) { showError($('#unidad_medida'), 'Selecciona una unidad de medida.'); isValid = false; }
-        if (!cantidad || parseFloat(cantidad) <= 0) { showError($('#cantidad'), 'Cantidad inválida.'); isValid = false; }
-        if (!precio || parseFloat(precio) <= 0) { showError($('#precio'), 'Precio inválido.'); isValid = false; }
-        if (!fechaElab) { showError($('#fecha_elaboracion'), 'Fecha de elaboración requerida.'); isValid = false; }
-        if (!fechaVenc) { showError($('#fecha_vencimiento'), 'Fecha de vencimiento requerida.'); isValid = false; }
-        if (!temp || isNaN(parseFloat(temp))) { showError($('#temperatura_conservacion'), 'Temperatura inválida.'); isValid = false; }
-
-        if (!isValid) {
-            toastr.error('Por favor corrige los errores antes de enviar.');
-            return;
-        }
-
-        // Preparar datos
-        const formData = new FormData(this);
-        $.ajax({
-            url: this.action,
-            type: 'POST',
-            data: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    // Mostrar popup
-                    $('#popup').fadeIn();
-                    // Desplazar suavemente
-                    $('html, body').animate({
-                        scrollTop: $('#popup').offset().top - 200
-                    }, 300);
-                    // Redirigir después de 2 segundos
-                    setTimeout(() => {
-                        window.location.href = "{% url 'libreria:lista_productos' %}";
-                    }, 2000);
-                } else {
-                    toastr.error('Error al guardar el producto. Verifica los datos.', 'Error');
-                }
-            },
-            error: function(xhr) {
-                if (xhr.status === 400 && xhr.responseJSON?.errors) {
-                    toastr.error('Errores en el formulario. Revisa los campos.', 'Error de validación');
-                } else {
-                    toastr.error('Error de conexión con el servidor.', 'Error');
-                }
-            }
-        });
+    })
+    .catch(error => {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+        alert('Error al enviar el formulario. Inténtalo de nuevo.');
     });
 });
 </script>
+
 
 {% endblock %}

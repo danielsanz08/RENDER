@@ -27,6 +27,14 @@ main {
         transform: translateY(0); /* Regresa a su posición original */
     }
 }
+#nit_mensaje {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+    min-height: 20px; /* Asegura que ocupe espacio */
+}
 
 #crear-proveedor-form {
     display: flex;

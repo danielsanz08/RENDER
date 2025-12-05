@@ -20,7 +20,7 @@
                     {% csrf_token %}
                     <div class="input-group">
                         <i class='bx bxs-user'></i>
-                        <input type="email" name="correo" id="id_name" 
+                        <input required type="email" name="correo" id="id_name" 
                                placeholder="Correo" class="form-control" 
                                value="{{ form.name.value|default_if_none:'' }}">
                         {% if form.name.errors %}
@@ -30,7 +30,7 @@
                     <div class="input-group">
                         <i class='bx bxs-lock-alt'></i>
                         <input type="password" name="password" id="id_password" 
-                               placeholder="Contraseña" class="form-control">
+                               placeholder="Contraseña" class="form-control" required>
                         {% if form.password.errors %}
                             <span class="error">{{ form.password.errors }}</span>
                         {% endif %}

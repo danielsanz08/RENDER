@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from . import views
-from libreria import views
+
 app_name = 'libreria'
 urlpatterns = [
     path('', views.login_view, name='login'),  # Añade esta línea
@@ -73,5 +73,9 @@ urlpatterns = [
     path('verificar_password/', views.verificar_contraseña, name='verificar_password'),
     path('verificar_email/', views.validar_email_c, name='verificar_email'),
     path('validad_email_cliente/', views.validad_email_cliente, name='validad_email_cliente'),
+# urls.py
+
+path('validad_nit/', views.validad_nit, name='validad_nit'),
+
     path('factura/<int:transaccion_id>/', views.generar_factura, name='generar_factura'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

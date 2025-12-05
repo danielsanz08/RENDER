@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from .models import Transaccion, Insumo, CustomUser,Cliente,Producto,Proveedor
 from django.contrib.auth.decorators import login_required
 from .forms import InsumoForm, TransaccionForm, CustomUserCreationForm, LoginForm, CustomUserChangeForm,ClienteForm,ProductoForm,ProveedorForm
@@ -65,7 +65,13 @@ def usuario(request):
 
 @login_required(login_url='libreria:login')
 def manual_usuario(request):
-    return render(request, 'manual/manual.html')
+    pdf_path = os.path.join(settings.BASE_DIR, 'libreria', 'static', 'manual', 'Manual de ususario.pdf')
+    try:
+        response = FileResponse(open(pdf_path, 'rb'), content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="Manual_de_usuario.pdf"'
+        return response
+    except FileNotFoundError:
+        raise Http404("Manual no encontrado")
 
 def abrir_pdf(request):
     # Asegúrate de que esta ruta sea correcta para tu proyecto
@@ -1862,3 +1868,8 @@ def validad_email_cliente(request):
     email_c = request.GET.get('email', '').strip()
     existe = Cliente.objects.filter(email=email_c).exists()
     return JsonResponse({'existe':existe})
+#nit de cliente
+def validad_nit(request):
+    nit_c = request.GET.get('nit', '').strip()
+    existe = Proveedor.objects.filter(nit=nit_c).exists()
+    return JsonResponse({'existe': existe})
