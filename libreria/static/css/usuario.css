@@ -280,3 +280,62 @@ body:before {
         padding: 10px;
     }
 }
+/* ================================
+   MODAL CAMBIAR CONTRASEÑA — FIX
+   ================================ */
+
+/* Fondo oscurecido detrás del modal */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.55);
+    z-index: 9998;
+    display: none; /* Se muestra con JS */
+}
+
+/* Card del modal de cambiar contraseña */
+#cambiar_contraseña {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    background: #ffffff;
+    border-radius: 15px;
+    z-index: 9999; /* Encima de todo */
+    padding: 15px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.25);
+    display: none;
+    animation: aparecerModal .25s ease-out;
+}
+
+/* Animación suave */
+@keyframes aparecerModal {
+    from {
+        transform: translate(-50%, -45%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+/* Ajustes internos del modal */
+#cambiar_contraseña .card-header h3 {
+    color: #01AB7B;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+#cambiar_contraseña .btn-success {
+    width: 100%;
+}
+
+#cambiar_contraseña .btn-warning {
+    width: 100%;
+    margin-top: 8px;
+}

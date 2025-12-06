@@ -168,19 +168,20 @@ def editar_perfil(request, user_id):
     })
 @login_required(login_url='libreria:login')
 def cambiar_contraseña(request):
-    usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
+    usuario = request.user
     if request.method == 'POST':
-        form = CustomPasswordChangeForm(request.POST, user=request.user)
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Tu contraseña ha sido cambiada con éxito. Puedes iniciar sesión con tu nueva contraseña.')
-            return redirect('libreria:login')  # Redirige a la página de inicio de sesión
+            return redirect('libreria:login')
         else:
-            messages.error(request, 'Hubo un error al cambiar tu contraseña. Asegúrate de que la contraseña actual sea correcta y que las nuevas contraseñas coincidan.')
+            messages.error(request, 'Hubo un error al cambiar tu contraseña.')
     else:
         form = CustomPasswordChangeForm(user=request.user)
     
     return render(request, 'usuario/usuario.html', {'usuario': usuario, 'form': form})
+
 
 @login_required(login_url='libreria:login')
 def listar_usuario(request):
@@ -807,42 +808,30 @@ def listar_proveedor(request):
 
 @never_cache
 
-def editar_proveedor(request, proveedor_id, campo=None):
-    usuario = request.user  # Obtiene el usuario actual que ha iniciado sesión
+def editar_proveedor(request, proveedor_id):
+    usuario = request.user
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)
 
-    # Inicializa el formulario con los datos actuales del proveedor
-    form = ProveedorForm(instance=proveedor)
-
     if request.method == 'POST':
-        # Maneja la actualización del campo específico
-        if campo in form.fields:
-            form = ProveedorForm(request.POST, instance=proveedor)
+        form = ProveedorForm(request.POST, instance=proveedor)
 
-            if form.is_valid():
-                # Actualiza solo el campo específico
-                setattr(proveedor, campo, form.cleaned_data[campo])
-                proveedor.save()
-                messages.success(request, f'{campo.capitalize()} editado exitosamente.')
-                return redirect('libreria:listar_proveedor')
-        
-        # Si no es válido, muestra error
-        messages.error(request, 'Error al editar el proveedor. Por favor, revisa los errores.')
-
-    breadcrumbs = [
-        {'name': 'Inicio', 'url': '/'},
-        {'name': 'Gestión de Proveedores', 'url': '/insumos/'},
-        {'name': 'Proveedores Registrados', 'url': '/listar_proveedor/'},
-        {'name': 'Editar Proveedor', 'url': '#'}
-    ]
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Proveedor actualizado exitosamente.')
+            return redirect('libreria:listar_proveedor')
+        else:
+            messages.error(request, 'Por favor corrige los errores del formulario.')
+    else:
+        form = ProveedorForm(instance=proveedor)
 
     return render(request, 'proveedores/editar_proveedor.html', {
         'usuario': usuario,
         'form': form,
         'proveedor': proveedor,
-        'breadcrumbs': breadcrumbs,
-        'campo': campo  # Envía el campo actual que se está editando
     })
+
+
+
 @never_cache
 def eliminar_proveedor(request, proveedor_id):
     proveedor = get_object_or_404(Proveedor, id=proveedor_id)

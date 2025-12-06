@@ -10,13 +10,7 @@
     <div class="card-body">
         <form id="editUserForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="cambiar">
-                <img src="{% if form.profile_picture.value and form.profile_picture.value.url %}{{ form.profile_picture.value.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="Foto de perfil" class="picture" title="Foto de perfil">
-                <label for="profilePic" class="btn_cambiar_foto" title="Cambiar la foto de perfil">
-                    Cambiar foto
-                    <input type="file" id="profilePic" name="profile_picture" class="d-none">
-                </label>
-            </div><br>
+            
             <div class="form-group">
                 <label for="name" title="Nombre">Nombre:</label>
                 {{ form.name }}

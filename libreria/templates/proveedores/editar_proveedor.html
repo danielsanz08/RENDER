@@ -11,45 +11,56 @@
         <h3 class="text-center" title="Editar proveedor">EDITAR PROVEEDOR: {{ proveedor.nombre }}</h3>
     </div>
     <div class="card-body">
-        <form method="POST" id="form-editar" enctype="multipart/form-data">
+        <form method="POST" id="form-editar">
             {% csrf_token %}
+
             <div class="form-group">
-                <label for="{{ form.nit.id_for_label }}" title="NIT">NIT</label>
-                {{ form.nit }}  <!-- Este campo ahora tendrá la clase form-control -->
+                <label for="{{ form.nit.id_for_label }}">NIT</label>
+                {{ form.nit }}
+                <small class="text-danger">{{ form.nit.errors }}</small>
             </div><br>
-            
+
             <div class="form-group">
-                <label for="{{ form.nombre.id_for_label }}" title="Nombre">Nombre</label>
-                {{ form.nombre }}  <!-- Este campo ahora tendrá la clase form-control -->
+                <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+                {{ form.nombre }}
+                <small class="text-danger">{{ form.nombre.errors }}</small>
             </div><br>
-            
+
             <div class="form-group">
-                <label for="{{ form.direccion.id_for_label }}" title="Dirección">Dirección</label>
-                {{ form.direccion }}  <!-- Este campo ahora tendrá la clase form-control -->
+                <label for="{{ form.direccion.id_for_label }}">Dirección</label>
+                {{ form.direccion }}
+                <small class="text-danger">{{ form.direccion.errors }}</small>
             </div><br>
-            
+
             <div class="form-group">
-                <label for="{{ form.email.id_for_label }}" title="Correo electrónico">Correo Electrónico</label>
-                {{ form.email }}  <!-- Este campo ahora tendrá la clase form-control -->
+                <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+                {{ form.email }}
+                <small class="text-danger">{{ form.email.errors }}</small>
             </div><br>
-            
+
             <div class="form-group">
-                <label for="{{ form.telefono.id_for_label }}" title="Teléfono">Teléfono</label>
-                {{ form.telefono }}  <!-- Este campo ahora tendrá la clase form-control -->
+                <label for="{{ form.telefono.id_for_label }}">Teléfono</label>
+                {{ form.telefono }}
+                <small class="text-danger">{{ form.telefono.errors }}</small>
             </div><br>
-            
+
+            <!-- CAMPO FALTANTE AGREGADO → causa que no guardara -->
+            <div class="form-group">
+                <label for="{{ form.tipo_persona.id_for_label }}">Tipo de Persona</label>
+                {{ form.tipo_persona }}
+                <small class="text-danger">{{ form.tipo_persona.errors }}</small>
+            </div><br>
+
             <div class="botones">
-                <button class="btn btn-success" type="submit" title="Guardar cambios">Guardar Cambios</button>
-                <a class="btn btn-warning" href="{% url 'libreria:listar_proveedor' %}" role="button" title="Cancelar">Cancelar</a>
+                <button class="btn btn-success" type="submit">Guardar Cambios</button>
+                <a class="btn btn-warning" href="{% url 'libreria:listar_proveedor' %}" role="button">Cancelar</a>
             </div>
         </form>
 
         {% if messages %}
-            <div class="alert alert-success" role="alert">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            </div>
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
         {% endif %}
     </div>
 </div>
