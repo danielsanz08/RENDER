@@ -1,0 +1,275 @@
+[
+{
+    "model": "libreria.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$6Nc7QRiqJM9Hx42vMRopp7$wAteBCnkWkuj1O6FVNITiLCsxQ1FOXfsRV43EtAXWCw=",
+        "last_login": "2025-12-06T00:13:41.449Z",
+        "is_superuser": false,
+        "email": "jonnathansz73@gmail.com",
+        "name": "Daniel Sanchez",
+        "phone": "3217851255",
+        "role": "Administrador",
+        "estado": 2,
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "libreria.customuser",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$jLYq4V9KPHBsAj3c5F46vX$1fFZg8XtKCYiorcQRxfGgy2TUyPij/IKLGGJomxPkqw=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "natalia@gmail.com",
+        "name": "natalia",
+        "phone": "3214567885",
+        "role": "Empleado",
+        "estado": 2,
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 1,
+    "fields": {
+        "tipo_cliente": "minorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 1515615616,
+        "nombre": "Carlos Chaparro",
+        "email": "mateo@gmail.com",
+        "telefono": "4512556545",
+        "direccion": "cra 10b1 #34-45",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 2,
+    "fields": {
+        "tipo_cliente": "minorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 1561565645,
+        "nombre": "Paula Boada",
+        "email": "paula@gmail.com",
+        "telefono": "3254545454",
+        "direccion": "Cra 23 #45-657",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.cliente",
+    "pk": 3,
+    "fields": {
+        "tipo_cliente": "minorista",
+        "tipo_documento": "Cédula de ciudadanía",
+        "documento": 5765676576,
+        "nombre": "Edwin Correa",
+        "email": "edwin@gmail.com",
+        "telefono": "4564564564",
+        "direccion": "cll 34 #45-56",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 1,
+    "fields": {
+        "codigo": "32432432",
+        "nombre": "Queso Crema",
+        "presentacion": "Caja",
+        "unidad_medida": "kilogramo",
+        "cantidad": "17.00",
+        "stock": -8,
+        "precio": "1500.00",
+        "fecha_elaboracion": "2025-12-06",
+        "fecha_vencimiento": "2025-12-31",
+        "temperatura_conservacion": "9.00",
+        "lote": "324324",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.producto",
+    "pk": 2,
+    "fields": {
+        "codigo": "65465465",
+        "nombre": "Yogurt de fresa",
+        "presentacion": "Vaso",
+        "unidad_medida": "mililitro",
+        "cantidad": "3.00",
+        "stock": 0,
+        "precio": "1400.00",
+        "fecha_elaboracion": "2025-12-05",
+        "fecha_vencimiento": "2025-12-11",
+        "temperatura_conservacion": "13.00",
+        "lote": "56546546546",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.proveedor",
+    "pk": 1,
+    "fields": {
+        "nit": "5645645645",
+        "nombre": "Danna guiot",
+        "direccion": "cra 34 #45-56",
+        "email": "danna@gmail.com",
+        "telefono": "5645645645",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "tipo_persona": "Persona Natural"
+    }
+},
+{
+    "model": "libreria.proveedor",
+    "pk": 2,
+    "fields": {
+        "nit": "2545456454",
+        "nombre": "Samuel macualo",
+        "direccion": "cra 1 #45-56",
+        "email": "samuel@gmail.com",
+        "telefono": "4564545645",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "tipo_persona": "Persona Jurídica"
+    }
+},
+{
+    "model": "libreria.insumo",
+    "pk": 1,
+    "fields": {
+        "nombre": "Leche",
+        "descripcion": "litros",
+        "unidad_medida": "Litro",
+        "proveedor": 1,
+        "cantidad": 1,
+        "stock": 10,
+        "precio": "1100.00",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.insumo",
+    "pk": 2,
+    "fields": {
+        "nombre": "Lactobacillus bulgaricus",
+        "descripcion": "n/a",
+        "unidad_medida": "Gramo",
+        "proveedor": 2,
+        "cantidad": 16,
+        "stock": 0,
+        "precio": "1200.00",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ]
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 1,
+    "fields": {
+        "tipo": "Compra",
+        "cliente": null,
+        "proveedor": 1,
+        "descripcion": "No aplica",
+        "monto_total": "12100.00",
+        "fecha": "2025-12-05",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "insumo",
+                    "nombre": "Leche",
+                    "precio": 1100.0,
+                    "cantidad": 11,
+                    "subtotal": 12100.0
+                }
+            ]
+        }
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 2,
+    "fields": {
+        "tipo": "Venta",
+        "cliente": 1,
+        "proveedor": null,
+        "descripcion": "No aplica",
+        "monto_total": "28500.00",
+        "fecha": "2025-12-05",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "producto_venta",
+                    "nombre": "Queso Crema",
+                    "precio": 1500.0,
+                    "cantidad": 19,
+                    "subtotal": 28500.0
+                }
+            ]
+        }
+    }
+},
+{
+    "model": "libreria.transaccion",
+    "pk": 3,
+    "fields": {
+        "tipo": "Gasto",
+        "cliente": null,
+        "proveedor": null,
+        "descripcion": "No aplica",
+        "monto_total": "1100.00",
+        "fecha": "2025-12-20",
+        "registrado_por": [
+            "jonnathansz73@gmail.com"
+        ],
+        "productos_json": {
+            "items": [
+                {
+                    "id": 1,
+                    "tipo": "insumo",
+                    "nombre": "Leche",
+                    "precio": 1100.0,
+                    "cantidad": 1,
+                    "subtotal": 1100.0
+                },
+                {
+                    "id": 1,
+                    "tipo": "producto_obtenido",
+                    "nombre": "Queso Crema",
+                    "precio": 0,
+                    "cantidad": 11,
+                    "subtotal": 0
+                }
+            ]
+        }
+    }
+}
+]

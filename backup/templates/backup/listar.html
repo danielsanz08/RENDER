@@ -55,7 +55,7 @@
     }
 </style>
 <div class="container">
-    <h2 title="Insumos registrados">Insumos Registrados</h2>
+    <h2 title="Insumos registrados">Backup</h2>
 
     <div class="opciones">
 
@@ -82,7 +82,6 @@
                 <th title="Nombre">Nombre</th>
                 <th title="Unidad de medida">Fecha</th>
                 <th title="Descripción">Tamaño</th>
-                <th title="Proveedor">Modelos</th>
                 <th title="Cantidad">Descargar</th>
                 <th>Restaurar</th>
                 <th title="Acciones">Borrar</th>
@@ -95,7 +94,7 @@
                 <td title="Nombre del insumo">{{ backup.nombre }}</td>
                 <td title="Unidad de medida">{{ backup.fecha_creacion|date:"d/m/Y" }}</td>
                 <td title="Descripción del insumo">{{ backup.tamano }}</td>
-                <td title="Nombre del proveedor">{{ insumo.proveedor.nombre }}</td>
+                
                 <td><a type="" href="{% url 'backup:descargar_backup' backup.id %}" class="descargar" title="Descargar">
                         <i class="fas fa-download"></i>
                     </a></td>
